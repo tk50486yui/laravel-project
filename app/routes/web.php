@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+/*Route::get('/user', function (Request $request) {   
+
+    return response()->json(['user' => '006']);   
+});*/
