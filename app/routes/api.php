@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WordsController;
+use App\Http\Controllers\CategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,4 @@ use App\Http\Controllers\WordsController;
 });*/
 Route::get('/user', [UserController::class, 'getUserInfo']);
 Route::get('/words', [WordsController::class, 'findAll']);
+Route::get('/categories', [CategoriesController::class, 'findAll']);

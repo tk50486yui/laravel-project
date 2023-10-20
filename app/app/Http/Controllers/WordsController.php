@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Words;
+use App\Models\Words;
 
 class WordsController extends Controller
 {
