@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categories;
+use App\Services\CategoriesService;
 
 class CategoriesController extends Controller
 {
     public function findAll()
     {
-        $catrgoriesModel = new Categories();
-        $catrgories = $catrgoriesModel->getAll();
+        $CategoriesService= new CategoriesService();
+        $result = $CategoriesService->getAll();
        
-        return response()->json($catrgories);
+        return response()->json($result);
     }
 }

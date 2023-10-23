@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Words;
+use App\Services\WordsService;
 
 class WordsController extends Controller
 {
     public function findAll()
     {
-        $wordsModel = new Words();
-        $words = $wordsModel->getAll();
+        $WordsService = new WordsService();
+        $result = $WordsService->getAll();
        
-        return response()->json($words);
+        return response()->json($result);
     }
 }
