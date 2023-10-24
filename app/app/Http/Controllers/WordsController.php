@@ -9,7 +9,7 @@ class WordsController extends Controller
     public function findAll()
     {
         $WordsService = new WordsService();
-        $result = $WordsService->getAll();
+        $result = $WordsService->findAll();
        
         return response()->json($result);
     }

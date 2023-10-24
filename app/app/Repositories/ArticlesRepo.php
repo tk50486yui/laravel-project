@@ -3,14 +3,14 @@
 namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
-use App\Models\Words;
+use App\Models\Articles;
 
-class WordsRepo
+class ArticlesRepo
 {
     public function getAll()
     {
      
-        $result = Words::all();   
+        $result = Articles::all();   
     
         return $result;
     }
@@ -18,31 +18,32 @@ class WordsRepo
     public function findAll()
     {     
         $query = "SELECT 
-                    ws.*, cate.cate_name as cate_name,
+                    arti.*, cate.cate_name as cate_name,
+                    TO_CHAR(arti.created_at, 'YYYY-MM-DD HH24:MI:SS') AS created_at, 
+                    TO_CHAR(arti.updated_at, 'YYYY-MM-DD HH24:MI:SS') AS updated_at,                    
                     json_build_object('values',                   
                         (
                             SELECT 
                                 json_agg(json_build_object('ts_id', ts.id, 'ts_name', ts.ts_name))
                             FROM 
-                                words_tags wt
+                                articles_tags ats
                             LEFT JOIN 
-                                tags ts ON wt.ts_id = ts.id
+                                tags ts ON ats.ts_id = ts.id
                             WHERE 
-                                wt.ws_id = ws.id
+                                ats.arti_id = arti.id
                         
                         )
-                    ) AS words_tags                
+                    ) AS articles_tags
                 FROM 
-                    words ws
+                    articles arti
                 LEFT JOIN 
-                    categories cate ON ws.cate_id =  cate.id                     
+                    categories cate ON arti.cate_id = cate.id        
                 ORDER BY 
-                    ws.id DESC";
+                    arti.id DESC";
 
         $result = DB::select($query);
 
         return $result;   
         
     }
-
 }

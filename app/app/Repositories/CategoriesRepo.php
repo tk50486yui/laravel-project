@@ -13,4 +13,12 @@ class CategoriesRepo
     
         return $result;
     }
+
+    public function findAll(){
+      
+
+        $result = Categories::orderBy('cate_order', 'ASC')->get();       
+
+        return $result;
+    }
 }

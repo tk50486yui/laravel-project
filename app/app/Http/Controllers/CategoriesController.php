@@ -9,7 +9,7 @@ class CategoriesController extends Controller
     public function findAll()
     {
         $CategoriesService= new CategoriesService();
-        $result = $CategoriesService->getAll();
+        $result = $CategoriesService->findAll();
        
         return response()->json($result);
     }

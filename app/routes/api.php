@@ -4,7 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WordsController;
+use App\Http\Controllers\WordsTagsController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\TagsController;
+use App\Http\Controllers\ArticlesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +25,7 @@ use App\Http\Controllers\CategoriesController;
 });*/
 Route::get('/user', [UserController::class, 'getUserInfo']);
 Route::get('/words', [WordsController::class, 'findAll']);
+Route::get('/wordstags', [WordsTagsController::class, 'findAll']);
 Route::get('/categories', [CategoriesController::class, 'findAll']);
+Route::get('/tags', [TagsController::class, 'findAll']);
+Route::get('/articles', [ArticlesController::class, 'findAll']);

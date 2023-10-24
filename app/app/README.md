@@ -1,17 +1,17 @@
 ### 
 ```
-php artisan make:controller WordsController
+php artisan make:controller Controller
 ```
 
 ### 
 ```
-php artisan make:model Models\Words
+php artisan make:model Models\
 ```
 
 ###
 
 ```
-php artisan make:test YourApiTest
+php artisan make:test Test
 ```
 
 ```
