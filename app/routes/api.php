@@ -8,6 +8,9 @@ use App\Http\Controllers\WordsTagsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\ArticlesController;
+use App\Http\Controllers\ArticlesTagsController;
+use App\Http\Controllers\WordsGroupsController;
+use App\Http\Controllers\WordsGroupsDetailsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +32,6 @@ Route::get('/wordstags', [WordsTagsController::class, 'findAll']);
 Route::get('/categories', [CategoriesController::class, 'findAll']);
 Route::get('/tags', [TagsController::class, 'findAll']);
 Route::get('/articles', [ArticlesController::class, 'findAll']);
+Route::get('/articlestags', [ArticlesTagsController::class, 'findAll']);
+Route::get('/wordsgroups', [WordsGroupsController::class, 'findAll']);
+Route::get('/wordsgroupsdetails', [WordsGroupsDetailsController::class, 'findAll']);
