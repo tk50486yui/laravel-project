@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\WordsRepo;
+use App\Repositories\WordsTagsRepo;
 
 class WordsService
 {
@@ -11,6 +12,22 @@ class WordsService
         $WordsRepo = new WordsRepo();
         $result = $WordsRepo->getAll();   
     
+        return $result;
+    }
+
+    public function find($id)
+    {     
+        $WordsTagsRepo = new WordsTagsRepo();
+        $WordsRepo = new WordsRepo();
+        $result = $WordsRepo->find($id);       
+        $result['words_tags']['values'] = $WordsTagsRepo->findByWordsID($id);       
+        if(isset($result['words_tags']['values']) && count($result['words_tags']['values']) > 0){
+            $result['words_tags']['array'] = array();        
+            foreach($result['words_tags']['values'] as $item){
+                array_push($result['words_tags']['array'], (string)$item->ts_id);                    
+            }           
+        }
+
         return $result;
     }
 

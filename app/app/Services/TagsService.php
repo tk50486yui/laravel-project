@@ -14,6 +14,14 @@ class TagsService
         return $result;
     }
 
+    public function find($id)
+    {     
+        $TagsRepo = new TagsRepo();
+        $result = $TagsRepo->find($id);    
+    
+        return $result;
+    }
+
     public function findAll()
     {     
         $TagsRepo = new TagsRepo();
@@ -22,7 +30,15 @@ class TagsService
     
         return $result;
     }
+
+    public function findRecent()
+    {     
+        $TagsRepo = new TagsRepo();
+        $result = $TagsRepo->findRecent();      
     
+        return $result;
+    }  
+
     // Tree
     function buildTagsTree($tags, $parent_id = null, $parents = []) {
 

@@ -13,4 +13,11 @@ class WordsGroupsRepo
     
         return $result;
     }
+
+    public function findAll()
+    {
+        $result = WordsGroups::orderBy('created_at', 'DESC')->get();;
+      
+        return $result;
+    }
 }

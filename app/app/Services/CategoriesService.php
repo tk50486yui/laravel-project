@@ -14,11 +14,27 @@ class CategoriesService
         return $result;
     }
 
+    public function find($id)
+    {     
+        $CategoriesRepo = new CategoriesRepo();
+        $result = $CategoriesRepo->find($id);       
+    
+        return $result;
+    }
+
     public function findAll()
     {     
         $CategoriesRepo = new CategoriesRepo();
         $result = $CategoriesRepo->findAll();
         $result = $this->buildCategoriesTree($result);
+    
+        return $result;
+    }
+
+    public function findRecent()
+    {     
+        $CategoriesRepo = new CategoriesRepo();
+        $result = $CategoriesRepo->findRecent();      
     
         return $result;
     }

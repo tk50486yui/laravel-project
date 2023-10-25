@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\ArticlesRepo;
+use App\Repositories\ArticlesTagsRepo;
 
 class ArticlesService
 {
@@ -10,6 +11,22 @@ class ArticlesService
     {     
         $ArticlesRepo = new ArticlesRepo();
         $result = $ArticlesRepo->getAll();   
+    
+        return $result;
+    }
+
+    public function find($id)
+    {     
+        $ArticlesRepo = new ArticlesRepo();
+        $ArticlesTagsRepo = new ArticlesTagsRepo();
+        $result = $ArticlesRepo->find($id);
+        $result['articles_tags']['values'] = $ArticlesTagsRepo->findByArtiID($id);
+        if(isset($result['articles_tags']['values']) && count($result['articles_tags']['values']) > 0){
+            $result['articles_tags']['array'] = array();
+            foreach($result['articles_tags']['values'] as $item){
+                array_push($result['articles_tags']['array'], (string)$item->ts_id);                    
+            }
+        } 
     
         return $result;
     }

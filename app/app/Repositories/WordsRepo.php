@@ -15,6 +15,22 @@ class WordsRepo
         return $result;
     }
 
+    public function find($id)
+    {
+        $query = "SELECT 
+                    ws.*, cate.cate_name as cate_name
+                FROM 
+                    words ws
+                LEFT JOIN 
+                    categories cate ON ws.cate_id =  cate.id
+                WHERE 
+                    ws.id = ?";
+
+        $result =DB::select($query, array($id));    
+       
+        return $result;
+    }
+
     public function findAll()
     {     
         $query = "SELECT 

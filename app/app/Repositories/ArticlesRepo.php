@@ -15,6 +15,22 @@ class ArticlesRepo
         return $result;
     }
 
+    public function find($id)
+    {
+        $query = "SELECT 
+                    arti.*, cate.cate_name as cate_name
+                FROM 
+                    articles arti
+                LEFT JOIN 
+                    categories cate ON arti.cate_id = cate.id
+                WHERE 
+                    arti.id = ?";
+
+        $result = DB::select($query, array($id));
+        
+        return $result;       
+    }
+
     public function findAll()
     {     
         $query = "SELECT 
