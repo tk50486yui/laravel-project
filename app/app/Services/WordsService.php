@@ -19,13 +19,15 @@ class WordsService
     {     
         $WordsTagsRepo = new WordsTagsRepo();
         $WordsRepo = new WordsRepo();
-        $result = $WordsRepo->find($id);       
-        $result['words_tags']['values'] = $WordsTagsRepo->findByWordsID($id);       
-        if(isset($result['words_tags']['values']) && count($result['words_tags']['values']) > 0){
-            $result['words_tags']['array'] = array();        
-            foreach($result['words_tags']['values'] as $item){
-                array_push($result['words_tags']['array'], (string)$item->ts_id);                    
-            }           
+        $result = $WordsRepo->find($id);
+        if($result){
+            $result['words_tags']['values'] = $WordsTagsRepo->findByWordsID($id);       
+            if(isset($result['words_tags']['values']) && count($result['words_tags']['values']) > 0){
+                $result['words_tags']['array'] = array();        
+                foreach($result['words_tags']['values'] as $item){
+                    array_push($result['words_tags']['array'], (string)$item->ts_id);                    
+                }           
+            }
         }
 
         return $result;
@@ -54,6 +56,13 @@ class WordsService
             $i++;  
         }    
     
+        return $result;
+    }
+
+    public function add($requestData)
+    {        
+        $WordsRepo = new WordsRepo();
+        $result = $WordsRepo->add($requestData);
         return $result;
     }
 }

@@ -10,7 +10,7 @@ class WordsRepo
     public function getAll()
     {
      
-        $result = Words::all();   
+        $result = Words::all();
     
         return $result;
     }
@@ -26,7 +26,7 @@ class WordsRepo
                 WHERE 
                     ws.id = ?";
 
-        $result =DB::select($query, array($id));    
+        $result =DB::select($query, array($id));
        
         return $result;
     }
@@ -59,6 +59,22 @@ class WordsRepo
 
         return $result;   
         
+    }
+
+    public function add($data)
+    {
+        return Words::create([
+            'ws_name' => $data['ws_name'],
+            'ws_definition' => $data['ws_definition'],
+            'ws_pronunciation' => $data['ws_pronunciation'],
+            'ws_slogan' => $data['ws_slogan'],
+            'ws_description' => $data['ws_description'],
+            'ws_is_important' => $data['ws_is_important'],
+            'ws_is_common' => $data['ws_is_common'],
+            'ws_forget_count' => $data['ws_forget_count'],
+            'ws_order' => $data['ws_order'],
+            'cate_id' => $data['cate_id']
+        ]);
     }
 
 }

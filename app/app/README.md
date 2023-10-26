@@ -1,15 +1,19 @@
 ### 
 ```
-php artisan make:controller Controller
+php artisan make:controller WordsController
 ```
 
 ### 
 ```
-php artisan make:model Models\
+php artisan make:model Models\Words
 ```
 
 ###
+```
+php artisan make:observer WordsObserver --model=Words
+```
 
+###
 ```
 php artisan make:test Test
 ```

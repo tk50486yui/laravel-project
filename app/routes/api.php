@@ -31,6 +31,7 @@ Route::get('/user', [UserController::class, 'getUserInfo']);
 Route::group(['prefix' => 'words'], function () {
     Route::get('/', [WordsController::class, 'findAll']);
     Route::get('/{id}', [WordsController::class,'find']);
+    Route::post('/', [WordsController::class, 'add']);
 });
 
 Route::group(['prefix' => 'wordstags'], function () {
