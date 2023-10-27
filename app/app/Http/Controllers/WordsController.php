@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
+use App\Http\Requests\WordsRequest;
 use App\Services\WordsService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
+
 
 class WordsController extends Controller
 {
@@ -33,18 +36,21 @@ class WordsController extends Controller
         return response()->json($result);
     }
 
-    public function add(Request $request)
-    {
-        $requestData = $request->all();
-        $WordsService = new WordsService();
-        try{
-            $result = $WordsService->add($requestData);
+    public function add(WordsRequest $request)
+    { 
+        try{           
+            $requestData = $request->validated();
+            return response()->json($requestData, 200);
+            $WordsService = new WordsService();
+           // $result = $WordsService->add($requestData);
         }catch (ValidationException $e){          
+            return response()->json(['error' => $e->getMessage()], 500);
+        }catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
         
        
-        return response()->json($result);
+        //return response()->json($result);
     }
     
 }

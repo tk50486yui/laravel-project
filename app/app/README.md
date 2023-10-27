@@ -15,6 +15,11 @@ php artisan make:observer WordsObserver --model=Words
 
 ###
 ```
+php artisan make:request WordsRequest
+```
+
+###
+```
 php artisan make:test Test
 ```
 
