@@ -5,6 +5,8 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 use Illuminate\Validation\ValidationException;
+use App\Exceptions\Custom\RecordNotFoundException;
+use App\Exceptions\Custom\Responses\Messages;
 
 class Handler extends ExceptionHandler
 {
@@ -14,7 +16,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+     
     ];
 
     /**
@@ -37,6 +39,10 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
+        if ($exception instanceof RecordNotFoundException) {
+           
+        }
+
         parent::report($exception);
     }
 
@@ -52,10 +58,12 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof ValidationException) {
-            return response()->json([
-                'error' => $exception->getMessage(),
-            ], 422);
-        }    
+            return Messages::InvalidGivenData();
+        }
+        if ($exception instanceof RecordNotFoundException) {
+            return $exception->render($request);
+        }
         return parent::render($request, $exception);
     }
+  
 }
