@@ -8,11 +8,8 @@ use App\Models\Words;
 class WordsRepo
 {
     public function getAll()
-    {
-     
-        $result = Words::all();
-    
-        return $result;
+    {     
+        return Words::all(); 
     }
 
     public function find($id)
@@ -26,9 +23,7 @@ class WordsRepo
                 WHERE 
                     ws.id = ?";
 
-        $result =DB::select($query, array($id));
-       
-        return $result;
+        return DB::select($query, array($id));
     }
 
     public function findAll()
@@ -55,15 +50,17 @@ class WordsRepo
                 ORDER BY 
                     ws.id DESC";
 
-        $result = DB::select($query);
+        return DB::select($query);              
+    }
 
-        return $result;   
-        
+    public function findByName($ws_name)
+    {
+        return Words::where('ws_name', $ws_name)->first();
     }
 
     public function add($data)
     {
-        return Words::create([
+        $new = Words::create([
             'ws_name' => $data['ws_name'],
             'ws_definition' => $data['ws_definition'],
             'ws_pronunciation' => $data['ws_pronunciation'],
@@ -75,6 +72,8 @@ class WordsRepo
             'ws_order' => $data['ws_order'],
             'cate_id' => $data['cate_id']
         ]);
+        
+        return $new->id;
     }
 
 }

@@ -9,7 +9,7 @@ use App\Services\WordsService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\Custom\RecordNotFoundException;
-
+use App\Exceptions\Custom\Responses\Messages;
 
 class WordsController extends Controller
 {
@@ -37,10 +37,11 @@ class WordsController extends Controller
     { 
        
         $requestData = $request->validated();
-        return response()->json($requestData, 200);
         $WordsService = new WordsService();
-        // $result = $WordsService->add($requestData);    
-        //return response()->json($result);
+        $WordsService->add($requestData);
+        return Messages::Success();
+        
+        
     }
     
 }

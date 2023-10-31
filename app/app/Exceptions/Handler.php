@@ -4,8 +4,10 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\Custom\RecordNotFoundException;
+use App\Exceptions\Custom;
 use App\Exceptions\Custom\Responses\Messages;
 
 class Handler extends ExceptionHandler
@@ -39,10 +41,6 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
-        if ($exception instanceof RecordNotFoundException) {
-           
-        }
-
         parent::report($exception);
     }
 
@@ -60,8 +58,11 @@ class Handler extends ExceptionHandler
         if ($exception instanceof ValidationException) {
             return Messages::InvalidGivenData();
         }
-        if ($exception instanceof RecordNotFoundException) {
+        if ($exception instanceof Custom\RecordNotFoundException) {
             return $exception->render($request);
+        }
+        if ($exception instanceof QueryException) {
+            return Messages::ProcessingFailed();
         }
         return parent::render($request, $exception);
     }

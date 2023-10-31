@@ -29,13 +29,12 @@ class WordsRequest extends FormRequest
             'ws_pronunciation' => 'sometimes',
             'ws_slogan' => 'sometimes',
             'ws_description' => 'sometimes',
-            'ws_is_important' => 'sometimes',
-            'ws_is_common' => 'sometimes',
-            'ws_forget_count' => 'sometimes',
-            'ws_order' => 'sometimes',
-            'cate_id' => 'sometimes',
-            'wordsTags' => 'sometimes|array',
-            'testCol' => 'required'
+            'ws_is_important' => 'sometimes|nullable|boolean',
+            'ws_is_common' => 'sometimes|nullable|boolean',
+            'ws_forget_count' => 'sometimes|nullable|integer',
+            'ws_order' => 'sometimes|nullable|integer',
+            'cate_id' => 'sometimes|nullable|integer|min:1', // 外鍵
+            'words_tags' => 'sometimes|array'
         ];
     }
 }

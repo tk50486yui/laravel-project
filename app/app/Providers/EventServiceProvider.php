@@ -8,6 +8,8 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 use App\Models\Words;
 use App\Observers\WordsObserver;
+use App\Models\WordsTags;
+use App\Observers\WordsTagsObserver;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -30,5 +32,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();  
+        Words::observe(WordsObserver::class);
+        WordsTags::observe(WordsTagsObserver::class);
     }
 }

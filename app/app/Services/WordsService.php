@@ -2,6 +2,10 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\DB;
+use App\Services\Processors\WordsProcessor;
+use App\Observers\WordsObserver;
+use App\Observers\WordsTagsObserver;
 use App\Repositories\WordsRepo;
 use App\Repositories\WordsTagsRepo;
 
@@ -59,10 +63,27 @@ class WordsService
         return $result;
     }
 
-    public function add($requestData)
-    {        
-        $WordsRepo = new WordsRepo();
-        $result = $WordsRepo->add($requestData);
-        return $result;
+    public function add($reqData)
+    {      
+        DB::transaction(function () use ($reqData){
+            $WordsProcessor = new WordsProcessor();
+            $WordsObserver = new WordsObserver();            
+            $WordsTagsObserver = new WordsTagsObserver();
+            $WordsRepo = new WordsRepo();
+            $WordsTagsRepo = new WordsTagsRepo();
+            $WordsObserver->validate($reqData, null);
+            $array_ts_id = $WordsProcessor->begin($reqData);        
+            $id = $WordsRepo->add($reqData);         
+            if($array_ts_id){
+                foreach($array_ts_id as $item){   
+                    $new = array();
+                    $new['ws_id'] = $id;
+                    $new['ts_id'] = $item;
+                    $WordsTagsObserver->validate($new, null);
+                    $WordsTagsRepo->add($new);
+                }
+            }            
+        });
+       
     }
 }

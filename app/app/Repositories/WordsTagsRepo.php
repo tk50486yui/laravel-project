@@ -8,11 +8,8 @@ use App\Models\WordsTags;
 class WordsTagsRepo
 {
     public function getAll()
-    {
-     
-        $result = WordsTags::all();   
-    
-        return $result;
+    {     
+        return WordsTags::all();
     }
 
     public function findByWordsID($ws_id)
@@ -26,8 +23,21 @@ class WordsTagsRepo
                 WHERE 
                     wt.ws_id = ?";
 
-        $result = DB::select($query, array($ws_id));   
+        return DB::select($query, array($ws_id));
+    }
 
-        return $result;
+    public function findByAssociatedIDs($ws_id, $ts_id)
+    {
+        return WordsTags::where('ws_id', $ws_id)
+                        ->where('ts_id', $ts_id)
+                        ->first();
+    }
+
+    public function add($data)
+    {
+        return WordsTags::create([
+            'ws_id' => $data['ws_id'],
+            'ts_id' => $data['ts_id']
+        ]);
     }
 }
