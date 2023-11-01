@@ -5,7 +5,17 @@ namespace App\Observers\Validators;
 use App\Repositories\WordsRepo;
 
 class WordsValidator
-{    
+{
+    public function checkID($id)
+    {      
+        $WordsRepo = new WordsRepo();
+        $result = $WordsRepo->find($id); 
+        if(!$result){
+            return false;
+        }
+        return true;
+    }
+
     public function dupName($ws_name, $id)
     {      
         $WordsRepo = new WordsRepo();
@@ -17,7 +27,7 @@ class WordsValidator
             return false;
         }
         $row = $WordsRepo->find($id);
-        if ($row['ws_name'] == $rowDup['ws_name']) {
+        if ($row->ws_name == $rowDup['ws_name']) {
             return true;
         }
 

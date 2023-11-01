@@ -25,11 +25,11 @@ class WordsService
         $WordsRepo = new WordsRepo();
         $result = $WordsRepo->find($id);
         if($result){
-            $result['words_tags']['values'] = $WordsTagsRepo->findByWordsID($id);       
-            if(isset($result['words_tags']['values']) && count($result['words_tags']['values']) > 0){
-                $result['words_tags']['array'] = array();        
-                foreach($result['words_tags']['values'] as $item){
-                    array_push($result['words_tags']['array'], (string)$item->ts_id);                    
+            $result->words_tags['values'] = $WordsTagsRepo->findByWordsID($id);
+            if(isset($result->words_tags['values']) && count($result->words_tags['values']) > 0){
+                $result->words_tags['array'] = array();        
+                foreach($result->words_tags['values'] as $item){
+                    array_push($result->words_tags['array'], (string)$item->ts_id);                    
                 }           
             }
         }
@@ -76,6 +76,31 @@ class WordsService
             $id = $WordsRepo->add($reqData);         
             if($array_ts_id){
                 foreach($array_ts_id as $item){   
+                    $new = array();
+                    $new['ws_id'] = $id;
+                    $new['ts_id'] = $item;
+                    $WordsTagsObserver->validate($new, null);
+                    $WordsTagsRepo->add($new);
+                }
+            }            
+        });
+       
+    }
+
+    public function edit($reqData, $id)
+    {
+        DB::transaction(function () use ($reqData, $id){
+            $WordsProcessor = new WordsProcessor();
+            $WordsObserver = new WordsObserver();
+            $WordsTagsObserver = new WordsTagsObserver();
+            $WordsRepo = new WordsRepo();
+            $WordsTagsRepo = new WordsTagsRepo();
+            $WordsObserver->validate($reqData, $id);
+            $array_ts_id = $WordsProcessor->begin($reqData); 
+            $WordsRepo->edit($reqData, $id);
+            if($array_ts_id){
+                $WordsTagsRepo->deleteByWsID($id);
+                foreach($array_ts_id as $item){
                     $new = array();
                     $new['ws_id'] = $id;
                     $new['ts_id'] = $item;

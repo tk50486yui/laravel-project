@@ -34,14 +34,19 @@ class WordsController extends Controller
     }
 
     public function add(WordsRequest $request)
-    { 
-       
-        $requestData = $request->validated();
+    {        
+        $reqData = $request->validated();
         $WordsService = new WordsService();
-        $WordsService->add($requestData);
+        $WordsService->add($reqData);
+        return Messages::Success();        
+    }
+
+    public function edit(WordsRequest $request, $id)
+    {        
+        $reqData = $request->validated();
+        $WordsService = new WordsService();
+        $WordsService->edit($reqData, $id);
         return Messages::Success();
-        
-        
     }
     
 }

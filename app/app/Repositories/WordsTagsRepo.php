@@ -40,4 +40,10 @@ class WordsTagsRepo
             'ts_id' => $data['ts_id']
         ]);
     }
+
+    public function deleteByWsID($ws_id)
+    {
+        WordsTags::where('ws_id', $ws_id)->delete();
+    }
+    
 }

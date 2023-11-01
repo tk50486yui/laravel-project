@@ -23,7 +23,7 @@ class WordsRepo
                 WHERE 
                     ws.id = ?";
 
-        return DB::select($query, array($id));
+        return DB::selectOne($query, array($id));
     }
 
     public function findAll()
@@ -50,7 +50,7 @@ class WordsRepo
                 ORDER BY 
                     ws.id DESC";
 
-        return DB::select($query);              
+        return DB::select($query);
     }
 
     public function findByName($ws_name)
@@ -74,6 +74,23 @@ class WordsRepo
         ]);
         
         return $new->id;
+    }
+
+    public function edit($data, $id)
+    {
+        $word = Words::find($id);
+        $word->update([
+            'ws_name' => $data['ws_name'],
+            'ws_definition' => $data['ws_definition'],
+            'ws_pronunciation' => $data['ws_pronunciation'],
+            'ws_slogan' => $data['ws_slogan'],
+            'ws_description' => $data['ws_description'],
+            'ws_is_important' => $data['ws_is_important'],
+            'ws_is_common' => $data['ws_is_common'],
+            'ws_forget_count' => $data['ws_forget_count'],
+            'ws_order' => $data['ws_order'],
+            'cate_id' => $data['cate_id']
+        ]);
     }
 
 }
