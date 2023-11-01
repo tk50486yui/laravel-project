@@ -25,12 +25,11 @@ class TagsRequest extends FormRequest
     {
         return [
             'ts_name' => 'required',
-            'ts_storage' => 'sometimes',
-            'ts_parent_id' => 'sometimes',
-            'ts_level' => 'sometimes',
-            'ts_order' => 'sometimes',
-            'ts_description' => 'sometimes',          
-            'testCol' => 'required'
+            'ts_storage' => 'sometimes|nullable|boolean',
+            'ts_parent_id' => 'sometimes|nullable|integer|min:1',
+            'ts_level' => 'sometimes|nullable|integer',
+            'ts_order' => 'sometimes|nullable|integer',
+            'ts_description' => 'sometimes|nullable',         
         ];
     }
 }

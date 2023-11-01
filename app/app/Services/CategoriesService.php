@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\DB;
 use App\Repositories\CategoriesRepo;
+use App\Observers\CategoriesObserver;
+use App\Services\Processors\CategoriesProcessor;
 
 class CategoriesService
 {
@@ -26,7 +29,7 @@ class CategoriesService
     {     
         $CategoriesRepo = new CategoriesRepo();
         $result = $CategoriesRepo->findAll();
-        $result = $this->buildCategoriesTree($result);
+        $result = $CategoriesRepo->buildCategoriesTree($result);
     
         return $result;
     }
@@ -39,27 +42,30 @@ class CategoriesService
         return $result;
     }
 
-    // Tree
-    function buildCategoriesTree($categories, $parent_id = null, $parents = []) {
-
-        $tree = array();
-    
-        foreach ($categories as $category) {
-            if ($category['cate_parent_id'] == $parent_id) {
-                $node = array(
-                    'id' => $category['id'],
-                    'cate_name' => $category['cate_name'],
-                    'cate_parent_id' => $category['cate_parent_id'],
-                    'cate_level' => $category['cate_level'],
-                    'cate_order' => $category['cate_order'],
-                    'parents' => $parents,
-                    'children' => $this->buildCategoriesTree($categories, $category['id'], array_merge($parents, [$category['id']]))
-                );              
-    
-                $tree[] = $node;
-            }
-        }
-    
-        return $tree;
+    public function add($reqData)
+    {     
+        DB::transaction(function () use ($reqData){
+            $CategoriesObserver = new CategoriesObserver();
+            $CategoriesProcessor = new CategoriesProcessor();
+            $CategoriesRepo = new CategoriesRepo();
+            $CategoriesObserver->validate($reqData, null);
+            $reqData['cate_level'] = $CategoriesProcessor->setCateLevel($CategoriesRepo,$reqData);
+            $reqData['cate_order'] = $CategoriesProcessor->setCateOrder($CategoriesRepo,$reqData);
+            $CategoriesRepo->add($reqData);
+        });        
     }
+
+    public function edit($reqData, $id)
+    {     
+        DB::transaction(function () use ($reqData, $id){
+            $CategoriesObserver = new CategoriesObserver();
+            $CategoriesProcessor = new CategoriesProcessor();
+            $CategoriesRepo = new CategoriesRepo();
+            $CategoriesObserver->validate($reqData, $id);
+            $reqData['cate_level'] = $CategoriesProcessor->setCateLevel($CategoriesRepo,$reqData);
+            $reqData['cate_order'] = $CategoriesProcessor->setCateOrder($CategoriesRepo,$reqData);
+            $CategoriesRepo->edit($reqData, $id);
+        });        
+    }
+    
 }

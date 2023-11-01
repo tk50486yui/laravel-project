@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\DB;
 use App\Repositories\TagsRepo;
+use App\Observers\TagsObserver;
+use App\Services\Processors\TagsProcessor;
 
 class TagsService
 {
@@ -26,7 +29,7 @@ class TagsService
     {     
         $TagsRepo = new TagsRepo();
         $result = $TagsRepo->findAll();
-        $result = $this->buildTagsTree($result);
+        $result = $TagsRepo->buildTagsTree($result);
     
         return $result;
     }
@@ -39,27 +42,31 @@ class TagsService
         return $result;
     }  
 
-    // Tree
-    function buildTagsTree($tags, $parent_id = null, $parents = []) {
+    public function add($reqData)
+    {
+        DB::transaction(function () use ($reqData){            
+            $TagsObserver = new TagsObserver();
+            $TagsProcessor = new TagsProcessor();
+            $TagsRepo = new TagsRepo();
+            $TagsObserver->validate($reqData, null);
+            $reqData['ts_level'] = $TagsProcessor->setTsLevel($TagsRepo, $reqData);
+            $reqData['ts_order'] = $TagsProcessor->setTsOrder($TagsRepo, $reqData);
+            $TagsRepo->add($reqData);
+        });
+       
+    }
 
-        $tree = array();
-    
-        foreach ($tags as $tag) {
-            if ($tag['ts_parent_id'] == $parent_id) {
-                $node = array(
-                    'id' => $tag['id'],
-                    'ts_name' => $tag['ts_name'],
-                    'ts_parent_id' => $tag['ts_parent_id'],
-                    'ts_level' => $tag['ts_level'],
-                    'ts_order' => $tag['ts_order'],
-                    'parents' => $parents,
-                    'children' => $this->buildTagsTree($tags, $tag['id'], array_merge($parents, [$tag['id']]))
-                );              
-    
-                $tree[] = $node;
-            }
-        }
-    
-        return $tree;
+    public function edit($reqData, $id)
+    {
+        DB::transaction(function () use ($reqData, $id){         
+            $TagsObserver = new TagsObserver();
+            $TagsProcessor = new TagsProcessor();
+            $TagsRepo = new TagsRepo();           
+            $TagsObserver->validate($reqData, $id);           
+            $reqData['ts_level'] = $TagsProcessor->setTsLevel($TagsRepo, $reqData);
+            $reqData['ts_order'] = $TagsProcessor->setTsOrder($TagsRepo, $reqData);
+            $TagsRepo->edit($reqData, $id);
+        });
+       
     }
 }

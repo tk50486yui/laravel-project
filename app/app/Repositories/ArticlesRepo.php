@@ -8,11 +8,8 @@ use App\Models\Articles;
 class ArticlesRepo
 {
     public function getAll()
-    {
-     
-        $result = Articles::all();   
-    
-        return $result;
+    {     
+        return  Articles::all();
     }
 
     public function find($id)
@@ -26,9 +23,7 @@ class ArticlesRepo
                 WHERE 
                     arti.id = ?";
 
-        $result = DB::select($query, array($id));
-        
-        return $result;       
+        return DB::select($query, array($id));
     }
 
     public function findAll()
@@ -57,9 +52,16 @@ class ArticlesRepo
                 ORDER BY 
                     arti.id DESC";
 
-        $result = DB::select($query);
+        return DB::select($query); 
+    }
 
-        return $result;   
+    public function add($data)
+    {     
+       
+    }
+
+    public function edit($data, $id)
+    {     
         
     }
 }

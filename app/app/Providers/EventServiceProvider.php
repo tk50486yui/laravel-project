@@ -7,9 +7,15 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use App\Models\Words;
-use App\Observers\WordsObserver;
 use App\Models\WordsTags;
+use App\Models\Categories;
+use App\Models\Tags;
+use App\Models\Articles;
+use App\Observers\WordsObserver;
 use App\Observers\WordsTagsObserver;
+use App\Observers\CategoriesObserver;
+use App\Observers\TagsObserver;
+use App\Observers\ArticlesObserver;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -34,5 +40,8 @@ class EventServiceProvider extends ServiceProvider
         parent::boot();  
         Words::observe(WordsObserver::class);
         WordsTags::observe(WordsTagsObserver::class);
+        Categories::observe(CategoriesObserver::class);
+        Tags::observe(TagsObserver::class);
+        Articles::observe(ArticlesObserver::class);
     }
 }

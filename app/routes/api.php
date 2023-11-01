@@ -46,17 +46,26 @@ Route::group(['prefix' => 'categories'], function () {
     Route::get('/', [CategoriesController::class, 'findAll']);
     Route::get('/{id}', [CategoriesController::class, 'find']);
     Route::get('/order/recent',[CategoriesController::class, 'findRecent']);
+
+    Route::post('/', [CategoriesController::class, 'add']);
+    Route::put('/{id}', [CategoriesController::class, 'edit']);
 });
 
 Route::group(['prefix' => 'tags'], function () {
     Route::get('/', [TagsController::class, 'findAll']);
     Route::get('/{id}', [TagsController::class, 'find']);
     Route::get('/order/recent', [TagsController::class, 'findRecent']);
+
+    Route::post('/', [TagsController::class, 'add']);
+    Route::put('/{id}', [TagsController::class, 'edit']);
 });
 
 Route::group(['prefix' => 'articles'], function () {
     Route::get('/', [ArticlesController::class, 'findAll']);
-    Route::get('/{id}', [ArticlesController::class, 'find']);  
+    Route::get('/{id}', [ArticlesController::class, 'find']);
+    
+    Route::post('/', [ArticlesController::class, 'add']);
+    Route::put('/{id}', [ArticlesController::class, 'edit']);
 });
 
 Route::group(['prefix' => 'articlestags'], function () {

@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\DB;
+use App\Observers\ArticlesObserver;
 use App\Repositories\ArticlesRepo;
 use App\Repositories\ArticlesTagsRepo;
 
@@ -55,5 +57,20 @@ class ArticlesService
         }
     
         return $result;
+    }
+    public function add($reqData)
+    { 
+        DB::transaction(function () use ($reqData){
+            $ArticlesRepo = new ArticlesRepo();
+            $ArticlesObserver = new ArticlesObserver();
+        });        
+    }
+
+    public function edit($reqData, $id)
+    { 
+        DB::transaction(function () use ($reqData, $id){
+            $ArticlesRepo = new ArticlesRepo();
+            $ArticlesObserver = new ArticlesObserver();
+        });
     }
 }

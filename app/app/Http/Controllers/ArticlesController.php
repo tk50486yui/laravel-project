@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\Articles\ArticlesRequest;
 use App\Services\ArticlesService;
+use App\Exceptions\Custom\RecordNotFoundException;
+use App\Exceptions\Custom\Responses\Messages;
 
 class ArticlesController extends Controller
 {
@@ -11,15 +14,23 @@ class ArticlesController extends Controller
     {
         $ArticlesService= new ArticlesService();
         $result = $ArticlesService->find($id);
-       
+        if(!$result){
+            throw new RecordNotFoundException();
+        }       
         return response()->json($result);
     }
 
-    public function findAll()
+    public function add(ArticlesRequest $request)
     {
         $ArticlesService = new ArticlesService();
-        $result = $ArticlesService->findAll();
-       
-        return response()->json($result);
+        $result = $ArticlesService->add($request);       
+        return Messages::Success();
+    }
+
+    public function edit(ArticlesRequest $request, $id)
+    {
+        $ArticlesService = new ArticlesService();
+        $result = $ArticlesService->edit($request, $id);       
+        return Messages::Success();
     }
 }
