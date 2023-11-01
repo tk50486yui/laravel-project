@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
-use App\Http\Requests\Words\WordsRequest;
+use App\Http\Requests\Words;
 use App\Services\WordsService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
@@ -33,7 +33,7 @@ class WordsController extends Controller
         return response()->json($result);
     }
 
-    public function add(WordsRequest $request)
+    public function add(Words\WordsRequest $request)
     {        
         $reqData = $request->validated();
         $WordsService = new WordsService();
@@ -41,11 +41,27 @@ class WordsController extends Controller
         return Messages::Success();        
     }
 
-    public function edit(WordsRequest $request, $id)
+    public function edit(Words\WordsRequest $request, $id)
     {        
         $reqData = $request->validated();
         $WordsService = new WordsService();
         $WordsService->edit($reqData, $id);
+        return Messages::Success();
+    }
+
+    public function editCommon(Words\WsCommonRequest $request, $id)
+    {        
+        $reqData = $request->validated();
+        $WordsService = new WordsService();
+        $WordsService->editCommon($reqData, $id);
+        return Messages::Success();
+    }
+
+    public function editImportant(Words\WsImportantRequest $request, $id)
+    {
+        $reqData = $request->validated();
+        $WordsService = new WordsService();
+        $WordsService->editImportant($reqData, $id);
         return Messages::Success();
     }
     

@@ -111,4 +111,25 @@ class WordsService
         });
        
     }
+
+    public function editCommon($reqData, $id)
+    {
+        DB::transaction(function () use ($reqData, $id){
+            $WordsObserver = new WordsObserver();
+            $WordsRepo = new WordsRepo();
+            $WordsObserver->validate($reqData, $id, false);
+            $WordsRepo->editCommon($reqData, $id);
+        });       
+    }
+
+    public function editImportant($reqData, $id)
+    {
+        DB::transaction(function () use ($reqData, $id){
+            $WordsObserver = new WordsObserver();
+            $WordsRepo = new WordsRepo();
+            $WordsObserver->validate($reqData, $id, false);
+            $WordsRepo->editImportant($reqData, $id);
+        });
+       
+    }
 }

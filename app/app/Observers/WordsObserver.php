@@ -8,12 +8,12 @@ use App\Exceptions\Custom;
 
 class WordsObserver
 {
-    public function validate($data, $id){       
+    public function validate($data, $id, $checkDup = true){
         $WordsValidator = new WordsValidator();
         if($id != null && !$WordsValidator->checkID($id)){
             throw new Custom\RecordNotFoundException();
-        }     
-        if(!$WordsValidator->dupName($data['ws_name'], $id)){
+        }
+        if($checkDup && !$WordsValidator->dupName($data['ws_name'], $id)){
             throw new Custom\DuplicateException();
         }
     }
@@ -38,10 +38,13 @@ class WordsObserver
      * @return void
     */
     public function updating(Words $words)
-    {       
-        if (!$words->categories) {
-            throw new Custom\InvalidForeignKeyException();
+    {
+        if ($words->isDirty('cate_id')) {
+            if (!$words->categories) {
+                throw new Custom\InvalidForeignKeyException();
+            }
         }
+        
     }
 
     public function setDefault($data)

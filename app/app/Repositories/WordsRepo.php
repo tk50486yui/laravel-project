@@ -93,4 +93,20 @@ class WordsRepo
         ]);
     }
 
+    public function editCommon($data, $id)
+    {
+        $word = Words::find($id);
+        $word->update([           
+            'ws_is_common' => $data['ws_is_common']           
+        ]);
+    }
+
+    public function editImportant($data, $id)
+    {
+        $word = Words::find($id);
+        $word->update([           
+            'ws_is_important' => $data['ws_is_important']
+        ]);
+    }
+
 }
