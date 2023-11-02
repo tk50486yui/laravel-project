@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\Categories\CategoriesRequest;
+use App\Http\Requests\Categories\CategoriesOrderRequest;
 use App\Services\CategoriesService;
 use App\Exceptions\Custom\RecordNotFoundException;
 use App\Exceptions\Custom\Responses\Messages;
@@ -29,6 +30,14 @@ class CategoriesController extends Controller
         return response()->json($result);
     }
 
+    public function findRecent()
+    {     
+        $CategoriesService = new CategoriesService();
+        $result = $CategoriesService->findRecent();
+    
+        return response()->json($result);
+    }
+
     public function add(CategoriesRequest $request)
     {        
         $reqData = $request->validated();
@@ -45,11 +54,11 @@ class CategoriesController extends Controller
         return Messages::Success();
     }
 
-    public function findRecent()
-    {     
+    public function editOrder(CategoriesOrderRequest $request)
+    {        
+        $reqData = $request->validated();
         $CategoriesService = new CategoriesService();
-        $result = $CategoriesService->findRecent();      
-    
-        return response()->json($result);
+        $CategoriesService->editOrder($reqData);
+        return Messages::Success();
     }
 }

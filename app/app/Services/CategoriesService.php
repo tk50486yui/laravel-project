@@ -9,37 +9,23 @@ use App\Services\Processors\CategoriesProcessor;
 
 class CategoriesService
 {
-    public function getAll()
-    {     
-        $CategoriesRepo = new CategoriesRepo();
-        $result = $CategoriesRepo->getAll();   
-    
-        return $result;
-    }
-
     public function find($id)
     {     
         $CategoriesRepo = new CategoriesRepo();
-        $result = $CategoriesRepo->find($id);       
-    
-        return $result;
+        return $CategoriesRepo->find($id);
     }
 
     public function findAll()
     {     
         $CategoriesRepo = new CategoriesRepo();
         $result = $CategoriesRepo->findAll();
-        $result = $CategoriesRepo->buildCategoriesTree($result);
-    
-        return $result;
+        return $CategoriesRepo->buildCategoriesTree($result);
     }
 
     public function findRecent()
     {     
         $CategoriesRepo = new CategoriesRepo();
-        $result = $CategoriesRepo->findRecent();      
-    
-        return $result;
+        return $CategoriesRepo->findRecent();
     }
 
     public function add($reqData)
@@ -65,7 +51,19 @@ class CategoriesService
             $reqData['cate_level'] = $CategoriesProcessor->setCateLevel($CategoriesRepo,$reqData);
             $reqData['cate_order'] = $CategoriesProcessor->setCateOrder($CategoriesRepo,$reqData);
             $CategoriesRepo->edit($reqData, $id);
-        });        
+        });
     }
-    
+
+    public function editOrder($reqData)
+    {     
+        DB::transaction(function () use ($reqData){
+            $CategoriesObserver = new CategoriesObserver();
+            $CategoriesRepo = new CategoriesRepo();
+            foreach($reqData as $item){
+                $CategoriesObserver->validate($item, $item['id'], false);
+                $CategoriesRepo->editOrder($item['cate_order'], $item['id']);
+            }
+        });
+    }
+
 }

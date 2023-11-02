@@ -9,42 +9,28 @@ use App\Services\Processors\TagsProcessor;
 
 class TagsService
 {
-    public function getAll()
-    {     
-        $TagsRepo = new TagsRepo();
-        $result = $TagsRepo->getAll();   
-    
-        return $result;
-    }
-
     public function find($id)
     {     
         $TagsRepo = new TagsRepo();
-        $result = $TagsRepo->find($id);    
-    
-        return $result;
+        return $TagsRepo->find($id);
     }
 
     public function findAll()
     {     
         $TagsRepo = new TagsRepo();
         $result = $TagsRepo->findAll();
-        $result = $TagsRepo->buildTagsTree($result);
-    
-        return $result;
+        return $TagsRepo->buildTagsTree($result);
     }
 
     public function findRecent()
     {     
         $TagsRepo = new TagsRepo();
-        $result = $TagsRepo->findRecent();      
-    
-        return $result;
+        return $TagsRepo->findRecent();
     }  
 
     public function add($reqData)
     {
-        DB::transaction(function () use ($reqData){            
+        DB::transaction(function () use ($reqData){
             $TagsObserver = new TagsObserver();
             $TagsProcessor = new TagsProcessor();
             $TagsRepo = new TagsRepo();
@@ -66,6 +52,18 @@ class TagsService
             $reqData['ts_level'] = $TagsProcessor->setTsLevel($TagsRepo, $reqData);
             $reqData['ts_order'] = $TagsProcessor->setTsOrder($TagsRepo, $reqData);
             $TagsRepo->edit($reqData, $id);
+        });
+    }
+
+    public function editOrder($reqData)
+    {
+        DB::transaction(function () use ($reqData){
+            $TagsObserver = new TagsObserver();      
+            $TagsRepo = new TagsRepo();
+            foreach($reqData as $item){
+                $TagsObserver->validate($item, $item['id'], false);
+                $TagsRepo->editOrder($item['ts_order'], $item['id']);
+            }
         });
        
     }

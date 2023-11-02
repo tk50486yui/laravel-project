@@ -7,11 +7,6 @@ use App\Models\Tags;
 
 class TagsRepo
 {
-    public function getAll()
-    {     
-        return Tags::all();
-    }   
-
     public function find($id)
     {     
         return Tags::where('id', $id)->first();
@@ -61,10 +56,22 @@ class TagsRepo
         ]);
     }
 
+    public function editOrder($ts_order, $id)
+    {
+        $tags = Tags::find($id);
+        $tags->update([
+            'ts_order' => $ts_order
+        ]);
+    }
+
     public function findCheckParent($id, $ts_parent_id)
     {  
         $param = array('ts_parent_id' => $ts_parent_id, 'id' => $id);
-        $query = "SELECT * FROM tags WHERE ts_parent_id = :id AND id = :ts_parent_id";
+        $query = "SELECT * FROM tags 
+                WHERE 
+                    ts_parent_id = :id 
+                AND 
+                    id = :ts_parent_id";
         return DB::select($query, $param);       
     }
 

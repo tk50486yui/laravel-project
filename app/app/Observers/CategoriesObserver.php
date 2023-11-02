@@ -16,12 +16,14 @@ class CategoriesObserver
         if($checkDup && !$CategoriesValidator->dupName($data['cate_name'], $id)){
             throw new Custom\DuplicateException();
         }
-        if($data['cate_parent_id'] != null && !$CategoriesValidator->parentID($data['cate_parent_id'])){
-            throw new Custom\InvalidForeignKeyException();
-        }
-
-        if($id != null && !$CategoriesValidator->validateTree($data['cate_parent_id'], $id)){
-            throw new Custom\InvalidForeignKeyException();
+        if(isset($data['cate_parent_id'])){
+            if($data['cate_parent_id'] != null && !$CategoriesValidator->parentID($data['cate_parent_id'])){
+                throw new Custom\InvalidForeignKeyException();
+            }
+    
+            if($id != null && !$CategoriesValidator->validateTree($data['cate_parent_id'], $id)){
+                throw new Custom\InvalidForeignKeyException();
+            }
         }
     }
 

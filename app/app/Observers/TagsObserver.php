@@ -18,15 +18,15 @@ class TagsObserver
         if($checkDup && !$TagsValidator->dupName($data['ts_name'], $id)){
             throw new Custom\DuplicateException();
         }
-     
-        if($data['ts_parent_id'] != null && !$TagsValidator->parentID($data['ts_parent_id'])){
-            throw new Custom\InvalidForeignKeyException();
+        if(isset($data['ts_parent_id'])){
+            if($data['ts_parent_id'] != null && !$TagsValidator->parentID($data['ts_parent_id'])){
+                throw new Custom\InvalidForeignKeyException();
+            }
+          
+            if($id != null && !$TagsValidator->validateTree($data['ts_parent_id'], $id)){
+                throw new Custom\InvalidForeignKeyException();
+            }
         }
-      
-        if($id != null && !$TagsValidator->validateTree($data['ts_parent_id'], $id)){
-            throw new Custom\InvalidForeignKeyException();
-        }     
-       
     }
 
     public function setDefault($tags){

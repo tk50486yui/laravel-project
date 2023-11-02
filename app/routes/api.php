@@ -49,6 +49,7 @@ Route::group(['prefix' => 'categories'], function () {
 
     Route::post('/', [CategoriesController::class, 'add']);
     Route::put('/{id}', [CategoriesController::class, 'edit']);
+    Route::put('/order/all', [CategoriesController::class, 'editOrder']);
 });
 
 Route::group(['prefix' => 'tags'], function () {
@@ -58,6 +59,7 @@ Route::group(['prefix' => 'tags'], function () {
 
     Route::post('/', [TagsController::class, 'add']);
     Route::put('/{id}', [TagsController::class, 'edit']);
+    Route::put('/order/all', [TagsController::class, 'editOrder']);
 });
 
 Route::group(['prefix' => 'articles'], function () {

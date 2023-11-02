@@ -8,9 +8,6 @@ class ArticlesWordsRepo
 {
     public function getAll()
     {
-     
-        $result = ArticlesWords::all();   
-    
-        return $result;
+        return ArticlesWords::all();
     }
 }

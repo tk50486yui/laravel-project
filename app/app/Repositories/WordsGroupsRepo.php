@@ -6,11 +6,6 @@ use App\Models\WordsGroups;
 
 class WordsGroupsRepo
 {
-    public function getAll()
-    {     
-        return WordsGroups::all();
-    }
-
     public function find($id)
     {     
         return WordsGroups::where('id', $id)->first();

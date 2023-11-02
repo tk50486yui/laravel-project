@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\TagsService;
 use App\Http\Requests\Tags\TagsRequest;
+use App\Http\Requests\Tags\TagsOrderRequest;
 use App\Exceptions\Custom\RecordNotFoundException;
 use App\Exceptions\Custom\Responses\Messages;
 
@@ -50,6 +51,14 @@ class TagsController extends Controller
         $reqData = $request->validated();
         $TagsService = new TagsService();
         $TagsService->edit($reqData, $id);
+        return Messages::Success();
+    }
+
+    public function editOrder(TagsOrderRequest $request)
+    {
+        $reqData = $request->validated();
+        $TagsService = new TagsService();
+        $TagsService->editOrder($reqData);
         return Messages::Success();
     }
     

@@ -11,14 +11,6 @@ use App\Repositories\WordsTagsRepo;
 
 class WordsService
 {
-    public function getAll()
-    {     
-        $WordsRepo = new WordsRepo();
-        $result = $WordsRepo->getAll();   
-    
-        return $result;
-    }
-
     public function find($id)
     {     
         $WordsTagsRepo = new WordsTagsRepo();

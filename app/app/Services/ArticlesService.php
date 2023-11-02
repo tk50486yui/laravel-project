@@ -11,14 +11,6 @@ use App\Repositories\ArticlesTagsRepo;
 
 class ArticlesService
 {
-    public function getAll()
-    {     
-        $ArticlesRepo = new ArticlesRepo();
-        $result = $ArticlesRepo->getAll();   
-    
-        return $result;
-    }
-
     public function find($id)
     {     
         $ArticlesRepo = new ArticlesRepo();

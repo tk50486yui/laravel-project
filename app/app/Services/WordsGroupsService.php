@@ -11,12 +11,6 @@ use App\Repositories\WordsGroupsDetailsRepo;
 
 class WordsGroupsService
 {
-    public function getAll()
-    {     
-        $WordsGroupsRepo = new WordsGroupsRepo();
-        return $WordsGroupsRepo->getAll();
-    }
-
     public function find($id)
     {        
         $WordsGroupsDetailsRepo = new WordsGroupsDetailsRepo();

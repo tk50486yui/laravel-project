@@ -7,11 +7,6 @@ use App\Models\Words;
 
 class WordsRepo
 {
-    public function getAll()
-    {     
-        return Words::all(); 
-    }
-
     public function find($id)
     {
         $query = "SELECT 

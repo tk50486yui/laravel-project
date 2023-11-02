@@ -7,11 +7,6 @@ use App\Models\Categories;
 
 class CategoriesRepo
 {
-    public function getAll()
-    {     
-        return Categories::all();
-    }
-
     public function find($id)
     {
         return Categories::where('id', $id)->first();
@@ -50,10 +45,22 @@ class CategoriesRepo
         ]);
     }
 
+    public function editOrder($cate_order, $id)
+    {
+        $categories = Categories::find($id);
+        $categories->update([
+            'cate_order' => $cate_order
+        ]);
+    }
+
     public function findCheckParent($id, $cate_parent_id)
     {
         $param = array('cate_parent_id' => $cate_parent_id, 'id' => $id);
-        $query = "SELECT * FROM categories WHERE cate_parent_id = :id AND id = :cate_parent_id";
+        $query = "SELECT * FROM categories 
+                WHERE 
+                    cate_parent_id = :id
+                AND 
+                    id = :cate_parent_id";
 
         return DB::select($query, $param);
         

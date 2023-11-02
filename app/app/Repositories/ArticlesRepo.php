@@ -7,11 +7,6 @@ use App\Models\Articles;
 
 class ArticlesRepo
 {
-    public function getAll()
-    {     
-        return  Articles::all();
-    }
-
     public function find($id)
     {
         $query = "SELECT 
