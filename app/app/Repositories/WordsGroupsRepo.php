@@ -7,17 +7,22 @@ use App\Models\WordsGroups;
 class WordsGroupsRepo
 {
     public function getAll()
-    {
-     
-        $result = WordsGroups::all();   
-    
-        return $result;
+    {     
+        return WordsGroups::all();
     }
 
     public function findAll()
     {
-        $result = WordsGroups::orderBy('created_at', 'DESC')->get();;
+        return  WordsGroups::orderBy('created_at', 'DESC')->get();
+    }
+
+    public function add($data)
+    {
       
-        return $result;
+    }
+
+    public function edit($data, $id)
+    {
+      
     }
 }

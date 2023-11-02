@@ -71,7 +71,7 @@ class ArticlesRepo
     {     
         $articles = Articles::find($id);
         $articles->update([
-            'arti_name' => $data['arti_name'],
+            'arti_title' => $data['arti_title'],
             'arti_content' => $data['arti_content'],
             'arti_order' => $data['arti_order'],
             'cate_id' => $data['cate_id']

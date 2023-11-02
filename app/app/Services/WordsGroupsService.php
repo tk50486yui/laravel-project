@@ -10,17 +10,13 @@ class WordsGroupsService
     public function getAll()
     {     
         $WordsGroupsRepo = new WordsGroupsRepo();
-        $result = $WordsGroupsRepo->getAll();   
-    
-        return $result;
+        return $WordsGroupsRepo->getAll();
     }
 
     public function find($id)
     {        
         $WordsGroupsDetailsRepo = new WordsGroupsDetailsRepo();
-        $result =  $WordsGroupsDetailsRepo->findByWgID($id);      
-
-        return $result;
+        return $WordsGroupsDetailsRepo->findByWgID($id);
     }
 
     public function findAll()
@@ -37,5 +33,15 @@ class WordsGroupsService
         }
 
         return $result;
+    }
+
+    public function add($reqData)
+    {        
+       
+    }
+
+    public function edit($reqData, $id)
+    {        
+        
     }
 }

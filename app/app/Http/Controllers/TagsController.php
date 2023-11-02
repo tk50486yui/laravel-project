@@ -38,16 +38,18 @@ class TagsController extends Controller
     }
 
     public function add(TagsRequest $request)
-    {
+    {        
+        $reqData = $request->validated();
         $TagsService = new TagsService();
-        $TagsService->add($request);
+        $TagsService->add($reqData);
         return Messages::Success();
     }
 
     public function edit(TagsRequest $request, $id)
     {
+        $reqData = $request->validated();
         $TagsService = new TagsService();
-        $TagsService->edit($request, $id);
+        $TagsService->edit($reqData, $id);
         return Messages::Success();
     }
     

@@ -24,7 +24,8 @@ class WordsGroupsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'wg_name' => 'required',
+            'words_groups_datails' => 'required|array'
         ];
     }
 }

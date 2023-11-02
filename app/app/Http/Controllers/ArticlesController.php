@@ -29,15 +29,17 @@ class ArticlesController extends Controller
 
     public function add(ArticlesRequest $request)
     {
+        $reqData = $request->validated();
         $ArticlesService = new ArticlesService();
-        $ArticlesService->add($request);
+        $ArticlesService->add($reqData);
         return Messages::Success();
     }
 
     public function edit(ArticlesRequest $request, $id)
     {
+        $reqData = $request->validated();
         $ArticlesService = new ArticlesService();
-        $ArticlesService->edit($request, $id);
+        $ArticlesService->edit($reqData, $id);
         return Messages::Success();
     }
 }

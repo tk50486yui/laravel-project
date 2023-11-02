@@ -75,6 +75,9 @@ Route::group(['prefix' => 'articlestags'], function () {
 Route::group(['prefix' => 'wordsgroups'], function () {
     Route::get('/', [WordsGroupsController::class, 'findAll']); 
     Route::get('/{id}', [WordsGroupsController::class, 'find']);
+
+    Route::post('/', [WordsGroupsController::class, 'add']);
+    Route::put('/{id}', [WordsGroupsController::class, 'edit']);
 });
 
 Route::group(['prefix' => 'wordsgroupsdetails'], function () {
