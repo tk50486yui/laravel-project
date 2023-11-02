@@ -26,8 +26,8 @@ class CategoriesRequest extends FormRequest
         return [
             'cate_name' => 'required',
             'cate_parent_id' => 'sometimes|nullable|integer|min:1', // 外鍵
-            'cate_level' => 'sometimes|nullable|integer',
-            'cate_order' => 'sometimes|nullable|integer'
+            'cate_level' => 'sometimes|nullable|integer|min:1',
+            'cate_order' => 'sometimes|nullable|integer|min:0'
         ];
     }
 }

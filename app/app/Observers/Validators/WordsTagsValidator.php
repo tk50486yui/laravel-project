@@ -10,7 +10,7 @@ class WordsTagsValidator
     {
         $WordsTagsRepo = new WordsTagsRepo();
         $row = $WordsTagsRepo
-                ->findByAssociatedIDs($data['ws_id'], $data['ts_id']);        
+                ->findByAssociatedIDs($data['ws_id'], $data['ts_id']);
         if($row != null){
             return false;
         }

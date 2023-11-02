@@ -11,6 +11,15 @@ class ArticlesObserver
     public function validate($data, $id, $checkDup = true)
     {
         $ArticlesValidator = new ArticlesValidator();
+        if($id != null && !$ArticlesValidator->checkID($id)){
+            throw new Custom\RecordNotFoundException();
+        }
+    }
+
+    public function setDefault($articles){
+        if ($articles->arti_order == null) {
+            $articles->arti_order = 0;
+        }
     }
 
     /**
@@ -21,9 +30,11 @@ class ArticlesObserver
     */
     public function creating(Articles $articles)
     {      
-        if ($articles->categories != null && !$articles->categories) {
+        if ($articles->cate_id != null && !$articles->categories) {
             throw new Custom\InvalidForeignKeyException();
         }
+
+        $this->setDefault($articles);
     }
 
     /**
@@ -33,12 +44,13 @@ class ArticlesObserver
      * @return void
     */
     public function updating(Articles $articles)
-    {
-        if ($articles->isDirty('cate_id')) {
-            if (!$articles->categories) {
+    {       
+        if ($articles->isDirty('cate_id')) {        
+            if ($articles->cate_id != null && !$articles->categories) {              
                 throw new Custom\InvalidForeignKeyException();
             }
         }        
+        $this->setDefault($articles);
     }
    
 }

@@ -11,11 +11,13 @@ use App\Models\WordsTags;
 use App\Models\Categories;
 use App\Models\Tags;
 use App\Models\Articles;
+use App\Models\ArticlesTags;
 use App\Observers\WordsObserver;
 use App\Observers\WordsTagsObserver;
 use App\Observers\CategoriesObserver;
 use App\Observers\TagsObserver;
 use App\Observers\ArticlesObserver;
+use App\Observers\ArticlesTagsObserver;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -43,5 +45,6 @@ class EventServiceProvider extends ServiceProvider
         Categories::observe(CategoriesObserver::class);
         Tags::observe(TagsObserver::class);
         Articles::observe(ArticlesObserver::class);
+        ArticlesTags::observe(ArticlesTagsObserver::class);
     }
 }

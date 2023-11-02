@@ -72,17 +72,17 @@ class WordsService
             $WordsRepo = new WordsRepo();
             $WordsTagsRepo = new WordsTagsRepo();
             $WordsObserver->validate($reqData, null);
-            $array_ts_id = $WordsProcessor->begin($reqData);        
-            $id = $WordsRepo->add($reqData);         
+            $array_ts_id = $WordsProcessor->begin($reqData);
+            $id = $WordsRepo->add($reqData);
             if($array_ts_id){
-                foreach($array_ts_id as $item){   
+                foreach($array_ts_id as $item){
                     $new = array();
                     $new['ws_id'] = $id;
                     $new['ts_id'] = $item;
                     $WordsTagsObserver->validate($new, null);
                     $WordsTagsRepo->add($new);
                 }
-            }            
+            }
         });
        
     }
@@ -107,7 +107,9 @@ class WordsService
                     $WordsTagsObserver->validate($new, null);
                     $WordsTagsRepo->add($new);
                 }
-            }            
+            }else{
+                $WordsTagsRepo->deleteByWsID($id);
+            }
         });
        
     }

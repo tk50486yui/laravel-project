@@ -20,17 +20,24 @@ class ArticlesController extends Controller
         return response()->json($result);
     }
 
+    public function findAll(Request $request)
+    {
+        $ArticlesService= new ArticlesService();
+        $result = $ArticlesService->findAll();
+        return response()->json($result);
+    }
+
     public function add(ArticlesRequest $request)
     {
         $ArticlesService = new ArticlesService();
-        $result = $ArticlesService->add($request);       
+        $ArticlesService->add($request);
         return Messages::Success();
     }
 
     public function edit(ArticlesRequest $request, $id)
     {
         $ArticlesService = new ArticlesService();
-        $result = $ArticlesService->edit($request, $id);       
+        $ArticlesService->edit($request, $id);
         return Messages::Success();
     }
 }

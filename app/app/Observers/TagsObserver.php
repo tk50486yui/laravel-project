@@ -29,14 +29,7 @@ class TagsObserver
        
     }
 
-    /**
-     * Handle the tags "creating" event.
-     *
-     * @param  \App\Tags  $tags
-     * @return void
-    */
-    public function creating(Tags $tags)
-    {    
+    public function setDefault($tags){
         if ($tags->ts_storage == null) {
             $tags->ts_storage = true;
         }
@@ -51,6 +44,17 @@ class TagsObserver
     }
 
     /**
+     * Handle the tags "creating" event.
+     *
+     * @param  \App\Tags  $tags
+     * @return void
+    */
+    public function creating(Tags $tags)
+    {    
+        $this->setDefault($tags);
+    }
+
+    /**
      * Handle the tags "updating" event.
      *
      * @param  \App\Tags  $tags
@@ -58,7 +62,6 @@ class TagsObserver
     */
     public function updating(Tags $tags)
     {
-        
-        
+        $this->setDefault($tags);
     }   
 }

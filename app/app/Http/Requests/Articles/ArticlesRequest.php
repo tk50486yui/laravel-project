@@ -26,9 +26,9 @@ class ArticlesRequest extends FormRequest
         return [
             'arti_title' => 'required',
             'arti_content' => 'sometimes',
-            'arti_order' => 'sometimes',
-            'cate_id' => 'sometimes',          
-            'testCol' => 'required'
+            'arti_order' => 'sometimes|nullable|integer|min:0',
+            'cate_id' => 'sometimes|nullable|integer|min:1', // 外鍵
+            'words_tags' => 'sometimes|array'
         ];
     }
 }

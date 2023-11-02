@@ -31,7 +31,7 @@ class ArticlesRepo
         $query = "SELECT 
                     arti.*, cate.cate_name as cate_name,
                     TO_CHAR(arti.created_at, 'YYYY-MM-DD HH24:MI:SS') AS created_at, 
-                    TO_CHAR(arti.updated_at, 'YYYY-MM-DD HH24:MI:SS') AS updated_at,                    
+                    TO_CHAR(arti.updated_at, 'YYYY-MM-DD HH24:MI:SS') AS updated_at,
                     json_build_object('values',                   
                         (
                             SELECT 
@@ -57,11 +57,24 @@ class ArticlesRepo
 
     public function add($data)
     {     
-       
+        $new = Articles::create([
+            'arti_title' => $data['arti_title'],
+            'arti_content' => $data['arti_content'],
+            'arti_order' => $data['arti_order'],
+            'cate_id' => $data['cate_id']
+        ]);
+        
+        return $new->id;
     }
 
     public function edit($data, $id)
     {     
-        
+        $articles = Articles::find($id);
+        $articles->update([
+            'arti_name' => $data['arti_name'],
+            'arti_content' => $data['arti_content'],
+            'arti_order' => $data['arti_order'],
+            'cate_id' => $data['cate_id']
+        ]);
     }
 }

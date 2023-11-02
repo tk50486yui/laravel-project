@@ -4,6 +4,8 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
 use App\Observers\ArticlesObserver;
+use App\Observers\ArticlesTagsObserver;
+use App\Services\Processors\ArticlesProcessor;
 use App\Repositories\ArticlesRepo;
 use App\Repositories\ArticlesTagsRepo;
 
@@ -39,7 +41,7 @@ class ArticlesService
         $result = $ArticlesRepo->findAll();
         // articles_tags['values'], articles_tags['array']
         $i = 0;
-        foreach($result as $item){                
+        foreach($result as $item){
             if($item->articles_tags != null){
                 // decode articles_tags['values']
                 $result[$i]->articles_tags = json_decode($item->articles_tags, true);
@@ -61,16 +63,49 @@ class ArticlesService
     public function add($reqData)
     { 
         DB::transaction(function () use ($reqData){
-            $ArticlesRepo = new ArticlesRepo();
+            $ArticlesProcessor = new ArticlesProcessor();
             $ArticlesObserver = new ArticlesObserver();
-        });        
+            $ArticlesTagsObserver = new ArticlesTagsObserver();
+            $ArticlesRepo = new ArticlesRepo();
+            $ArticlesTagsRepo = new ArticlesTagsRepo();
+            $ArticlesObserver->validate($reqData, null);
+            $array_ts_id = $ArticlesProcessor->begin($reqData);
+            $id = $ArticlesRepo->add($reqData);
+            if($array_ts_id){
+                foreach($array_ts_id as $item){
+                    $new = array();
+                    $new['arti_id'] = $id;
+                    $new['ts_id'] = $item;
+                    $ArticlesTagsObserver->validate($new, null);
+                    $ArticlesTagsRepo->add($new);
+                }
+            }
+        });
     }
 
     public function edit($reqData, $id)
     { 
         DB::transaction(function () use ($reqData, $id){
-            $ArticlesRepo = new ArticlesRepo();
+            $ArticlesProcessor = new ArticlesProcessor();
             $ArticlesObserver = new ArticlesObserver();
+            $ArticlesTagsObserver = new ArticlesTagsObserver();
+            $ArticlesRepo = new ArticlesRepo();
+            $ArticlesTagsRepo = new ArticlesTagsRepo();
+            $ArticlesObserver->validate($reqData, $id);
+            $array_ts_id = $ArticlesProcessor->begin($reqData);
+            $ArticlesRepo->edit($reqData, $id);
+            if($array_ts_id){
+                $ArticlesTagsRepo->deleteByArtiID($id);
+                foreach($array_ts_id as $item){
+                    $new = array();
+                    $new['arti_id'] = $id;
+                    $new['ts_id'] = $item;
+                    $ArticlesTagsObserver->validate($new, null);
+                    $ArticlesTagsRepo->add($new);
+                }
+            }else{
+                $ArticlesTagsRepo->deleteByArtiID($id);
+            }
         });
     }
 }

@@ -18,6 +18,22 @@ class WordsObserver
         }
     }
 
+    public function setDefault($words){
+        if ($words->ws_is_important == null) {
+            $words->ws_is_important = false;
+        }
+        if ($words->ws_is_common == null) {
+            $words->ws_is_common= false;
+        }
+
+        if ($words->ws_forget_count == null) {
+            $words->ws_forget_count = 0;
+        }
+        if ($words->ws_order == null) {
+            $words->ws_order= 0;
+        }
+    }
+
     /**
      * Handle the words "creating" event.
      *
@@ -26,9 +42,11 @@ class WordsObserver
     */
     public function creating(Words $words)
     {      
-        if ($words->categories != null && !$words->categories) {
+        if ($words->cate_id != null && !$words->categories) {
             throw new Custom\InvalidForeignKeyException();
         }
+
+        $this->setDefault($words);
     }
 
     /**
@@ -40,21 +58,11 @@ class WordsObserver
     public function updating(Words $words)
     {
         if ($words->isDirty('cate_id')) {
-            if (!$words->categories) {
+            if ($words->cate_id != null && !$words->categories) {
                 throw new Custom\InvalidForeignKeyException();
             }
         }
         
-    }
-
-    public function setDefault($data)
-    {
-        $data['ws_is_important'] = is_bool($data['ws_is_important']) ? (bool)$data['ws_is_important'] : false;
-        $data['ws_is_common'] = is_bool($data['ws_is_common']) ? (bool)$data['ws_is_common'] : false;
-        $data['ws_forget_count'] = is_numeric($data['ws_forget_count']) ? (int)$data['ws_forget_count'] : 0;
-        $data['ws_order'] = is_numeric($data['ws_order']) ? (int)$data['ws_order'] : 1;
-        $data['cate_id'] = is_numeric($data['cate_id']) ? (int)$data['cate_id'] : null;
-
-        return $data;
+        $this->setDefault($words);
     }
 }

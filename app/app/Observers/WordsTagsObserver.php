@@ -8,9 +8,8 @@ use App\Exceptions\Custom;
 
 class WordsTagsObserver
 {
-    public function validate($data, $id){
-        $WordsTags = new WordsTags();
-        $WordsTagsValidator = new WordsTagsValidator();       
+    public function validate($data, $id){     
+        $WordsTagsValidator = new WordsTagsValidator();
         if (!$WordsTagsValidator->dupKey($data)) {
             throw new Custom\DuplicateException();
         }   
@@ -24,7 +23,7 @@ class WordsTagsObserver
     */
     public function creating(WordsTags $wordsTags)
     {      
-        if ($wordsTags->words != null && !$wordsTags->tags) {
+        if (!$wordsTags->tags) {
             throw new Custom\InvalidForeignKeyException();
         }
     }
