@@ -12,12 +12,16 @@ use App\Models\Categories;
 use App\Models\Tags;
 use App\Models\Articles;
 use App\Models\ArticlesTags;
+use App\Models\WordsGroups;
+use App\Models\WordsGroupsDetails;
 use App\Observers\WordsObserver;
 use App\Observers\WordsTagsObserver;
 use App\Observers\CategoriesObserver;
 use App\Observers\TagsObserver;
 use App\Observers\ArticlesObserver;
 use App\Observers\ArticlesTagsObserver;
+use App\Observers\WordsGroupsObserver;
+use App\Observers\WordsGroupsDetailsObserver;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -46,5 +50,7 @@ class EventServiceProvider extends ServiceProvider
         Tags::observe(TagsObserver::class);
         Articles::observe(ArticlesObserver::class);
         ArticlesTags::observe(ArticlesTagsObserver::class);
+        WordsGroups::observe(WordsGroupsObserver::class);
+        WordsGroupsDetails::observe(WordsGroupsDetailsObserver::class);
     }
 }

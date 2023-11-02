@@ -41,14 +41,14 @@ class ArticlesProcessor
         }   
     }
     
-    public function FilterDupArray($data)
+    public function FilterDupArray($new)
     {  
         $output = array();
         $seen = array();
-        foreach($data as $item){
+        foreach($new as $item){
             // 避免重複資料
             if (!in_array($item, $seen)) {
-                array_push($output, $item);   
+                array_push($output, $item);
                 array_push($seen, $item);
             }  
         }

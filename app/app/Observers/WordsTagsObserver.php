@@ -8,7 +8,7 @@ use App\Exceptions\Custom;
 
 class WordsTagsObserver
 {
-    public function validate($data, $id){     
+    public function validate($data, $id){
         $WordsTagsValidator = new WordsTagsValidator();
         if (!$WordsTagsValidator->dupKey($data)) {
             throw new Custom\DuplicateException();

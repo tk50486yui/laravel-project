@@ -28,7 +28,11 @@ class ArticlesRequest extends FormRequest
             'arti_content' => 'sometimes',
             'arti_order' => 'sometimes|nullable|integer|min:0',
             'cate_id' => 'sometimes|nullable|integer|min:1', // 外鍵
-            'words_tags' => 'sometimes|array'
+            /*
+                "articles_tags":{ "array" : [], "values": [] }
+                欲新增的資料 (ts_id) 依序放進 "array" 就好
+            */
+            'articles_tags' => 'sometimes|nullable'
         ];
     }
 }

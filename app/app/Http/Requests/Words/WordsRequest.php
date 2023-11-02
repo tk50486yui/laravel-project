@@ -34,7 +34,11 @@ class WordsRequest extends FormRequest
             'ws_forget_count' => 'sometimes|nullable|integer|min:0',
             'ws_order' => 'sometimes|nullable|integer|min:0',
             'cate_id' => 'sometimes|nullable|integer|min:1', // 外鍵
-            'words_tags' => 'sometimes|array'
+            /*
+                "words_tags":{ "array" : [], "values": [] }
+                欲新增的資料 (ts_id) 依序放進 "array" 就好
+            */
+            'words_tags' => 'sometimes|nullable'
         ];
     }
 }

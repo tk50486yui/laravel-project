@@ -8,11 +8,8 @@ use App\Models\WordsGroupsDetails;
 class WordsGroupsDetailsRepo
 {
     public function getAll()
-    {
-     
-        $result = WordsGroupsDetails::all();   
-    
-        return $result;
+    {     
+        return WordsGroupsDetails::all();
     }
 
     public function findByWgID($wg_id)
@@ -28,8 +25,26 @@ class WordsGroupsDetailsRepo
                 ORDER BY
                     ws.created_at DESC";
 
-        $result = DB::select($query, array($wg_id));
+        return DB::select($query, array($wg_id));
+    }
 
-        return $result;       
+    public function findByAssociatedIDs($ws_id, $wg_id)
+    {
+        return WordsGroupsDetails::where('ws_id', $ws_id)
+                        ->where('wg_id', $wg_id)
+                        ->first();
+    }
+
+    public function add($data)
+    {
+        WordsGroupsDetails::create([
+            'ws_id' => $data['ws_id'],
+            'wg_id' => $data['wg_id']
+        ]);
+    }   
+
+    public function deleteByWgID($wg_id)
+    {
+        WordsGroupsDetails::where('wg_id', $wg_id)->delete();
     }
 }

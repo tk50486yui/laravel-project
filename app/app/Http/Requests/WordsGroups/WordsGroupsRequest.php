@@ -13,7 +13,7 @@ class WordsGroupsRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,7 +25,11 @@ class WordsGroupsRequest extends FormRequest
     {
         return [
             'wg_name' => 'required',
-            'words_groups_datails' => 'required|array'
+            /*
+                "words_groups_details": []
+                欲新增的資料 (ws_id) 依序放進 words_groups_details 就好
+            */
+            'words_groups_details' => 'sometimes|nullable|array'
         ];
     }
 }
