@@ -18,7 +18,7 @@ class ArticlesRepo
                 WHERE 
                     arti.id = ?";
 
-        return DB::select($query, array($id));
+        return DB::selectOne($query, array($id));
     }
 
     public function findAll()

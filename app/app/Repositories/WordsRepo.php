@@ -25,7 +25,7 @@ class WordsRepo
     {     
         $query = "SELECT 
                     ws.*, cate.cate_name as cate_name,
-                    json_build_object('values',                   
+                    json_build_object('values',
                         (
                             SELECT 
                                 json_agg(json_build_object('ts_id', ts.id, 'ts_name', ts.ts_name))
@@ -37,11 +37,11 @@ class WordsRepo
                                 wt.ws_id = ws.id
                         
                         )
-                    ) AS words_tags                
+                    ) AS words_tags
                 FROM 
                     words ws
                 LEFT JOIN 
-                    categories cate ON ws.cate_id =  cate.id                     
+                    categories cate ON ws.cate_id =  cate.id
                 ORDER BY 
                     ws.id DESC";
 
@@ -91,7 +91,7 @@ class WordsRepo
     public function editCommon($data, $id)
     {
         $word = Words::find($id);
-        $word->update([           
+        $word->update([
             'ws_is_common' => $data['ws_is_common']           
         ]);
     }
@@ -99,7 +99,7 @@ class WordsRepo
     public function editImportant($data, $id)
     {
         $word = Words::find($id);
-        $word->update([           
+        $word->update([
             'ws_is_important' => $data['ws_is_important']
         ]);
     }

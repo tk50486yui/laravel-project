@@ -7,11 +7,6 @@ use App\Models\WordsGroupsDetails;
 
 class WordsGroupsDetailsRepo
 {
-    public function getAll()
-    {     
-        return WordsGroupsDetails::all();
-    }
-
     public function findByWgID($wg_id)
     {
         $query ="SELECT 

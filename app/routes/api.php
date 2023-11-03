@@ -26,20 +26,15 @@ use App\Http\Controllers\WordsGroupsDetailsController;
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
-Route::get('/user', [UserController::class, 'getUserInfo']);
 
 Route::group(['prefix' => 'words'], function () {
     Route::get('/', [WordsController::class, 'findAll']);
     Route::get('/{id}', [WordsController::class,'find']);
     Route::post('/', [WordsController::class, 'add']);
     Route::put('/{id}', [WordsController::class, 'edit']);
-
+   
     Route::put('/common/{id}', [WordsController::class, 'editCommon']);
     Route::put('/important/{id}', [WordsController::class, 'editImportant']);
-});
-
-Route::group(['prefix' => 'wordstags'], function () {
-    Route::get('/', [WordsTagsController::class, 'findAll']);
 });
 
 Route::group(['prefix' => 'categories'], function () {
@@ -70,9 +65,6 @@ Route::group(['prefix' => 'articles'], function () {
     Route::put('/{id}', [ArticlesController::class, 'edit']);
 });
 
-Route::group(['prefix' => 'articlestags'], function () {
-    Route::get('/', [ArticlesTagsController::class, 'findAll']); 
-});
 
 Route::group(['prefix' => 'wordsgroups'], function () {
     Route::get('/', [WordsGroupsController::class, 'findAll']); 
@@ -80,9 +72,4 @@ Route::group(['prefix' => 'wordsgroups'], function () {
 
     Route::post('/', [WordsGroupsController::class, 'add']);
     Route::put('/{id}', [WordsGroupsController::class, 'edit']);
-});
-
-Route::group(['prefix' => 'wordsgroupsdetails'], function () {
-    Route::get('/', [WordsGroupsDetailsController::class, 'findAll']); 
-
 });

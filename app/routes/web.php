@@ -18,7 +18,3 @@ use Illuminate\Http\Request;
 Route::get('/', function () {
     return view('welcome');
 });
-/*Route::get('/user', function (Request $request) {   
-
-    return response()->json(['user' => '006']);   
-});*/

@@ -7,11 +7,6 @@ use App\Models\ArticlesTags;
 
 class ArticlesTagsRepo
 {
-    public function getAll()
-    {     
-        return ArticlesTags::all();
-    }
-
     public function findByArtiID($arti_id)
     {
         $query = "SELECT 

@@ -3,9 +3,10 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
+use App\Services\Processors\ArticlesProcessor;
+use App\Services\Outputs\ArticlesOutput;
 use App\Observers\ArticlesObserver;
 use App\Observers\ArticlesTagsObserver;
-use App\Services\Processors\ArticlesProcessor;
 use App\Repositories\ArticlesRepo;
 use App\Repositories\ArticlesTagsRepo;
 
@@ -15,14 +16,12 @@ class ArticlesService
     {     
         $ArticlesRepo = new ArticlesRepo();
         $ArticlesTagsRepo = new ArticlesTagsRepo();
+        $ArticlesOutput = new ArticlesOutput();
         $result = $ArticlesRepo->find($id);
-        $result['articles_tags']['values'] = $ArticlesTagsRepo->findByArtiID($id);
-        if(isset($result['articles_tags']['values']) && count($result['articles_tags']['values']) > 0){
-            $result['articles_tags']['array'] = array();
-            foreach($result['articles_tags']['values'] as $item){
-                array_push($result['articles_tags']['array'], (string)$item->ts_id);                    
-            }
-        } 
+        if($result){
+            $result->articles_tags['values'] = $ArticlesTagsRepo->findByArtiID($id);
+            $result = $ArticlesOutput->genArticlesTags($result, false);
+        }
     
         return $result;
     }
@@ -31,26 +30,8 @@ class ArticlesService
     {     
         $ArticlesRepo = new ArticlesRepo();
         $result = $ArticlesRepo->findAll();
-        // articles_tags['values'], articles_tags['array']
-        $i = 0;
-        foreach($result as $item){
-            if($item->articles_tags != null){
-                // decode articles_tags['values']
-                $result[$i]->articles_tags = json_decode($item->articles_tags, true);
-                // create articles_tags['array']
-                if (isset($result[$i]->articles_tags['values']) && count($result[$i]->articles_tags['values']) > 0 ) {
-                    $result[$i]->articles_tags['array'] = array();
-                    foreach($result[$i]->articles_tags['values'] as $row){
-                        array_push($result[$i]->articles_tags['array'], (string)$row['ts_id']); 
-                    }                      
-                }else{
-                    $result[$i]->articles_tags['array'] = array();
-                }                   
-            }              
-            $i++;  
-        }
-    
-        return $result;
+        $ArticlesOutput = new ArticlesOutput();
+        return $ArticlesOutput->genArticlesTags($result, true);
     }
     public function add($reqData)
     { 

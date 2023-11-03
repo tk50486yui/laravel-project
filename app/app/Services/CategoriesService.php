@@ -3,9 +3,12 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
-use App\Repositories\CategoriesRepo;
-use App\Observers\CategoriesObserver;
 use App\Services\Processors\CategoriesProcessor;
+use App\Services\Outputs\CategoriesOutput;
+use App\Observers\CategoriesObserver;
+use App\Repositories\CategoriesRepo;
+
+
 
 class CategoriesService
 {
@@ -18,8 +21,9 @@ class CategoriesService
     public function findAll()
     {     
         $CategoriesRepo = new CategoriesRepo();
+        $CategoriesOutput = new CategoriesOutput();
         $result = $CategoriesRepo->findAll();
-        return $CategoriesRepo->buildCategoriesTree($result);
+        return $CategoriesOutput->buildCategoriesTree($result);
     }
 
     public function findRecent()

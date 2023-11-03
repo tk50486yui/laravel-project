@@ -3,23 +3,26 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
-use App\Repositories\TagsRepo;
-use App\Observers\TagsObserver;
 use App\Services\Processors\TagsProcessor;
+use App\Services\Outputs\TagsOutput;
+use App\Observers\TagsObserver;
+use App\Repositories\TagsRepo;
 
 class TagsService
 {
     public function find($id)
     {     
         $TagsRepo = new TagsRepo();
+        $TagsOutput = new TagsOutput();
         return $TagsRepo->find($id);
     }
 
     public function findAll()
     {     
         $TagsRepo = new TagsRepo();
+        $TagsOutput = new TagsOutput();
         $result = $TagsRepo->findAll();
-        return $TagsRepo->buildTagsTree($result);
+        return $TagsOutput->buildTagsTree($result);
     }
 
     public function findRecent()
