@@ -2,9 +2,9 @@
 
 使用 PHP Laravel 來建立後端 API
 
-搭配前端：[VuePoject](https://github.com/tk50486yui/VueProject.git)
+搭配前端：[VueProject](https://github.com/tk50486yui/VueProject.git)
 
-其他相同資料之後端：[SlimPoject](https://github.com/tk50486yui/SlimProject.git)
+Slim 版本：[SlimProject](https://github.com/tk50486yui/SlimProject.git)
 
 ---
 ## PHP 7.2.12
@@ -14,6 +14,8 @@
 
 ---
 ## PostgreSQL 9.6.24
+
+資料庫使用 PostgreSQL
 
 ---
 ## 目錄架構
