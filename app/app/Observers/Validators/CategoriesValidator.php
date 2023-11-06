@@ -3,6 +3,7 @@
 namespace App\Observers\Validators;
 
 use App\Repositories\CategoriesRepo;
+use App\Services\Outputs\CategoriesOutput;
 
 class CategoriesValidator
 {
@@ -47,7 +48,8 @@ class CategoriesValidator
     // 檢查樹狀資料
     public function validateTree($cate_parent_id, $id)
     {
-        $CategoriesRepo = new CategoriesRepo();      
+        $CategoriesRepo = new CategoriesRepo();
+        $CategoriesOutput = new CategoriesOutput();
         if ($cate_parent_id == $id) {
             return false;
         }      
@@ -59,8 +61,8 @@ class CategoriesValidator
             }
         }
         // 透過樹狀檢查子類別
-        $all = $CategoriesRepo->findAll();        
-        $tree = $CategoriesRepo->buildCategoriesTree($all);
+        $all = $CategoriesRepo->findAll();
+        $tree = $CategoriesOutput->buildCategoriesTree($all);
         if ($this->validateParent($tree, $id, $cate_parent_id)) {
             return false;
         }

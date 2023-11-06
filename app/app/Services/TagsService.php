@@ -11,14 +11,13 @@ use App\Repositories\TagsRepo;
 class TagsService
 {
     public function find($id)
-    {     
+    {
         $TagsRepo = new TagsRepo();
-        $TagsOutput = new TagsOutput();
         return $TagsRepo->find($id);
     }
 
     public function findAll()
-    {     
+    {
         $TagsRepo = new TagsRepo();
         $TagsOutput = new TagsOutput();
         $result = $TagsRepo->findAll();
@@ -47,11 +46,11 @@ class TagsService
 
     public function edit($reqData, $id)
     {
-        DB::transaction(function () use ($reqData, $id){         
+        DB::transaction(function () use ($reqData, $id){
             $TagsObserver = new TagsObserver();
             $TagsProcessor = new TagsProcessor();
-            $TagsRepo = new TagsRepo();           
-            $TagsObserver->validate($reqData, $id);           
+            $TagsRepo = new TagsRepo();
+            $TagsObserver->validate($reqData, $id);
             $reqData['ts_level'] = $TagsProcessor->setTsLevel($TagsRepo, $reqData);
             $reqData['ts_order'] = $TagsProcessor->setTsOrder($TagsRepo, $reqData);
             $TagsRepo->edit($reqData, $id);

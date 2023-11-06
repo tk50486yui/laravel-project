@@ -2,9 +2,9 @@
 
 使用 PHP Laravel 來建立後端 API
 
-搭配前端：[VueProject](https://github.com/tk50486yui/VueProject.git)
+搭配 Vue 前端：[VueProject](https://github.com/tk50486yui/VueProject.git)
 
-Slim 版本：[SlimProject](https://github.com/tk50486yui/SlimProject.git)
+後端 Slim 版本：[SlimProject](https://github.com/tk50486yui/SlimProject.git)
 
 ---
 ## PHP 7.2.12

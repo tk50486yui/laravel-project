@@ -40,7 +40,7 @@ Route::group(['prefix' => 'words'], function () {
 Route::group(['prefix' => 'categories'], function () {
     Route::get('/', [CategoriesController::class, 'findAll']);
     Route::get('/{id}', [CategoriesController::class, 'find']);
-    Route::get('/order/recent',[CategoriesController::class, 'findRecent']);
+    Route::get('/recent/all',[CategoriesController::class, 'findRecent']);
 
     Route::post('/', [CategoriesController::class, 'add']);
     Route::put('/{id}', [CategoriesController::class, 'edit']);
@@ -50,7 +50,7 @@ Route::group(['prefix' => 'categories'], function () {
 Route::group(['prefix' => 'tags'], function () {
     Route::get('/', [TagsController::class, 'findAll']);
     Route::get('/{id}', [TagsController::class, 'find']);
-    Route::get('/order/recent', [TagsController::class, 'findRecent']);
+    Route::get('/recent/all', [TagsController::class, 'findRecent']);
 
     Route::post('/', [TagsController::class, 'add']);
     Route::put('/{id}', [TagsController::class, 'edit']);

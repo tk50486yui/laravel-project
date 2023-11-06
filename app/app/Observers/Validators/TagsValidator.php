@@ -3,6 +3,7 @@
 namespace App\Observers\Validators;
 
 use App\Repositories\TagsRepo;
+use App\Services\Outputs\TagsOutput;
 
 class TagsValidator
 {
@@ -48,6 +49,7 @@ class TagsValidator
     public function validateTree($ts_parent_id, $id)
     {
         $TagsRepo = new TagsRepo();
+        $TagsOutput = new TagsOutput();
         if ($ts_parent_id == $id) {
             return false;
         }      
@@ -60,7 +62,7 @@ class TagsValidator
         }      
         // 透過樹狀檢查子類別
         $all = $TagsRepo->findAll();
-        $tree = $TagsRepo->buildTagsTree($all);
+        $tree = $TagsOutput->buildTagsTree($all);
         if ($this->validateParent($tree, $id, $ts_parent_id)) {
             return false;
         }
