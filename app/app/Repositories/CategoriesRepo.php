@@ -101,4 +101,9 @@ class CategoriesRepo
                     ->orderBy('updated_at', 'DESC')
                     ->get(); 
     }
+
+    public function deleteByID($id)
+    {
+        Categories::where('id', $id)->delete();
+    }
 }

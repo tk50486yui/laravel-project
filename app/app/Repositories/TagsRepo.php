@@ -93,10 +93,15 @@ class TagsRepo
         $query = "SELECT 
                     MAX(ts_order) as max_ts_order
                 FROM 
-                    tags           
+                    tags
                 WHERE 
                     ts_parent_id IS NULL";
 
         return DB::selectOne($query);
+    }
+
+    public function deleteByID($id)
+    {
+        Tags::where('id', $id)->delete();
     }
 }

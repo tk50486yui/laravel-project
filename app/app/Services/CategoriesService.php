@@ -70,4 +70,12 @@ class CategoriesService
         });
     }
 
+    public function deleteByID($id)
+    {     
+        DB::transaction(function () use ($id){
+            $CategoriesRepo = new CategoriesRepo();
+            $CategoriesRepo->deleteByID($id);
+        });
+    }
+
 }

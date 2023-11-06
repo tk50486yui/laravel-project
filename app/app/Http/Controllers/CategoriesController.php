@@ -61,4 +61,11 @@ class CategoriesController extends Controller
         $CategoriesService->editOrder($reqData);
         return Messages::Success();
     }
+
+    public function deleteByID(Request $request, $id)
+    {
+        $CategoriesService = new CategoriesService();
+        $CategoriesService->deleteByID($id);
+        return Messages::Success();
+    }
 }

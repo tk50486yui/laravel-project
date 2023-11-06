@@ -67,6 +67,13 @@ class TagsService
                 $TagsRepo->editOrder($item['ts_order'], $item['id']);
             }
         });
-       
+    }
+
+    public function deleteByID($id)
+    {     
+        DB::transaction(function () use ($id){
+            $TagsRepo = new TagsRepo();
+            $TagsRepo->deleteByID($id);
+        });
     }
 }

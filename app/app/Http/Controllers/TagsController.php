@@ -61,5 +61,12 @@ class TagsController extends Controller
         $TagsService->editOrder($reqData);
         return Messages::Success();
     }
+
+    public function deleteByID(Request $request, $id)
+    {
+        $TagsService = new TagsService();
+        $TagsService->deleteByID($id);
+        return Messages::Success();
+    }
     
 }
