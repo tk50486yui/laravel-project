@@ -37,8 +37,8 @@ class TagsService
             $TagsProcessor = new TagsProcessor();
             $TagsRepo = new TagsRepo();
             $TagsObserver->validate($reqData, null);
-            $reqData['ts_level'] = $TagsProcessor->setTsLevel($TagsRepo, $reqData);
-            $reqData['ts_order'] = $TagsProcessor->setTsOrder($TagsRepo, $reqData);
+            $reqData['ts_level'] = $TagsProcessor->setLevel($TagsRepo, $reqData);
+            $reqData['ts_order'] = $TagsProcessor->setOrder($TagsRepo, $reqData);
             $TagsRepo->add($reqData);
         });
        
@@ -51,8 +51,8 @@ class TagsService
             $TagsProcessor = new TagsProcessor();
             $TagsRepo = new TagsRepo();
             $TagsObserver->validate($reqData, $id);
-            $reqData['ts_level'] = $TagsProcessor->setTsLevel($TagsRepo, $reqData);
-            $reqData['ts_order'] = $TagsProcessor->setTsOrder($TagsRepo, $reqData);
+            $reqData['ts_level'] = $TagsProcessor->setLevel($TagsRepo, $reqData);
+            $reqData['ts_order'] = $TagsProcessor->setOrder($TagsRepo, $reqData);
             $TagsRepo->edit($reqData, $id);
         });
     }
@@ -60,7 +60,7 @@ class TagsService
     public function editOrder($reqData)
     {
         DB::transaction(function () use ($reqData){
-            $TagsObserver = new TagsObserver();      
+            $TagsObserver = new TagsObserver();
             $TagsRepo = new TagsRepo();
             foreach($reqData as $item){
                 $TagsObserver->validate($item, $item['id'], false);
@@ -72,8 +72,18 @@ class TagsService
     public function deleteByID($id)
     {     
         DB::transaction(function () use ($id){
+            $TagsObserver = new TagsObserver();
+            $TagsProcessor = new TagsProcessor();
             $TagsRepo = new TagsRepo();
+            $TagsObserver->validate(array(), $id, false);
+            $children = $TagsRepo->findChildren($id);
             $TagsRepo->deleteByID($id);
+            foreach($children as $item){
+                $new = array();
+                $new['ts_parent_id'] = null;
+                $new['ts_order'] = $TagsProcessor->setOrder($TagsRepo, $new);
+                $TagsRepo->editOrder($new['ts_order'], $item->id);
+            }
         });
     }
 }

@@ -8,7 +8,7 @@ namespace App\Services\Processors;
 
 class CategoriesProcessor
 {   
-    public function setCateLevel($CategoriesRepo, $reqData){
+    public function setLevel($CategoriesRepo, $reqData){
         if($reqData['cate_parent_id'] != null){
             $parent = $CategoriesRepo->find($reqData['cate_parent_id']);
             return $parent->cate_level + 1;
@@ -17,7 +17,7 @@ class CategoriesProcessor
         } 
     }
 
-    public function setCateOrder($CategoriesRepo, $reqData){
+    public function setOrder($CategoriesRepo, $reqData){
         if($reqData['cate_parent_id'] != null){
             $children = $CategoriesRepo->findMaxOrderByParent($reqData['cate_parent_id']);
             if($children->sibling_count == 0){

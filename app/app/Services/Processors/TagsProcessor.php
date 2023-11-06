@@ -8,7 +8,7 @@ namespace App\Services\Processors;
 
 class TagsProcessor
 {   
-    public function setTsLevel($TagsRepo, $reqData){
+    public function setLevel($TagsRepo, $reqData){
         if($reqData['ts_parent_id'] != null){
             $parent = $TagsRepo->find($reqData['ts_parent_id']);
             return $parent->ts_level + 1;
@@ -17,7 +17,7 @@ class TagsProcessor
         } 
     }
 
-    public function setTsOrder($TagsRepo, $reqData){
+    public function setOrder($TagsRepo, $reqData){
         if($reqData['ts_parent_id'] != null){          
             $children = $TagsRepo->findMaxOrderByParent($reqData['ts_parent_id']);
             if($children->sibling_count == 0){

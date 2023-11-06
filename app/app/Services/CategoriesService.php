@@ -39,8 +39,8 @@ class CategoriesService
             $CategoriesProcessor = new CategoriesProcessor();
             $CategoriesRepo = new CategoriesRepo();
             $CategoriesObserver->validate($reqData, null);
-            $reqData['cate_level'] = $CategoriesProcessor->setCateLevel($CategoriesRepo,$reqData);
-            $reqData['cate_order'] = $CategoriesProcessor->setCateOrder($CategoriesRepo,$reqData);
+            $reqData['cate_level'] = $CategoriesProcessor->setLevel($CategoriesRepo, $reqData);
+            $reqData['cate_order'] = $CategoriesProcessor->setOrder($CategoriesRepo, $reqData);
             $CategoriesRepo->add($reqData);
         });        
     }
@@ -52,8 +52,8 @@ class CategoriesService
             $CategoriesProcessor = new CategoriesProcessor();
             $CategoriesRepo = new CategoriesRepo();
             $CategoriesObserver->validate($reqData, $id);
-            $reqData['cate_level'] = $CategoriesProcessor->setCateLevel($CategoriesRepo,$reqData);
-            $reqData['cate_order'] = $CategoriesProcessor->setCateOrder($CategoriesRepo,$reqData);
+            $reqData['cate_level'] = $CategoriesProcessor->setLevel($CategoriesRepo, $reqData);
+            $reqData['cate_order'] = $CategoriesProcessor->setOrder($CategoriesRepo, $reqData);
             $CategoriesRepo->edit($reqData, $id);
         });
     }
@@ -73,8 +73,18 @@ class CategoriesService
     public function deleteByID($id)
     {     
         DB::transaction(function () use ($id){
+            $CategoriesObserver = new CategoriesObserver();
+            $CategoriesProcessor = new CategoriesProcessor();
             $CategoriesRepo = new CategoriesRepo();
+            $CategoriesObserver->validate(array(), $id, false);
+            $children = $CategoriesRepo->findChildren($id);
             $CategoriesRepo->deleteByID($id);
+            foreach($children as $item){
+                $new = array();
+                $new['cate_parent_id'] = null;
+                $new['cate_order'] = $CategoriesProcessor->setOrder($CategoriesRepo, $new);
+                $CategoriesRepo->editOrder($new['cate_order'], $item->id);
+            }
         });
     }
 

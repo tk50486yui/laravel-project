@@ -53,6 +53,17 @@ class CategoriesRepo
         ]);
     }
 
+    public function findChildren($id)
+    { 
+        $query = "SELECT * FROM categories 
+                WHERE 
+                    cate_parent_id = ?
+                ORDER BY 
+                    cate_order ASC";
+
+        return DB::select($query, array($id));
+    }
+
     public function findCheckParent($id, $cate_parent_id)
     {
         $param = array('cate_parent_id' => $cate_parent_id, 'id' => $id);

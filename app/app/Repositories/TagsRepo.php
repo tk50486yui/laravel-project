@@ -64,6 +64,17 @@ class TagsRepo
         ]);
     }
 
+    public function findChildren($id)
+    { 
+        $query = "SELECT * FROM tags
+                WHERE 
+                    ts_parent_id = ?
+                ORDER BY 
+                    ts_order ASC";
+
+        return DB::select($query, array($id));
+    }
+
     public function findCheckParent($id, $ts_parent_id)
     {  
         $param = array('ts_parent_id' => $ts_parent_id, 'id' => $id);
