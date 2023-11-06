@@ -37,6 +37,7 @@ class TagsService
             $TagsProcessor = new TagsProcessor();
             $TagsRepo = new TagsRepo();
             $TagsObserver->validate($reqData, null);
+            $reqData = $TagsProcessor->populate($reqData);
             $reqData['ts_level'] = $TagsProcessor->setLevel($TagsRepo, $reqData);
             $reqData['ts_order'] = $TagsProcessor->setOrder($TagsRepo, $reqData);
             $TagsRepo->add($reqData);

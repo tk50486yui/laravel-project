@@ -33,11 +33,9 @@ class TagsRepo
     {
         $new = Tags::create([
             'ts_name' => $data['ts_name'],
-            'ts_storage' => $data['ts_storage'],
             'ts_parent_id' => $data['ts_parent_id'],
             'ts_level' => $data['ts_level'],
-            'ts_order' => $data['ts_order'],
-            'ts_description' => $data['ts_description']
+            'ts_order' => $data['ts_order']
         ]);
         
         return $new->id;
@@ -48,11 +46,9 @@ class TagsRepo
         $tags = Tags::find($id);
         $tags->update([
             'ts_name' => $data['ts_name'],
-            'ts_storage' => $data['ts_storage'],
             'ts_parent_id' => $data['ts_parent_id'],
             'ts_level' => $data['ts_level'],
-            'ts_order' => $data['ts_order'],
-            'ts_description' => $data['ts_description']
+            'ts_order' => $data['ts_order']
         ]);
     }
 

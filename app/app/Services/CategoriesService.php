@@ -7,8 +7,8 @@ use App\Services\Processors\CategoriesProcessor;
 use App\Services\Outputs\CategoriesOutput;
 use App\Observers\CategoriesObserver;
 use App\Repositories\CategoriesRepo;
-
-
+use App\Repositories\WordsRepo;
+use App\Repositories\ArticlesRepo;
 
 class CategoriesService
 {
@@ -39,6 +39,7 @@ class CategoriesService
             $CategoriesProcessor = new CategoriesProcessor();
             $CategoriesRepo = new CategoriesRepo();
             $CategoriesObserver->validate($reqData, null);
+            $reqData = $CategoriesProcessor->populate($reqData);
             $reqData['cate_level'] = $CategoriesProcessor->setLevel($CategoriesRepo, $reqData);
             $reqData['cate_order'] = $CategoriesProcessor->setOrder($CategoriesRepo, $reqData);
             $CategoriesRepo->add($reqData);
@@ -76,8 +77,12 @@ class CategoriesService
             $CategoriesObserver = new CategoriesObserver();
             $CategoriesProcessor = new CategoriesProcessor();
             $CategoriesRepo = new CategoriesRepo();
+            $WordsRepo = new WordsRepo();
+            $ArticlesRepo = new ArticlesRepo();
             $CategoriesObserver->validate(array(), $id, false);
             $children = $CategoriesRepo->findChildren($id);
+            $WordsRepo->updateNullByCateID($id); // words cate_id
+            $ArticlesRepo->updateNullByCateID($id); // articles cate_id
             $CategoriesRepo->deleteByID($id);
             foreach($children as $item){
                 $new = array();

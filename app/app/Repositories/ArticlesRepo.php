@@ -72,4 +72,9 @@ class ArticlesRepo
             'cate_id' => $data['cate_id']
         ]);
     }
+
+    public function updateNullByCateID($cate_id)
+    {
+        Articles::where('cate_id', $cate_id)->update(['cate_id' => null]);
+    }
 }

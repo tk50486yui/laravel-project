@@ -7,9 +7,17 @@ namespace App\Services\Processors;
  **/
 
 class CategoriesProcessor
-{   
+{
+    public function populate($data)
+    {       
+        $data['cate_name'] = $data['cate_name'] ?? null;
+        $data['cate_parent_id'] = $data['cate_parent_id'] ?? null;
+
+        return $data;
+    }
+
     public function setLevel($CategoriesRepo, $reqData){
-        if($reqData['cate_parent_id'] != null){
+        if(isset($reqData['cate_parent_id']) && $reqData['cate_parent_id'] != null){
             $parent = $CategoriesRepo->find($reqData['cate_parent_id']);
             return $parent->cate_level + 1;
         }else{
@@ -18,7 +26,7 @@ class CategoriesProcessor
     }
 
     public function setOrder($CategoriesRepo, $reqData){
-        if($reqData['cate_parent_id'] != null){
+        if(isset($reqData['cate_parent_id']) && $reqData['cate_parent_id'] != null){
             $children = $CategoriesRepo->findMaxOrderByParent($reqData['cate_parent_id']);
             if($children->sibling_count == 0){
                 return 0;

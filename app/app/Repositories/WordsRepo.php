@@ -51,7 +51,7 @@ class WordsRepo
     public function findByName($ws_name)
     {
         return Words::where('ws_name', $ws_name)->first();
-    }
+    }    
 
     public function add($data)
     {
@@ -102,6 +102,11 @@ class WordsRepo
         $word->update([
             'ws_is_important' => $data['ws_is_important']
         ]);
+    }
+
+    public function updateNullByCateID($cate_id)
+    {
+        Words::where('cate_id', $cate_id)->update(['cate_id' => null]);
     }
 
 }
