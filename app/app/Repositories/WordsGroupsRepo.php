@@ -37,4 +37,9 @@ class WordsGroupsRepo
             'wg_name' => $data['wg_name'],
         ]);
     }
+
+    public function deleteByID($id)
+    {
+        WordsGroups::where('id', $id)->delete();
+    }
 }

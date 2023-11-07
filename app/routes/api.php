@@ -35,6 +35,8 @@ Route::group(['prefix' => 'words'], function () {
    
     Route::put('/common/{id}', [WordsController::class, 'editCommon']);
     Route::put('/important/{id}', [WordsController::class, 'editImportant']);
+
+    Route::delete('/{id}', [WordsController::class, 'deleteByID']);
 });
 
 Route::group(['prefix' => 'categories'], function () {
@@ -67,6 +69,8 @@ Route::group(['prefix' => 'articles'], function () {
     
     Route::post('/', [ArticlesController::class, 'add']);
     Route::put('/{id}', [ArticlesController::class, 'edit']);
+
+    Route::delete('/{id}', [ArticlesController::class, 'deleteByID']);
 });
 
 
@@ -76,4 +80,6 @@ Route::group(['prefix' => 'wordsgroups'], function () {
 
     Route::post('/', [WordsGroupsController::class, 'add']);
     Route::put('/{id}', [WordsGroupsController::class, 'edit']);
+
+    Route::delete('/{id}', [WordsGroupsController::class, 'deleteByID']);
 });

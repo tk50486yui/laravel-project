@@ -20,6 +20,21 @@ class WordsProcessor
         $this->$name = $value;
     }
 
+    public function populate($data)
+    {
+        $data['ws_definition'] = $data['ws_definition'] ?? null;
+        $data['ws_pronunciation'] = $data['ws_pronunciation'] ?? null;
+        $data['ws_slogan'] = $data['ws_slogan'] ?? null;
+        $data['ws_description'] = $data['ws_description'] ?? null;
+        $data['ws_is_important'] = $data['ws_is_important'] ?? null;
+        $data['ws_is_common'] = $data['ws_is_common'] ?? null;
+        $data['ws_forget_count'] = $data['ws_forget_count'] ?? null;
+        $data['ws_order'] = $data['ws_order'] ?? null;
+        $data['cate_id'] = $data['cate_id'] ?? null;
+
+        return $data;
+    }
+
     public function begin($data){
         $this->validateWordsTags($data);
         if($this->wordsTags == null){

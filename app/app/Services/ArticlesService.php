@@ -41,6 +41,7 @@ class ArticlesService
             $ArticlesTagsObserver = new ArticlesTagsObserver();
             $ArticlesRepo = new ArticlesRepo();
             $ArticlesTagsRepo = new ArticlesTagsRepo();
+            $reqData = $ArticlesProcessor->populate($reqData);
             $ArticlesObserver->validate($reqData, null);
             $array_ts_id = $ArticlesProcessor->begin($reqData);
             $id = $ArticlesRepo->add($reqData);
@@ -79,6 +80,16 @@ class ArticlesService
             }else{
                 $ArticlesTagsRepo->deleteByArtiID($id);
             }
+        });
+    }
+
+    public function deleteByID($id)
+    {     
+        DB::transaction(function () use ($id){
+            $ArticlesObserver = new ArticlesObserver();
+            $ArticlesRepo = new ArticlesRepo();
+            $ArticlesObserver->validate(array(), $id, false);
+            $ArticlesRepo->deleteByID($id);
         });
     }
 }

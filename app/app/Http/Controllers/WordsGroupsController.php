@@ -44,4 +44,11 @@ class WordsGroupsController extends Controller
         $WordsGroupsService->edit($reqData, $id);
         return Messages::Success();
     }
+
+    public function deleteByID(Request $request, $id)
+    {
+        $WordsGroupsService = new WordsGroupsService();
+        $WordsGroupsService->deleteByID($id);
+        return Messages::Success();
+    }
 }

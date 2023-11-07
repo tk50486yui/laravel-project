@@ -20,6 +20,16 @@ class ArticlesProcessor
         $this->$name = $value;
     }
 
+    public function populate($data)
+    {
+       
+        $data['arti_content'] = $data['arti_content'] ?? null;
+        $data['arti_order'] = $data['arti_order'] ?? null;
+        $data['cate_id'] = $data['cate_id'] ?? null;
+
+        return $data;
+    }
+
     public function begin($data){
         $this->validateArticlesTags($data);
         if($this->articlesTags == null){

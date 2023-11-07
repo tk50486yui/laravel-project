@@ -77,4 +77,9 @@ class ArticlesRepo
     {
         Articles::where('cate_id', $cate_id)->update(['cate_id' => null]);
     }
+
+    public function deleteByID($id)
+    {
+        Articles::where('id', $id)->delete();
+    }
 }

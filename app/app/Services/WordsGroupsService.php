@@ -81,4 +81,14 @@ class WordsGroupsService
             }
         });
     }
+
+    public function deleteByID($id)
+    {     
+        DB::transaction(function () use ($id){
+            $WordsGroupsObserver = new WordsGroupsObserver();
+            $WordsGroupsRepo = new WordsGroupsRepo();
+            $WordsGroupsObserver->validate(array(), $id, false);
+            $WordsGroupsRepo->deleteByID($id);
+        });
+    }
 }

@@ -61,5 +61,12 @@ class WordsController extends Controller
         $WordsService->editImportant($reqData, $id);
         return Messages::Success();
     }
+
+    public function deleteByID(Request $request, $id)
+    {
+        $WordsService = new WordsService();
+        $WordsService->deleteByID($id);
+        return Messages::Success();
+    }
     
 }

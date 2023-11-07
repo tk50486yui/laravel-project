@@ -41,6 +41,7 @@ class WordsService
             $WordsTagsObserver = new WordsTagsObserver();
             $WordsRepo = new WordsRepo();
             $WordsTagsRepo = new WordsTagsRepo();
+            $reqData = $WordsProcessor->populate($reqData);
             $WordsObserver->validate($reqData, null);
             $array_ts_id = $WordsProcessor->begin($reqData);
             $id = $WordsRepo->add($reqData);
@@ -103,5 +104,15 @@ class WordsService
             $WordsRepo->editImportant($reqData, $id);
         });
        
+    }
+
+    public function deleteByID($id)
+    {     
+        DB::transaction(function () use ($id){
+            $WordsObserver = new WordsObserver();
+            $WordsRepo = new WordsRepo();
+            $WordsObserver->validate(array(), $id, false);
+            $WordsRepo->deleteByID($id);
+        });
     }
 }

@@ -109,4 +109,9 @@ class WordsRepo
         Words::where('cate_id', $cate_id)->update(['cate_id' => null]);
     }
 
+    public function deleteByID($id)
+    {
+        Words::where('id', $id)->delete();
+    }
+
 }

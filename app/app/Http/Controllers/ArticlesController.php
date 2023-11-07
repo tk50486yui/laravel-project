@@ -42,4 +42,11 @@ class ArticlesController extends Controller
         $ArticlesService->edit($reqData, $id);
         return Messages::Success();
     }
+
+    public function deleteByID(Request $request, $id)
+    {
+        $ArticlesService = new ArticlesService();
+        $ArticlesService->deleteByID($id);
+        return Messages::Success();
+    }
 }
