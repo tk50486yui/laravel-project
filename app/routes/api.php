@@ -33,8 +33,8 @@ Route::group(['prefix' => 'words'], function () {
     Route::post('/', [WordsController::class, 'add']);
     Route::put('/{id}', [WordsController::class, 'edit']);
    
-    Route::put('/common/{id}', [WordsController::class, 'editCommon']);
-    Route::put('/important/{id}', [WordsController::class, 'editImportant']);
+    Route::patch('/common/{id}', [WordsController::class, 'editCommon']);
+    Route::patch('/important/{id}', [WordsController::class, 'editImportant']);
 
     Route::delete('/{id}', [WordsController::class, 'deleteByID']);
 });
@@ -46,7 +46,8 @@ Route::group(['prefix' => 'categories'], function () {
 
     Route::post('/', [CategoriesController::class, 'add']);
     Route::put('/{id}', [CategoriesController::class, 'edit']);
-    Route::put('/order/all', [CategoriesController::class, 'editOrder']);
+    
+    Route::patch('/order/all', [CategoriesController::class, 'editOrder']);
 
     Route::delete('/{id}', [CategoriesController::class, 'deleteByID']);
 });
@@ -58,7 +59,8 @@ Route::group(['prefix' => 'tags'], function () {
 
     Route::post('/', [TagsController::class, 'add']);
     Route::put('/{id}', [TagsController::class, 'edit']);
-    Route::put('/order/all', [TagsController::class, 'editOrder']);
+
+    Route::patch('/order/all', [TagsController::class, 'editOrder']);
 
     Route::delete('/{id}', [TagsController::class, 'deleteByID']);
 });

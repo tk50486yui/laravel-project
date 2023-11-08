@@ -21,12 +21,11 @@ class ArticlesProcessor
     }
 
     public function populate($data)
-    {
-       
+    {       
         $data['arti_content'] = $data['arti_content'] ?? null;
         $data['arti_order'] = $data['arti_order'] ?? null;
         $data['cate_id'] = $data['cate_id'] ?? null;
-
+        
         return $data;
     }
 
