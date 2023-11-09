@@ -15,7 +15,7 @@
 ---
 ## PostgreSQL 9.6.24
 
-資料庫使用 PostgreSQL
+資料庫使用 PostgreSQL，參照[Database Tables](table/tables.sql)
 
 ---
 ## 目錄架構
