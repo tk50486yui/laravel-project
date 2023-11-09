@@ -15,7 +15,7 @@
 ---
 ## PostgreSQL 9.6.24
 
-資料庫使用 PostgreSQL，參照[Database Tables](table/tables.sql)
+資料庫使用 PostgreSQL，Table可參照 [Database Tables](table/tables.sql)
 
 ---
 ## 目錄架構
@@ -40,7 +40,7 @@
     │       ├─ Outputs      // 輸出資料欄位設定
     │       └─ Processors   // 輔助 Services，解析 request 資料
     ├─ bootstrap
-    ├─ config
+    ├─ config               // app cors 設定
     ├─ database
     ├─ public
     ├─ resources
