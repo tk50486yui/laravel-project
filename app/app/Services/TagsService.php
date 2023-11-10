@@ -7,6 +7,7 @@ use App\Services\Processors\TagsProcessor;
 use App\Services\Outputs\TagsOutput;
 use App\Observers\TagsObserver;
 use App\Repositories\TagsRepo;
+use PHPUnit\Framework\MockObject\Stub\ReturnSelf;
 
 class TagsService
 {
@@ -27,7 +28,13 @@ class TagsService
     public function findRecent()
     {     
         $TagsRepo = new TagsRepo();
-        return $TagsRepo->findRecent();
+        $result = $TagsRepo->findRecent();
+        $i = 0;
+        foreach($result as $item){
+            $result[$i]->children = $TagsRepo->findChildren($item['id']);
+            $i++;
+        }
+        return $result;
     }  
 
     public function add($reqData)
