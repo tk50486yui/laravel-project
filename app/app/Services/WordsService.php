@@ -66,6 +66,7 @@ class WordsService
             $WordsTagsObserver = new WordsTagsObserver();
             $WordsRepo = new WordsRepo();
             $WordsTagsRepo = new WordsTagsRepo();
+            $reqData = $WordsProcessor->populate($reqData);
             $WordsObserver->validate($reqData, $id);
             $array_ts_id = $WordsProcessor->begin($reqData); 
             $WordsRepo->edit($reqData, $id);

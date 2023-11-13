@@ -23,7 +23,7 @@ class CategoriesOutput
                     'cate_order' => $category['cate_order'],
                     'parents' => $parents,
                     'children' => $this->buildCategoriesTree($categories, $category['id'], array_merge($parents, [$category['id']]))
-                );              
+                );
     
                 $tree[] = $node;
             }
