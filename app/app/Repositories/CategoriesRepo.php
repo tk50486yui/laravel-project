@@ -14,7 +14,32 @@ class CategoriesRepo
 
     public function findAll()
     {
-        return Categories::orderBy('cate_order', 'ASC')->get();
+        $query = "SELECT 
+                    cate.*,
+                    parent.cate_name AS cate_parent_name
+                FROM 
+                    categories cate
+                LEFT JOIN 
+                    categories AS parent ON cate.cate_parent_id = parent.id
+                ORDER BY 
+                    cate.cate_order ASC";
+
+        return DB::select($query);
+    }
+
+    public function findRecent()
+    {     
+        $query = "SELECT 
+                cate.*,
+                parent.cate_name AS cate_parent_name
+            FROM 
+                categories cate
+            LEFT JOIN 
+                categories AS parent ON cate.cate_parent_id = parent.id
+            ORDER BY 
+                cate.created_at DESC, cate.updated_at DESC";
+
+        return DB::select($query);
     }
 
     public function findByName($cate_name)
@@ -104,14 +129,7 @@ class CategoriesRepo
         $result = DB::selectOne($query);
       
         return $result;
-    }
-
-    public function findRecent()
-    {     
-        return Categories::orderBy('created_at', 'DESC')
-                    ->orderBy('updated_at', 'DESC')
-                    ->get(); 
-    }
+    }   
 
     public function deleteByID($id)
     {

@@ -29,6 +29,7 @@ class TagsRequest extends FormRequest
             'ts_parent_id' => 'sometimes|nullable|integer|min:1',
             'ts_level' => 'sometimes|nullable|integer|min:1',
             'ts_order' => 'sometimes|nullable|integer|min:0',
+            'tc_id' => 'sometimes|nullable|integer|min:1',
             'ts_description' => 'sometimes|nullable',
         ];
     }

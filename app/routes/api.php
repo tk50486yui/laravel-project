@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WordsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\TagsController;
+use App\Http\Controllers\TagsColorController;
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\WordsGroupsController;
 
@@ -43,6 +44,16 @@ Route::group(['prefix' => 'tags'], function () {
     Route::patch('/order/all', [TagsController::class, 'editOrder']);
 
     Route::delete('/{id}', [TagsController::class, 'deleteByID']);
+});
+
+Route::group(['prefix' => 'tagscolor'], function () {
+    Route::get('/', [TagsColorController::class, 'findAll']); 
+    Route::get('/{id}', [TagsColorController::class, 'find']);
+
+    Route::post('/', [TagsColorController::class, 'add']);
+    Route::put('/{id}', [TagsColorController::class, 'edit']);
+
+    Route::delete('/{id}', [TagsColorController::class, 'deleteByID']);
 });
 
 Route::group(['prefix' => 'articles'], function () {

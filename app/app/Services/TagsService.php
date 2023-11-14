@@ -7,7 +7,6 @@ use App\Services\Processors\TagsProcessor;
 use App\Services\Outputs\TagsOutput;
 use App\Observers\TagsObserver;
 use App\Repositories\TagsRepo;
-use PHPUnit\Framework\MockObject\Stub\ReturnSelf;
 
 class TagsService
 {
@@ -22,6 +21,7 @@ class TagsService
         $TagsRepo = new TagsRepo();
         $TagsOutput = new TagsOutput();
         $result = $TagsRepo->findAll();
+        $result = array_map('get_object_vars', $result);
         return $TagsOutput->buildTagsTree($result);
     }
 
@@ -29,9 +29,10 @@ class TagsService
     {     
         $TagsRepo = new TagsRepo();
         $result = $TagsRepo->findRecent();
+        $result = array_map('get_object_vars', $result);
         $i = 0;
         foreach($result as $item){
-            $result[$i]->children = $TagsRepo->findChildren($item['id']);
+            $result[$i]['children'] = $TagsRepo->findChildren($item['id']);
             $i++;
         }
         return $result;
@@ -58,9 +59,10 @@ class TagsService
             $TagsObserver = new TagsObserver();
             $TagsProcessor = new TagsProcessor();
             $TagsRepo = new TagsRepo();
+            $reqData = $TagsProcessor->populate($reqData);
             $TagsObserver->validate($reqData, $id);
             $reqData['ts_level'] = $TagsProcessor->setLevel($TagsRepo, $reqData);
-            $reqData['ts_order'] = $TagsProcessor->setOrder($TagsRepo, $reqData);
+            $reqData['ts_order'] = $TagsProcessor->setOrder($TagsRepo, $reqData, $id);
             $TagsRepo->edit($reqData, $id);
         });
     }

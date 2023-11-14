@@ -23,13 +23,21 @@ class CategoriesService
         $CategoriesRepo = new CategoriesRepo();
         $CategoriesOutput = new CategoriesOutput();
         $result = $CategoriesRepo->findAll();
+        $result = array_map('get_object_vars', $result);
         return $CategoriesOutput->buildCategoriesTree($result);
     }
 
     public function findRecent()
     {     
         $CategoriesRepo = new CategoriesRepo();
-        return $CategoriesRepo->findRecent();
+        $result = $CategoriesRepo->findRecent();
+        $result = array_map('get_object_vars', $result);
+        $i = 0;
+        foreach($result as $item){
+            $result[$i]['children'] = $CategoriesRepo->findChildren($item['id']);
+            $i++;
+        }
+        return $result;
     }
 
     public function add($reqData)
@@ -52,9 +60,10 @@ class CategoriesService
             $CategoriesObserver = new CategoriesObserver();
             $CategoriesProcessor = new CategoriesProcessor();
             $CategoriesRepo = new CategoriesRepo();
+            $reqData = $CategoriesProcessor->populate($reqData);
             $CategoriesObserver->validate($reqData, $id);
             $reqData['cate_level'] = $CategoriesProcessor->setLevel($CategoriesRepo, $reqData);
-            $reqData['cate_order'] = $CategoriesProcessor->setOrder($CategoriesRepo, $reqData);
+            $reqData['cate_order'] = $CategoriesProcessor->setOrder($CategoriesRepo, $reqData, $id);
             $CategoriesRepo->edit($reqData, $id);
         });
     }

@@ -27,14 +27,19 @@ class ArticlesRepo
                     arti.*, cate.cate_name as cate_name,
                     TO_CHAR(arti.created_at, 'YYYY-MM-DD HH24:MI:SS') AS created_at, 
                     TO_CHAR(arti.updated_at, 'YYYY-MM-DD HH24:MI:SS') AS updated_at,
-                    json_build_object('values',                   
+                    json_build_object('values',
                         (
                             SELECT 
-                                json_agg(json_build_object('ts_id', ts.id, 'ts_name', ts.ts_name))
+                                json_agg(json_build_object('ts_id', ts.id, 'ts_name', ts.ts_name,
+                                        'tc_color', tc.tc_color, 'tc_background', tc.tc_background,
+                                        'tc_border', tc.tc_border
+                                ))
                             FROM 
                                 articles_tags ats
                             LEFT JOIN 
                                 tags ts ON ats.ts_id = ts.id
+                            LEFT JOIN 
+                                tags_color tc ON ts.tc_id = tc.id
                             WHERE 
                                 ats.arti_id = arti.id
                         

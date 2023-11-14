@@ -11,11 +11,16 @@ class Tags extends Model
     protected $fillable = 
     [
       'ts_name', 'ts_storage', 'ts_parent_id', 'ts_level', 
-      'ts_order', 'ts_description'
+      'ts_order', 'ts_description', 'tc_id'
     ];
    
     public function parent()
     {
       return $this->belongsTo(Tags::class, 'ts_parent_id', 'id');
+    }
+
+    public function tagsColor()
+    {
+        return $this->belongsTo(TagsColor::class, 'tc_id', 'id');
     }
 }

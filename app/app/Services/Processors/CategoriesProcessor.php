@@ -25,8 +25,14 @@ class CategoriesProcessor
         } 
     }
 
-    public function setOrder($CategoriesRepo, $reqData){
+    public function setOrder($CategoriesRepo, $reqData, $id = null){
         if(isset($reqData['cate_parent_id']) && $reqData['cate_parent_id'] != null){
+            if($id){
+                $single = $CategoriesRepo->find($id);
+                if(!$single->cate_parent_id){
+                    return $reqData['cate_order'];
+                }
+            }
             $children = $CategoriesRepo->findMaxOrderByParent($reqData['cate_parent_id']);
             if($children->sibling_count == 0){
                 return 0;
@@ -34,6 +40,12 @@ class CategoriesProcessor
                 return $children->max_cate_order + 1;
             }                
         }else{
+            if($id){
+                $single = $CategoriesRepo->find($id);
+                if($single->cate_parent_id == null || $single->cate_parent_id == ''){
+                    return $single->cate_order;
+                }
+            }
             $sibling = $CategoriesRepo->findOrderInFirstLevel();
             if($sibling && $sibling != null){
                 return $sibling->max_cate_order + 1;

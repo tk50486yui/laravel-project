@@ -14,20 +14,48 @@ class TagsRepo
 
     public function findAll()
     {     
-        return Tags::orderBy('ts_order', 'ASC')->get();
+        $query = "SELECT 
+                    ts.*,
+                    parent.ts_name AS ts_parent_name,
+                    tc.tc_color AS tc_color,
+                    tc.tc_background AS tc_background,
+                    tc.tc_border AS tc_border
+                FROM 
+                    tags ts
+                LEFT JOIN 
+                    tags AS parent ON ts.ts_parent_id = parent.id
+                LEFT JOIN 
+                    tags_color AS tc ON ts.tc_id = tc.id
+                ORDER BY 
+                    ts.ts_order ASC";
+
+        return DB::select($query);
     } 
+
+    public function findRecent()
+    {     
+        $query = "SELECT 
+                    ts.*,
+                    parent.ts_name AS ts_parent_name,
+                    tc.tc_color AS tc_color,
+                    tc.tc_background AS tc_background,
+                    tc.tc_border AS tc_border
+                FROM 
+                    tags ts
+                LEFT JOIN 
+                    tags AS parent ON ts.ts_parent_id = parent.id
+                LEFT JOIN 
+                    tags_color AS tc ON ts.tc_id = tc.id
+                ORDER BY 
+                    ts.created_at DESC, ts.updated_at DESC";
+
+        return DB::select($query);
+    }
 
     public function findByName($ts_name)
     {
         return Tags::where('ts_name', $ts_name)->first();
-    }
-
-    public function findRecent()
-    {     
-        return Tags::orderBy('created_at', 'DESC')
-                    ->orderBy('updated_at', 'DESC')
-                    ->get();
-    }
+    }  
 
     public function add($data)
     {
@@ -35,7 +63,8 @@ class TagsRepo
             'ts_name' => $data['ts_name'],
             'ts_parent_id' => $data['ts_parent_id'],
             'ts_level' => $data['ts_level'],
-            'ts_order' => $data['ts_order']
+            'ts_order' => $data['ts_order'],
+            'tc_id' => $data['tc_id']
         ]);
         
         return $new->id;
@@ -47,8 +76,9 @@ class TagsRepo
         $tags->update([
             'ts_name' => $data['ts_name'],
             'ts_parent_id' => $data['ts_parent_id'],
+            'ts_order' => $data['ts_order'],
             'ts_level' => $data['ts_level'],
-            'ts_order' => $data['ts_order']
+            'tc_id' => $data['tc_id']
         ]);
     }
 
@@ -110,5 +140,10 @@ class TagsRepo
     public function deleteByID($id)
     {
         Tags::where('id', $id)->delete();
+    }
+
+    public function updateNullByTcID($tc_id)
+    {
+        Tags::where('tc_id', $tc_id)->update(['tc_id' => null]);
     }
 }

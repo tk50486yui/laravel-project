@@ -62,6 +62,7 @@ class CategoriesValidator
         }
         // 透過樹狀檢查子類別
         $all = $CategoriesRepo->findAll();
+        $all = array_map('get_object_vars', $all);
         $tree = $CategoriesOutput->buildCategoriesTree($all);
         if ($this->validateParent($tree, $id, $cate_parent_id)) {
             return false;

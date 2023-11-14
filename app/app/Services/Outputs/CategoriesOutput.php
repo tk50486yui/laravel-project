@@ -21,6 +21,7 @@ class CategoriesOutput
                     'cate_parent_id' => $category['cate_parent_id'],
                     'cate_level' => $category['cate_level'],
                     'cate_order' => $category['cate_order'],
+                    'cate_parent_name' => $category['cate_parent_name'],
                     'parents' => $parents,
                     'children' => $this->buildCategoriesTree($categories, $category['id'], array_merge($parents, [$category['id']]))
                 );

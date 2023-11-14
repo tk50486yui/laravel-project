@@ -51,6 +51,9 @@ class TagsObserver
     */
     public function creating(Tags $tags)
     {    
+        if ($tags->tc_id != null && !$tags->tagsColor) {
+            throw new Custom\InvalidForeignKeyException();
+        }
         $this->setDefault($tags);
     }
 
@@ -62,6 +65,10 @@ class TagsObserver
     */
     public function updating(Tags $tags)
     {
-        $this->setDefault($tags);
+        if ($tags->isDirty('tc_id')) {
+            if ($tags->tc_id != null && !$tags->tagsColor) {
+                throw new Custom\InvalidForeignKeyException();
+            }
+        }       
     }   
 }

@@ -62,6 +62,7 @@ class TagsValidator
         }      
         // 透過樹狀檢查子類別
         $all = $TagsRepo->findAll();
+        $all = array_map('get_object_vars', $all);
         $tree = $TagsOutput->buildTagsTree($all);
         if ($this->validateParent($tree, $id, $ts_parent_id)) {
             return false;

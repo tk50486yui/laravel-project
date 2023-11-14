@@ -55,7 +55,7 @@ class CategoriesObserver
      * @return void
     */
     public function updating(Categories $categories)
-    {        
-        $this->setDefault($categories);
+    {
+        
     }   
 }
