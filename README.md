@@ -4,7 +4,7 @@
 
 搭配 Vue 前端：[vue-vocabulary](https://github.com/tk50486yui/vue-vocabulary.git)
 
-後端 Slim 版本：[slim-vocabulary](https://github.com/tk50486yui/slim-vocabulary.git)
+Slim 版本（舊）：[slim-vocabulary](https://github.com/tk50486yui/slim-vocabulary.git)
 
 ---
 ## PHP 7.2.12
