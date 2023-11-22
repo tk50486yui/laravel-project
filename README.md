@@ -20,7 +20,8 @@
 ---
 ## 目錄架構
 ```    
-   + app
++ laravel-vocabulary
+    │
     ├─ app                      // 主程式目錄
     │   ├─ Console
     │   ├─ Exceptions
