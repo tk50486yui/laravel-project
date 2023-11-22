@@ -5,7 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\DB;
 use App\Services\Processors\TagsProcessor;
 use App\Services\Outputs\TagsOutput;
-use App\Observers\TagsObserver;
+use App\Validators\TagsValidator;
 use App\Repositories\TagsRepo;
 
 class TagsService
@@ -41,10 +41,10 @@ class TagsService
     public function add($reqData)
     {
         DB::transaction(function () use ($reqData){
-            $TagsObserver = new TagsObserver();
+            $TagsValidator = new TagsValidator();
             $TagsProcessor = new TagsProcessor();
             $TagsRepo = new TagsRepo();
-            $TagsObserver->validate($reqData, null);
+            $TagsValidator->validate($reqData, null);
             $reqData = $TagsProcessor->populate($reqData);
             $reqData['ts_level'] = $TagsProcessor->setLevel($TagsRepo, $reqData);
             $reqData['ts_order'] = $TagsProcessor->setOrder($TagsRepo, $reqData);
@@ -56,11 +56,11 @@ class TagsService
     public function edit($reqData, $id)
     {
         DB::transaction(function () use ($reqData, $id){
-            $TagsObserver = new TagsObserver();
+            $TagsValidator = new TagsValidator();
             $TagsProcessor = new TagsProcessor();
             $TagsRepo = new TagsRepo();
             $reqData = $TagsProcessor->populate($reqData);
-            $TagsObserver->validate($reqData, $id);
+            $TagsValidator->validate($reqData, $id);
             $reqData['ts_level'] = $TagsProcessor->setLevel($TagsRepo, $reqData);
             $reqData['ts_order'] = $TagsProcessor->setOrder($TagsRepo, $reqData, $id);
             $TagsRepo->edit($reqData, $id);
@@ -70,10 +70,10 @@ class TagsService
     public function editOrder($reqData)
     {
         DB::transaction(function () use ($reqData){
-            $TagsObserver = new TagsObserver();
+            $TagsValidator = new TagsValidator();
             $TagsRepo = new TagsRepo();
             foreach($reqData as $item){
-                $TagsObserver->validate($item, $item['id'], false);
+                $TagsValidator->validate($item, $item['id'], false);
                 $TagsRepo->editOrder($item['ts_order'], $item['id']);
             }
         });
@@ -82,10 +82,10 @@ class TagsService
     public function deleteByID($id)
     {     
         DB::transaction(function () use ($id){
-            $TagsObserver = new TagsObserver();
+            $TagsValidator = new TagsValidator();
             $TagsProcessor = new TagsProcessor();
             $TagsRepo = new TagsRepo();
-            $TagsObserver->validate(array(), $id, false);
+            $TagsValidator->validate(array(), $id, false);
             $children = $TagsRepo->findChildren($id);
             $TagsRepo->deleteByID($id);
             foreach($children as $item){

@@ -5,8 +5,8 @@ namespace App\Services;
 use Illuminate\Support\Facades\DB;
 use App\Services\Processors\WordsProcessor;
 use App\Services\Outputs\WordsOutput;
-use App\Observers\WordsObserver;
-use App\Observers\WordsTagsObserver;
+use App\Validators\WordsValidator;
+use App\Validators\WordsTagsValidator;
 use App\Repositories\WordsRepo;
 use App\Repositories\WordsTagsRepo;
 
@@ -37,12 +37,12 @@ class WordsService
     {      
         DB::transaction(function () use ($reqData){
             $WordsProcessor = new WordsProcessor();
-            $WordsObserver = new WordsObserver();            
-            $WordsTagsObserver = new WordsTagsObserver();
+            $WordsValidator = new WordsValidator();
+            $WordsTagsValidator = new WordsTagsValidator();
             $WordsRepo = new WordsRepo();
             $WordsTagsRepo = new WordsTagsRepo();
             $reqData = $WordsProcessor->populate($reqData);
-            $WordsObserver->validate($reqData, null);
+            $WordsValidator->validate($reqData, null);
             $array_ts_id = $WordsProcessor->begin($reqData);
             $id = $WordsRepo->add($reqData);
             if($array_ts_id){
@@ -50,7 +50,7 @@ class WordsService
                     $new = array();
                     $new['ws_id'] = $id;
                     $new['ts_id'] = $item;
-                    $WordsTagsObserver->validate($new, null);
+                    $WordsTagsValidator->validate($new, null);
                     $WordsTagsRepo->add($new);
                 }
             }
@@ -62,12 +62,12 @@ class WordsService
     {
         DB::transaction(function () use ($reqData, $id){
             $WordsProcessor = new WordsProcessor();
-            $WordsObserver = new WordsObserver();
-            $WordsTagsObserver = new WordsTagsObserver();
+            $WordsValidator = new WordsValidator();
+            $WordsTagsValidator = new WordsTagsValidator();
             $WordsRepo = new WordsRepo();
             $WordsTagsRepo = new WordsTagsRepo();
             $reqData = $WordsProcessor->populate($reqData);
-            $WordsObserver->validate($reqData, $id);
+            $WordsValidator->validate($reqData, $id);
             $array_ts_id = $WordsProcessor->begin($reqData); 
             $WordsRepo->edit($reqData, $id);
             if($array_ts_id){
@@ -76,7 +76,7 @@ class WordsService
                     $new = array();
                     $new['ws_id'] = $id;
                     $new['ts_id'] = $item;
-                    $WordsTagsObserver->validate($new, null);
+                    $WordsTagsValidator->validate($new, null);
                     $WordsTagsRepo->add($new);
                 }
             }else{
@@ -89,9 +89,9 @@ class WordsService
     public function editCommon($reqData, $id)
     {
         DB::transaction(function () use ($reqData, $id){
-            $WordsObserver = new WordsObserver();
+            $WordsValidator = new WordsValidator();
             $WordsRepo = new WordsRepo();
-            $WordsObserver->validate($reqData, $id, false);
+            $WordsValidator->validate($reqData, $id, false);
             $WordsRepo->editCommon($reqData, $id);
         });       
     }
@@ -99,9 +99,9 @@ class WordsService
     public function editImportant($reqData, $id)
     {
         DB::transaction(function () use ($reqData, $id){
-            $WordsObserver = new WordsObserver();
+            $WordsValidator = new WordsValidator();
             $WordsRepo = new WordsRepo();
-            $WordsObserver->validate($reqData, $id, false);
+            $WordsValidator->validate($reqData, $id, false);
             $WordsRepo->editImportant($reqData, $id);
         });
        
@@ -110,9 +110,9 @@ class WordsService
     public function deleteByID($id)
     {     
         DB::transaction(function () use ($id){
-            $WordsObserver = new WordsObserver();
+            $WordsValidator = new WordsValidator();
             $WordsRepo = new WordsRepo();
-            $WordsObserver->validate(array(), $id, false);
+            $WordsValidator->validate(array(), $id, false);
             $WordsRepo->deleteByID($id);
         });
     }

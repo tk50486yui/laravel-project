@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Observers\Validators;
+namespace App\Validators\ModelValidators;
 
 use App\Repositories\CategoriesRepo;
 use App\Services\Outputs\CategoriesOutput;
 
-class CategoriesValidator
+class CategoriesModelValidator
 {
     public function checkID($id)
     {      

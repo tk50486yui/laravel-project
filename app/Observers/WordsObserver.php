@@ -3,21 +3,10 @@
 namespace App\Observers;
 
 use App\Models\Words;
-use App\Observers\Validators\WordsValidator;
 use App\Exceptions\Custom;
 
 class WordsObserver
 {
-    public function validate($data, $id, $checkDup = true){
-        $WordsValidator = new WordsValidator();
-        if($id != null && !$WordsValidator->checkID($id)){
-            throw new Custom\RecordNotFoundException();
-        }
-        if($checkDup && !$WordsValidator->dupName($data['ws_name'], $id)){
-            throw new Custom\DuplicateException();
-        }
-    }
-
     public function setDefault($words){
         if ($words->ws_is_important == null) {
             $words->ws_is_important = false;

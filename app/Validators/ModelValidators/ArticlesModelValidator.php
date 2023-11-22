@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Observers\Validators;
+namespace App\Validators\ModelValidators;
 
 use App\Repositories\ArticlesRepo;
 
-class ArticlesValidator
+class ArticlesModelValidator
 {
     public function checkID($id)
     {      

@@ -3,19 +3,10 @@
 namespace App\Observers;
 
 use App\Models\Articles;
-use App\Observers\Validators\ArticlesValidator;
 use App\Exceptions\Custom;
 
 class ArticlesObserver
 {
-    public function validate($data, $id, $checkDup = true)
-    {
-        $ArticlesValidator = new ArticlesValidator();
-        if($id != null && !$ArticlesValidator->checkID($id)){
-            throw new Custom\RecordNotFoundException();
-        }
-    }
-
     public function setDefault($articles){
         if ($articles->arti_order == null) {
             $articles->arti_order = 0;

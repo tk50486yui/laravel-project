@@ -2,18 +2,31 @@
 
 namespace App\Observers;
 
-use App\Observers\Validators\TagsColorValidator;
-use App\Exceptions\Custom;
+use App\Models\TagsColor;
 
 class TagsColorObserver
 {
-    public function validate($data, $id){
-        $TagsColorValidator = new TagsColorValidator();
-     
-        if($id != null && !$TagsColorValidator->checkID($id)){
-            throw new Custom\RecordNotFoundException();
-        }
-       
+    
+    /**
+     * Handle the tagsColor "creating" event.
+     *
+     * @param  \App\TagsColor  $tagsColor
+     * @return void
+    */
+    public function creating(TagsColor $tagsColor)
+    {
+      
+    }
+
+    /**
+     * Handle the tagsColor "updating" event.
+     *
+     * @param  \App\TagsColor  $tagsColor
+     * @return void
+    */
+    public function updating(TagsColor $tagsColor)
+    {
+        
     }   
-   
+
 }

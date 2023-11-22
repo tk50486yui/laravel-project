@@ -4,8 +4,8 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
 use App\Services\Processors\WordsGroupsProcessor;
-use App\Observers\WordsGroupsObserver;
-use App\Observers\WordsGroupsDetailsObserver;
+use App\Validators\WordsGroupsValidator;
+use App\Validators\WordsGroupsDetailsValidator;
 use App\Repositories\WordsGroupsRepo;
 use App\Repositories\WordsGroupsDetailsRepo;
 
@@ -37,11 +37,11 @@ class WordsGroupsService
     {        
         DB::transaction(function () use ($reqData){
             $WordsGroupsProcessor = new WordsGroupsProcessor();
-            $WordsGroupsObserver = new WordsGroupsObserver();            
-            $WordsGroupsDetailsObserver = new WordsGroupsDetailsObserver();
+            $WordsGroupsValidator = new WordsGroupsValidator();
+            $WordsGroupsDetailsValidator = new WordsGroupsDetailsValidator();
             $WordsGroupsRepo = new WordsGroupsRepo();
             $WordsGroupsDetailsRepo = new WordsGroupsDetailsRepo();
-            $WordsGroupsObserver->validate($reqData, null);
+            $WordsGroupsValidator->validate($reqData, null);
             $wgd_array = $WordsGroupsProcessor->begin($reqData);
             $id = $WordsGroupsRepo->add($reqData);
             if($wgd_array){
@@ -49,7 +49,7 @@ class WordsGroupsService
                     $new = array();
                     $new['wg_id'] = $id;
                     $new['ws_id'] = $item;
-                    $WordsGroupsDetailsObserver->validate($new, null);
+                    $WordsGroupsDetailsValidator->validate($new, null);
                     $WordsGroupsDetailsRepo->add($new);
                 }
             }
@@ -60,11 +60,11 @@ class WordsGroupsService
     {        
         DB::transaction(function () use ($reqData, $id){
             $WordsGroupsProcessor = new WordsGroupsProcessor();
-            $WordsGroupsObserver = new WordsGroupsObserver();            
-            $WordsGroupsDetailsObserver = new WordsGroupsDetailsObserver();
+            $WordsGroupsValidator = new WordsGroupsValidator();            
+            $WordsGroupsDetailsValidator = new WordsGroupsDetailsValidator();
             $WordsGroupsRepo = new WordsGroupsRepo();
             $WordsGroupsDetailsRepo = new WordsGroupsDetailsRepo();
-            $WordsGroupsObserver->validate($reqData, $id);
+            $WordsGroupsValidator->validate($reqData, $id);
             $wgd_array = $WordsGroupsProcessor->begin($reqData);
             $WordsGroupsRepo->edit($reqData, $id);
             if($wgd_array){
@@ -73,7 +73,7 @@ class WordsGroupsService
                     $new = array();
                     $new['wg_id'] = $id;
                     $new['ws_id'] = $item;
-                    $WordsGroupsDetailsObserver->validate($new, null);
+                    $WordsGroupsDetailsValidator->validate($new, null);
                     $WordsGroupsDetailsRepo->add($new);
                 }
             }else{
@@ -85,9 +85,9 @@ class WordsGroupsService
     public function deleteByID($id)
     {     
         DB::transaction(function () use ($id){
-            $WordsGroupsObserver = new WordsGroupsObserver();
+            $WordsGroupsValidator = new WordsGroupsValidator();
             $WordsGroupsRepo = new WordsGroupsRepo();
-            $WordsGroupsObserver->validate(array(), $id, false);
+            $WordsGroupsValidator->validate(array(), $id, false);
             $WordsGroupsRepo->deleteByID($id);
         });
     }

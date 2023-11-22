@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Observers\Validators;
+namespace App\Validators\ModelValidators;
 
 use App\Repositories\WordsRepo;
 
-class WordsValidator
+class WordsModelValidator
 {
     public function checkID($id)
     {      

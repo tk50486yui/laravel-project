@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Observers\Validators;
+namespace App\Validators\ModelValidators;
 
 use App\Repositories\WordsGroupsRepo;
 
-class WordsGroupsValidator
+class WordsGroupsModelValidator
 {    
     public function dupName($wg_name, $id)
     {      

@@ -5,8 +5,8 @@ namespace App\Services;
 use Illuminate\Support\Facades\DB;
 use App\Services\Processors\ArticlesProcessor;
 use App\Services\Outputs\ArticlesOutput;
-use App\Observers\ArticlesObserver;
-use App\Observers\ArticlesTagsObserver;
+use App\Validators\ArticlesValidator;
+use App\Validators\ArticlesTagsValidator;
 use App\Repositories\ArticlesRepo;
 use App\Repositories\ArticlesTagsRepo;
 
@@ -37,12 +37,12 @@ class ArticlesService
     { 
         DB::transaction(function () use ($reqData){
             $ArticlesProcessor = new ArticlesProcessor();
-            $ArticlesObserver = new ArticlesObserver();
-            $ArticlesTagsObserver = new ArticlesTagsObserver();
+            $ArticlesValidator = new ArticlesValidator();
+            $ArticlesTagsValidator = new ArticlesTagsValidator();
             $ArticlesRepo = new ArticlesRepo();
             $ArticlesTagsRepo = new ArticlesTagsRepo();
             $reqData = $ArticlesProcessor->populate($reqData);
-            $ArticlesObserver->validate($reqData, null);
+            $ArticlesValidator->validate($reqData, null);
             $array_ts_id = $ArticlesProcessor->begin($reqData);
             $id = $ArticlesRepo->add($reqData);
             if($array_ts_id){
@@ -50,7 +50,7 @@ class ArticlesService
                     $new = array();
                     $new['arti_id'] = $id;
                     $new['ts_id'] = $item;
-                    $ArticlesTagsObserver->validate($new, null);
+                    $ArticlesTagsValidator->validate($new, null);
                     $ArticlesTagsRepo->add($new);
                 }
             }
@@ -61,11 +61,11 @@ class ArticlesService
     { 
         DB::transaction(function () use ($reqData, $id){
             $ArticlesProcessor = new ArticlesProcessor();
-            $ArticlesObserver = new ArticlesObserver();
-            $ArticlesTagsObserver = new ArticlesTagsObserver();
+            $ArticlesValidator = new ArticlesValidator();
+            $ArticlesTagsValidator = new ArticlesTagsValidator();
             $ArticlesRepo = new ArticlesRepo();
             $ArticlesTagsRepo = new ArticlesTagsRepo();
-            $ArticlesObserver->validate($reqData, $id);
+            $ArticlesValidator->validate($reqData, $id);
             $array_ts_id = $ArticlesProcessor->begin($reqData);
             $ArticlesRepo->edit($reqData, $id);
             if($array_ts_id){
@@ -74,7 +74,7 @@ class ArticlesService
                     $new = array();
                     $new['arti_id'] = $id;
                     $new['ts_id'] = $item;
-                    $ArticlesTagsObserver->validate($new, null);
+                    $ArticlesTagsValidator->validate($new, null);
                     $ArticlesTagsRepo->add($new);
                 }
             }else{
@@ -86,9 +86,9 @@ class ArticlesService
     public function deleteByID($id)
     {     
         DB::transaction(function () use ($id){
-            $ArticlesObserver = new ArticlesObserver();
+            $ArticlesValidator = new ArticlesValidator();
             $ArticlesRepo = new ArticlesRepo();
-            $ArticlesObserver->validate(array(), $id, false);
+            $ArticlesValidator->validate(array(), $id, false);
             $ArticlesRepo->deleteByID($id);
         });
     }

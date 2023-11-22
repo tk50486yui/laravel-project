@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Observers\Validators;
+namespace App\Validators\ModelValidators;
 
 use App\Repositories\WordsTagsRepo;
 
-class WordsTagsValidator
+class WordsTagsModelValidator
 {
     public function dupKey($data)
     {

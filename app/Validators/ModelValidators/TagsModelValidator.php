@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Observers\Validators;
+namespace App\Validators\ModelValidators;
 
 use App\Repositories\TagsRepo;
 use App\Services\Outputs\TagsOutput;
 
-class TagsValidator
+class TagsModelValidator
 {
     public function checkID($id)
     {      

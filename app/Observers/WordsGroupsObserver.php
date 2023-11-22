@@ -3,18 +3,9 @@
 namespace App\Observers;
 
 use App\Models\WordsGroups;
-use App\Observers\Validators\WordsGroupsValidator;
-use App\Exceptions\Custom;
 
 class WordsGroupsObserver
 {
-    public function validate($data, $id, $checkDup = true){
-        $WordsGroupsValidator = new WordsGroupsValidator();
-        if($checkDup && !$WordsGroupsValidator->dupName($data['wg_name'], $id)){
-            throw new Custom\DuplicateException();
-        }
-    }   
-
     /**
      * Handle the WordsGroups "creating" event.
      *

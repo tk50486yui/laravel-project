@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Observers\Validators;
+namespace App\Validators\ModelValidators;
 
 use App\Repositories\WordsGroupsDetailsRepo;
 
-class WordsGroupsDetailsValidator
+class WordsGroupsDetailsModelValidator
 {    
     public function dupKey($data)
     {

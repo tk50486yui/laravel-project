@@ -5,7 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\TagsColorRepo;
 use App\Repositories\TagsRepo;
-use App\Observers\TagsColorObserver;
+use App\Validators\TagsColorValidator;
 
 class TagsColorService
 {
@@ -24,9 +24,9 @@ class TagsColorService
     public function add($reqData)
     {
         DB::transaction(function () use ($reqData){
-            $TagsColorObserver = new TagsColorObserver();
+            $TagsColorValidator = new TagsColorValidator();
             $TagsColorRepo = new TagsColorRepo();
-            $TagsColorObserver->validate($reqData, null);
+            $TagsColorValidator->validate($reqData, null);
             $TagsColorRepo->add($reqData);
         });
        
@@ -35,9 +35,9 @@ class TagsColorService
     public function edit($reqData, $id)
     {
         DB::transaction(function () use ($reqData, $id){
-            $TagsColorObserver = new TagsColorObserver();
+            $TagsColorValidator = new TagsColorValidator();
             $TagsColorRepo = new TagsColorRepo();
-            $TagsColorObserver->validate($reqData, $id);
+            $TagsColorValidator->validate($reqData, $id);
             $TagsColorRepo->edit($reqData, $id);
         });
     }   
@@ -45,10 +45,10 @@ class TagsColorService
     public function deleteByID($id)
     {     
         DB::transaction(function () use ($id){
-            $TagsColorObserver = new TagsColorObserver();
+            $TagsColorValidator = new TagsColorValidator();
             $TagsColorRepo = new TagsColorRepo();
             $TagsRepo = new TagsRepo();
-            $TagsColorObserver->validate(array(), $id, false);
+            $TagsColorValidator->validate(array(), $id, false);
             $TagsRepo->updateNullByTcID($id); // tags tc_id
             $TagsColorRepo->deleteByID($id);
         });

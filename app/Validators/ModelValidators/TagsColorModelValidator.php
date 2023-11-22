@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Observers\Validators;
+namespace App\Validators\ModelValidators;
 
 use App\Repositories\TagsColorRepo;
 
-class TagsColorValidator
+class TagsColorModelValidator
 {
     public function checkID($id)
     {      
