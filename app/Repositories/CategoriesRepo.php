@@ -78,6 +78,26 @@ class CategoriesRepo
         ]);
     }
 
+    public function findParentExistByID($id, $cate_parent_id)
+    { 
+        $bindings = array(
+            'id' => $id,
+            'cate_parent_id' => $cate_parent_id
+        );
+        $query = "SELECT EXISTS (
+                    SELECT 1
+                    FROM 
+                        categories
+                    WHERE 
+                        id = :id AND (
+                        cate_parent_id = :cate_parent_id OR 
+                            (cate_parent_id IS NULL AND :cate_parent_id IS NULL)
+                        )
+                ) AS is_parent_change";
+
+        return DB::selectOne($query, $bindings);
+    }
+
     public function findChildren($id)
     { 
         $query = "SELECT * FROM categories 

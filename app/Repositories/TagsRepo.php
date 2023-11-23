@@ -90,6 +90,26 @@ class TagsRepo
         ]);
     }
 
+    public function findParentExistByID($id, $ts_parent_id)
+    { 
+        $bindings = array(
+            'id' => $id,
+            'ts_parent_id' => $ts_parent_id
+        );
+        $query = "SELECT EXISTS (
+                    SELECT 1
+                    FROM 
+                        tags
+                    WHERE 
+                        id = :id AND (
+                        ts_parent_id = :ts_parent_id OR 
+                            (ts_parent_id IS NULL AND :ts_parent_id IS NULL)
+                        )
+                ) AS is_parent_change";
+
+        return DB::selectOne($query, $bindings);
+    }
+
     public function findChildren($id)
     { 
         $query = "SELECT * FROM tags

@@ -28,12 +28,14 @@ class TagsProcessor
 
     public function setOrder($TagsRepo, $reqData, $id = null){
         if(isset($reqData['ts_parent_id']) && $reqData['ts_parent_id'] != null){
-            if($id){
-                $single = $TagsRepo->find($id);
-                if(!$single->ts_parent_id){
+            if($id){ // update
+                $result = $TagsRepo->findParentExistByID($id, $reqData['ts_parent_id']);
+                 // 若 ts_parent_id 沒變動 則接受 request 的值
+                 if($result->is_parent_change === true){
                     return $reqData['ts_order'];
                 }
             }
+             // add 或 ts_parent_id 若變動
             $children = $TagsRepo->findMaxOrderByParent($reqData['ts_parent_id']);
             if($children->sibling_count == 0){
                 return 0;
@@ -41,7 +43,7 @@ class TagsProcessor
                 return $children->max_ts_order + 1;
             } 
         }else{
-            if($id){
+            if($id){ // update
                 $single = $TagsRepo->find($id);
                 if($single->ts_parent_id == null || $single->ts_parent_id == ''){
                     return $single->ts_order;
