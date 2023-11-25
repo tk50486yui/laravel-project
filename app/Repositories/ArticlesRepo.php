@@ -30,10 +30,14 @@ class ArticlesRepo
                     json_build_object('values',
                         (
                             SELECT 
-                                json_agg(json_build_object('ts_id', ts.id, 'ts_name', ts.ts_name,
-                                        'tc_color', tc.tc_color, 'tc_background', tc.tc_background,
-                                        'tc_border', tc.tc_border
-                                ))
+                                json_agg(json_build_object(
+                                            'ts_id', ts.id, 
+                                            'ts_name', ts.ts_name,
+                                            'tc_color', COALESCE(tc.tc_color, '#fff'), 
+                                            'tc_background', COALESCE(tc.tc_background, '#000'),
+                                            'tc_border', COALESCE(tc.tc_border, 'rgb(244, 202, 202)')
+                                        )
+                                )
                             FROM 
                                 articles_tags ats
                             LEFT JOIN 

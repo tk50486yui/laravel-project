@@ -13,7 +13,7 @@ class TagsProcessor
         $data['ts_name'] = $data['ts_name'] ?? null;
         $data['ts_parent_id'] = $data['ts_parent_id'] ?? null;
         $data['tc_id'] = $data['tc_id'] ?? null;
-
+      
         return $data;
     }
 

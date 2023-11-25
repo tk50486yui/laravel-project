@@ -17,9 +17,9 @@ class TagsRepo
         $query = "SELECT 
                     ts.*,
                     parent.ts_name AS ts_parent_name,
-                    tc.tc_color AS tc_color,
-                    tc.tc_background AS tc_background,
-                    tc.tc_border AS tc_border
+                    COALESCE(tc.tc_color, '#fff') AS tc_color,
+                    COALESCE(tc.tc_background, '#000') AS tc_background,
+                    COALESCE(tc.tc_border, 'rgb(244, 202, 202)') AS tc_border
                 FROM 
                     tags ts
                 LEFT JOIN 
@@ -37,9 +37,9 @@ class TagsRepo
         $query = "SELECT 
                     ts.*,
                     parent.ts_name AS ts_parent_name,
-                    tc.tc_color AS tc_color,
-                    tc.tc_background AS tc_background,
-                    tc.tc_border AS tc_border
+                    COALESCE(tc.tc_color, '#fff') AS tc_color,
+                    COALESCE(tc.tc_background, '#000') AS tc_background,
+                    COALESCE(tc.tc_border, 'rgb(244, 202, 202)') AS tc_border
                 FROM 
                     tags ts
                 LEFT JOIN 
