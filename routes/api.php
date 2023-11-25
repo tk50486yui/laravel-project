@@ -18,6 +18,8 @@ Route::group(['prefix' => 'words'], function () {
     Route::patch('/important/{id}', [WordsController::class, 'editImportant']);
 
     Route::delete('/{id}', [WordsController::class, 'deleteByID']);
+
+    Route::post('/upload', [WordsController::class, 'upload']);
 });
 
 Route::group(['prefix' => 'categories'], function () {

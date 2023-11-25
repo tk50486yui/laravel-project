@@ -68,5 +68,14 @@ class WordsController extends Controller
         $WordsService->deleteByID($id);
         return Messages::Success();
     }
+
+    public function upload(Request $request)
+    { 
+        $uploadedFile = $request->file('ws_file');
+        //echo $request['ws_name'];
+        $fileName = uniqid() . '_' . $uploadedFile->getClientOriginalName();
+        $filePath = $uploadedFile->storeAs('uploads', $fileName, 'public');
+        return Messages::Success();
+    }
     
 }
