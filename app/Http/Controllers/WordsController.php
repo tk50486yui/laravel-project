@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
-
 
 use Illuminate\Http\Request;
 use App\Http\Requests\Words;
+use App\Services\RedisService;
 use App\Services\WordsService;
 use App\Exceptions\Custom\RecordNotFoundException;
 use App\Exceptions\Custom\Responses\Messages;
@@ -12,9 +11,17 @@ use Illuminate\Support\Facades\Storage;
 
 class WordsController extends Controller
 {
+    protected $redis;
+    protected $redisPrefix = 'Words';
+
+    public function __construct(RedisService $serv)
+    {
+        $this->redis = $serv;
+    }
+
     public function find(Request $request, $id)
     {
-        $WordsService = new WordsService();       
+        $WordsService = new WordsService();
         $result = $WordsService->find($id);
         if(!$result){
             throw new RecordNotFoundException();
@@ -25,17 +32,24 @@ class WordsController extends Controller
 
     public function findAll()
     {
-        $WordsService = new WordsService();
-        $result = $WordsService->findAll();
-       
-        return response()->json($result);
+        return response()->json(
+            $this->redis->cache(
+                $this->redisPrefix, 
+                __FUNCTION__,
+                function () {
+                    $WordsService = new WordsService();
+                    return $WordsService->findAll();
+                }
+            )
+        );
     }
 
     public function add(Words\WordsRequest $request)
-    {        
+    {
         $reqData = $request->validated();
         $WordsService = new WordsService();
         $WordsService->add($reqData);
+        $this->redis->update($this->redisPrefix, $WordsService);
         return Messages::Success();
     }
 
@@ -44,6 +58,7 @@ class WordsController extends Controller
         $reqData = $request->validated();
         $WordsService = new WordsService();
         $WordsService->edit($reqData, $id);
+        $this->redis->update($this->redisPrefix, $WordsService);
         return Messages::Success();
     }
 
@@ -52,6 +67,7 @@ class WordsController extends Controller
         $reqData = $request->validated();
         $WordsService = new WordsService();
         $WordsService->editCommon($reqData, $id);
+        $this->redis->update($this->redisPrefix, $WordsService);
         return Messages::Success();
     }
 
@@ -60,6 +76,7 @@ class WordsController extends Controller
         $reqData = $request->validated();
         $WordsService = new WordsService();
         $WordsService->editImportant($reqData, $id);
+        $this->redis->update($this->redisPrefix, $WordsService);
         return Messages::Success();
     }
 
@@ -67,14 +84,13 @@ class WordsController extends Controller
     {
         $WordsService = new WordsService();
         $WordsService->deleteByID($id);
+        $this->redis->update($this->redisPrefix, $WordsService);
         return Messages::Success();
     }
 
     public function upload(Request $request)
-    { 
-        echo $request;
+    {       
         $uploadedFile = $request->file('ws_file');
-        //echo $request['ws_name'];
         $fileName = uniqid() . '_' . $uploadedFile->getClientOriginalName();
         $filePath = $uploadedFile->storeAs('uploads', $fileName, 'public');
         /*$fileToDelete = 'uploads/6562e26c35060_S__70443015.jpg';
@@ -85,24 +101,19 @@ class WordsController extends Controller
             echo 'file not found for deletion  ';
         }*/
         if(Storage::disk('public')->exists($filePath)){
-            echo $filePath;
-            echo '  upload file is exist';
+            echo 'upload file is exist';
         }
         return Messages::Success();
     }
 
     public function uppyUpload(Request $request)
     { 
-   
-        $client = new \TusPhp\Tus\Client('http://localhost/git/laravel-vocabulary/public/api/words/server/tus');
        
-        $fileMeta = $request->file('file');     
-        //echo $_FILES['ws_file']['name'];
-       // echo $_FILES["file"];
+        $fileMeta = $request->file('file');
         $fileName = uniqid() . '_' . $fileMeta->getClientOriginalName();
-       // $uploadKey = hash_file('md5', $fileMeta);     
         $filePath = $fileMeta->storeAs('uploads',  $fileName, 'public');
-       
-    }
+
+        return Messages::Success();
+    }   
     
 }

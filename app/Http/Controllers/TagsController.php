@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\RedisService;
 use App\Services\TagsService;
 use App\Http\Requests\Tags\TagsRequest;
 use App\Http\Requests\Tags\TagsOrderRequest;
@@ -11,6 +12,14 @@ use App\Exceptions\Custom\Responses\Messages;
 
 class TagsController extends Controller
 {
+    protected $redis;
+    protected $redisPrefix = 'Tags';
+
+    public function __construct(RedisService $serv)
+    {
+        $this->redis = $serv;
+    }
+
     public function find(Request $request, $id)
     {
         $TagsService = new TagsService();
@@ -24,18 +33,30 @@ class TagsController extends Controller
 
     public function findAll()
     {
-        $TagsService = new TagsService();
-        $result = $TagsService->findAll();
-       
-        return response()->json($result);
+        return response()->json(
+            $this->redis->cache(
+                $this->redisPrefix, 
+                __FUNCTION__,
+                function () {
+                    $TagsService = new TagsService();
+                    return $TagsService->findAll();
+                }
+            )
+        );
     }
 
     public function findRecent()
     {     
-        $TagsService = new TagsService();
-        $result = $TagsService->findRecent();      
-    
-        return response()->json($result);
+        return response()->json(
+            $this->redis->cache(
+                $this->redisPrefix, 
+                __FUNCTION__,
+                function () {
+                    $TagsService = new TagsService();
+                    return $TagsService->findRecent();
+                }
+            )
+        );
     }
 
     public function add(TagsRequest $request)
@@ -43,6 +64,7 @@ class TagsController extends Controller
         $reqData = $request->validated();
         $TagsService = new TagsService();
         $TagsService->add($reqData);
+        $this->redis->update($this->redisPrefix, $TagsService);
         return Messages::Success();
     }
 
@@ -51,6 +73,7 @@ class TagsController extends Controller
         $reqData = $request->validated();
         $TagsService = new TagsService();
         $TagsService->edit($reqData, $id);
+        $this->redis->update($this->redisPrefix, $TagsService);
         return Messages::Success();
     }
 
@@ -59,6 +82,7 @@ class TagsController extends Controller
         $reqData = $request->validated();
         $TagsService = new TagsService();
         $TagsService->editOrder($reqData);
+        $this->redis->update($this->redisPrefix, $TagsService);
         return Messages::Success();
     }
 
@@ -66,6 +90,7 @@ class TagsController extends Controller
     {
         $TagsService = new TagsService();
         $TagsService->deleteByID($id);
+        $this->redis->update($this->redisPrefix, $TagsService);
         return Messages::Success();
     }
     
