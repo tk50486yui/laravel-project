@@ -8,6 +8,7 @@ use App\Http\Requests\Words;
 use App\Services\WordsService;
 use App\Exceptions\Custom\RecordNotFoundException;
 use App\Exceptions\Custom\Responses\Messages;
+use Illuminate\Support\Facades\Storage;
 
 class WordsController extends Controller
 {
@@ -71,11 +72,37 @@ class WordsController extends Controller
 
     public function upload(Request $request)
     { 
+        echo $request;
         $uploadedFile = $request->file('ws_file');
         //echo $request['ws_name'];
         $fileName = uniqid() . '_' . $uploadedFile->getClientOriginalName();
         $filePath = $uploadedFile->storeAs('uploads', $fileName, 'public');
+        /*$fileToDelete = 'uploads/6562e26c35060_S__70443015.jpg';
+        if (Storage::disk('public')->exists($fileToDelete)) {
+            Storage::disk('public')->delete($fileToDelete);
+           echo 'deleted';
+        } else {
+            echo 'file not found for deletion  ';
+        }*/
+        if(Storage::disk('public')->exists($filePath)){
+            echo $filePath;
+            echo '  upload file is exist';
+        }
         return Messages::Success();
+    }
+
+    public function uppyUpload(Request $request)
+    { 
+   
+        $client = new \TusPhp\Tus\Client('http://localhost/git/laravel-vocabulary/public/api/words/server/tus');
+       
+        $fileMeta = $request->file('file');     
+        //echo $_FILES['ws_file']['name'];
+       // echo $_FILES["file"];
+        $fileName = uniqid() . '_' . $fileMeta->getClientOriginalName();
+       // $uploadKey = hash_file('md5', $fileMeta);     
+        $filePath = $fileMeta->storeAs('uploads',  $fileName, 'public');
+       
     }
     
 }

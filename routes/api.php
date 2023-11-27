@@ -20,6 +20,7 @@ Route::group(['prefix' => 'words'], function () {
     Route::delete('/{id}', [WordsController::class, 'deleteByID']);
 
     Route::post('/upload', [WordsController::class, 'upload']);
+    Route::post('/upload/uppy', [WordsController::class, 'uppyUpload']);
 });
 
 Route::group(['prefix' => 'categories'], function () {
