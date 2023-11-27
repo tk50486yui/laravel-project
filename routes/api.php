@@ -20,31 +20,33 @@ Route::group(['prefix' => 'words'], function () {
     Route::delete('/{id}', [WordsController::class, 'deleteByID']);
 
     Route::post('/upload', [WordsController::class, 'upload']);
-    Route::post('/upload/uppy', [WordsController::class, 'uppyUpload']);  
+    Route::post('/upload/uppy', [WordsController::class, 'uppyUpload']);
 });
 
 Route::group(['prefix' => 'categories'], function () {
+    Route::get('/recent',[CategoriesController::class, 'findRecent']);
     Route::get('/', [CategoriesController::class, 'findAll']);
     Route::get('/{id}', [CategoriesController::class, 'find']);
-    Route::get('/recent/all',[CategoriesController::class, 'findRecent']);
 
     Route::post('/', [CategoriesController::class, 'add']);
+
     Route::put('/{id}', [CategoriesController::class, 'edit']);
     
-    Route::patch('/order/all', [CategoriesController::class, 'editOrder']);
+    Route::patch('/sort', [CategoriesController::class, 'editOrder']);
 
     Route::delete('/{id}', [CategoriesController::class, 'deleteByID']);
 });
 
 Route::group(['prefix' => 'tags'], function () {
+    Route::get('/recent', [TagsController::class, 'findRecent']);
     Route::get('/', [TagsController::class, 'findAll']);
-    Route::get('/{id}', [TagsController::class, 'find']);
-    Route::get('/recent/all', [TagsController::class, 'findRecent']);
+    Route::get('/{id}', [TagsController::class, 'find']);    
 
     Route::post('/', [TagsController::class, 'add']);
+
     Route::put('/{id}', [TagsController::class, 'edit']);
 
-    Route::patch('/order/all', [TagsController::class, 'editOrder']);
+    Route::patch('/sort', [TagsController::class, 'editOrder']);
 
     Route::delete('/{id}', [TagsController::class, 'deleteByID']);
 });
@@ -54,6 +56,7 @@ Route::group(['prefix' => 'tagscolor'], function () {
     Route::get('/{id}', [TagsColorController::class, 'find']);
 
     Route::post('/', [TagsColorController::class, 'add']);
+
     Route::put('/{id}', [TagsColorController::class, 'edit']);
 
     Route::delete('/{id}', [TagsColorController::class, 'deleteByID']);
@@ -64,6 +67,7 @@ Route::group(['prefix' => 'articles'], function () {
     Route::get('/{id}', [ArticlesController::class, 'find']);
     
     Route::post('/', [ArticlesController::class, 'add']);
+
     Route::put('/{id}', [ArticlesController::class, 'edit']);
 
     Route::delete('/{id}', [ArticlesController::class, 'deleteByID']);
@@ -75,6 +79,7 @@ Route::group(['prefix' => 'wordsgroups'], function () {
     Route::get('/{id}', [WordsGroupsController::class, 'find']);
 
     Route::post('/', [WordsGroupsController::class, 'add']);
+    
     Route::put('/{id}', [WordsGroupsController::class, 'edit']);
 
     Route::delete('/{id}', [WordsGroupsController::class, 'deleteByID']);

@@ -67,7 +67,7 @@ class TagsColorController extends Controller
         $TagsColorService = new TagsColorService();
         $TagsColorService->deleteByID($id);
         $this->redis->update($this->redisPrefix, $TagsColorService);
-        return Messages::Success();
+        return Messages::Deletion();
     }
     
 }

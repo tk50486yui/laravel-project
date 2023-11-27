@@ -91,6 +91,6 @@ class CategoriesController extends Controller
         $CategoriesService = new CategoriesService();
         $CategoriesService->deleteByID($id);
         $this->redis->update($this->redisPrefix, $CategoriesService);
-        return Messages::Success();
+        return Messages::Deletion();
     }
 }

@@ -8,6 +8,10 @@ class Messages
     {
         return response()->json(['error' => ''], 200);
     }
+    public static function Deletion()
+    {
+        return response()->json(['error' => ''], 204);
+    }
     // 404
     public static function RecordNotFound()
     {

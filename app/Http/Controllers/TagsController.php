@@ -32,7 +32,7 @@ class TagsController extends Controller
     }
 
     public function findAll()
-    {
+    {       
         return response()->json(
             $this->redis->cache(
                 $this->redisPrefix, 
@@ -91,7 +91,7 @@ class TagsController extends Controller
         $TagsService = new TagsService();
         $TagsService->deleteByID($id);
         $this->redis->update($this->redisPrefix, $TagsService);
-        return Messages::Success();
+        return Messages::Deletion();
     }
     
 }

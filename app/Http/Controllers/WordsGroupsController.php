@@ -67,6 +67,6 @@ class WordsGroupsController extends Controller
         $WordsGroupsService = new WordsGroupsService();
         $WordsGroupsService->deleteByID($id);
         $this->redis->update($this->redisPrefix, $WordsGroupsService);
-        return Messages::Success();
+        return Messages::Deletion();
     }
 }

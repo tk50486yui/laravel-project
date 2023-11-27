@@ -66,6 +66,6 @@ class ArticlesController extends Controller
         $ArticlesService = new ArticlesService();
         $ArticlesService->deleteByID($id);
         $this->redis->update($this->redisPrefix, $ArticlesService);
-        return Messages::Success();
+        return Messages::Deletion();
     }
 }

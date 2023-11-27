@@ -85,7 +85,7 @@ class WordsController extends Controller
         $WordsService = new WordsService();
         $WordsService->deleteByID($id);
         $this->redis->update($this->redisPrefix, $WordsService);
-        return Messages::Success();
+        return Messages::Deletion();
     }
 
     public function upload(Request $request)
