@@ -30,6 +30,18 @@ class WordsController extends Controller
         return response()->json($result);
     }
 
+    public function search(Request $request)
+    {
+        $ws_name = $request->query('ws_name');
+        $WordsService = new WordsService();
+        $result = $WordsService->findByName($ws_name);
+        if($result){
+            return Messages::Success();
+        }else{
+            return Messages::RecordNotFound();
+        }
+    }
+
     public function findAll()
     {
         return response()->json(

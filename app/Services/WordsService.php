@@ -25,6 +25,13 @@ class WordsService
         return $result;
     }
 
+    public function findByName($ws_name)
+    {
+        $WordsRepo = new WordsRepo();
+        $result = $WordsRepo->findByName($ws_name);
+        return $result;
+    }   
+
     public function findAll()
     {     
         $WordsRepo = new WordsRepo();

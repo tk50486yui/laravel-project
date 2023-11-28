@@ -10,17 +10,19 @@ use App\Http\Controllers\WordsGroupsController;
 
 Route::group(['prefix' => 'words'], function () {
     Route::get('/', [WordsController::class, 'findAll']);
+    Route::get('/search', [WordsController::class,'search'])->where('text', '.*');
     Route::get('/{id}', [WordsController::class,'find']);
+
     Route::post('/', [WordsController::class, 'add']);
+    Route::post('/upload', [WordsController::class, 'upload']);
+    Route::post('/upload/uppy', [WordsController::class, 'uppyUpload']);
+
     Route::put('/{id}', [WordsController::class, 'edit']);
    
     Route::patch('/common/{id}', [WordsController::class, 'editCommon']);
     Route::patch('/important/{id}', [WordsController::class, 'editImportant']);
 
-    Route::delete('/{id}', [WordsController::class, 'deleteByID']);
-
-    Route::post('/upload', [WordsController::class, 'upload']);
-    Route::post('/upload/uppy', [WordsController::class, 'uppyUpload']);
+    Route::delete('/{id}', [WordsController::class, 'deleteByID']);   
 });
 
 Route::group(['prefix' => 'categories'], function () {
