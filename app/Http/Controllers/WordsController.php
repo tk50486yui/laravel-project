@@ -8,6 +8,7 @@ use App\Services\WordsService;
 use App\Exceptions\Custom\RecordNotFoundException;
 use App\Exceptions\Custom\Responses\Messages;
 use Illuminate\Support\Facades\Storage;
+use App\Events\BroadcastUpdate;
 
 class WordsController extends Controller
 {
@@ -62,6 +63,7 @@ class WordsController extends Controller
         $WordsService = new WordsService();
         $WordsService->add($reqData);
         $this->redis->update($this->redisPrefix, $WordsService);
+        event(new BroadcastUpdate(['message' => 'should be update']));
         return Messages::Success();
     }
 

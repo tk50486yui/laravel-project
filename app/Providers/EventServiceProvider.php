@@ -6,6 +6,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Events\BroadcastUpdate;
+use App\Listeners\BroadcastUpdateListener;
 use App\Models\Words;
 use App\Models\WordsTags;
 use App\Models\Categories;
@@ -34,6 +36,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        BroadcastUpdate::class => [
+            BroadcastUpdateListener::class,
+        ]
     ];
 
     /**
