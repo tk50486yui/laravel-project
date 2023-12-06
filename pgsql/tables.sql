@@ -28,6 +28,16 @@ CREATE TABLE words (
   FOREIGN KEY (cate_id) REFERENCES categories (id) ON DELETE SET NULL --當所參照的 cate_id 被刪除時，設置為NULL
 );
 
+-- 標籤顏色
+CREATE TABLE tags_color (
+  id SERIAL PRIMARY KEY, 
+  tc_color VARCHAR(100) NOT NULL, -- 文字顏色 css
+  tc_background	VARCHAR(100) NOT NULL, -- 背景顏色 css
+  tc_border VARCHAR(100) NOT NULL, -- 邊框顏色 css
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
 -- 標籤
 CREATE TABLE tags (
   id SERIAL PRIMARY KEY,
@@ -42,16 +52,6 @@ CREATE TABLE tags (
   updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
   FOREIGN KEY (ts_parent_id) REFERENCES tags (id) ON DELETE SET NULL, --當所參照的 ts_parent_id 被刪除時，設置為NULL
   FOREIGN KEY (tc_id) REFERENCES tags_color(id) ON DELETE SET NULL --當所參照的 tc_id 被刪除時，設置為NULL
-);
-
--- 標籤顏色
-CREATE TABLE tags_color (
-  id SERIAL PRIMARY KEY, 
-  tc_color VARCHAR(100) NOT NULL, -- 文字顏色 css
-  tc_background	VARCHAR(100) NOT NULL, -- 背景顏色 css
-  tc_border VARCHAR(100) NOT NULL, -- 邊框顏色 css
-  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 -- 關聯表 單字-標籤

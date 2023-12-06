@@ -7,47 +7,47 @@
 後端 Slim 版本（舊）：[slim-vocabulary](https://github.com/tk50486yui/slim-vocabulary.git)
 
 ---
-## PHP 7.2.12
+## 開發環境
 
----
-## Laravel 7.30.6
+PHP 7.2.12
 
----
-## PostgreSQL 9.6.24
+Laravel 7.30.6
 
-資料庫使用 PostgreSQL，表格可參照 [Database Tables](table/tables.sql)
+PostgreSQL 9.6.24 - Table 可參照 [Database Tables](pgsql/tables.sql)
 
 ---
 ## 目錄架構
 ```    
 + laravel-vocabulary
-    │
-    ├─ app                      // 主程式目錄
+    ├─ app
     │   ├─ Console
+    │   ├─ Events               // Event
     │   ├─ Exceptions
-    │   │   ├─ Custom           // 定義例外
-    │   │   │   └─ Responses    // 定義訊息
-    │   │   └─ Handler.php      // 例外集中處理
+    │   │   ├─ Custom           // Exception
+    │   │   │   └─ Responses    // Exception Message
+    │   │   └─ Handler.php      // Exception 集中處理
     │   ├─ Http
-    │   │   ├─ Controllers      // 接收 routes 的 request，並將資料交由 Service 處理
-    │   │   ├─ Middleware       // 中介層
+    │   │   ├─ Controllers      // 接收 Route 並呼叫 Service 處理
+    │   │   ├─ Middleware       // Middleware
     │   │   └─ Requests         // 驗證所有 request
+    │   ├─ Listeners            // Listener
     │   ├─ Models               // Eloquent Model
-    │   ├─ Observers            // 執行 creating 及 updating
-    │   ├─ Providers            // 只使用 Event 註冊 Observer
+    │   ├─ Observers            // creating updating
+    │   ├─ Providers            // 註冊 Event
     │   ├─ Repositories         // 所有 SQL 及 Eloquent 操作
-    │   ├─ Services             // 實際執行所有交易，並回傳給 Controller
+    │   ├─ Services             // 實際執行所有交易
     │   │    ├─ Outputs         // 資料欄位及格式設定
     │   │    └─ Processors      // Services 資料預處理
     │   └─ Validators           // 驗證器
     │       └─ ModelValidators  // Model 欄位驗證
     ├─ bootstrap
-    ├─ config                   // app cors 設定
+    ├─ config                   // config
     ├─ database
+    ├─ pgsql                    // .sql
     ├─ public
     ├─ resources
-    ├─ routes                   // 路由設定，只使用 api.php
+    ├─ routes                   // api.php
     ├─ storage
-    └─ tests                    // 測試
+    └─ tests                    // test
 
 ```
