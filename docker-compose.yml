@@ -1,0 +1,68 @@
+version: '1.0'
+
+services:
+  laravel-web:
+    build:
+      context: .
+    ports:
+      - "8080:80"
+    depends_on:
+      - pgsql
+      - redis
+    environment:
+      #DB_HOST: pgsql
+      #DB_PORT: 5432
+      #REDIS_HOST: redis
+      #REDIS_PORT: 6379
+      DB_HOST: host.docker.internal
+      DB_PORT: 5466
+      REDIS_HOST: host.docker.internal
+      REDIS_PORT: 6379
+    volumes:
+      - .:/var/www/html/laravel-vocabulary
+    networks:
+      - serviceNetwork 
+  composer:
+    image: composer:2.3
+    command: ["install"]
+    working_dir: /var/www/html/laravel-vocabulary
+    depends_on:
+      - laravel-web
+    volumes:
+      - .:/var/www/html/laravel-vocabulary
+  node:
+    image: node:slim
+    command: ["npm", "install"]
+    working_dir: /var/www/html/laravel-vocabulary
+    depends_on:
+      - laravel-web
+    volumes:
+      - .:/var/www/html/laravel-vocabulary
+  pgsql:
+    image: postgres:9.6.24
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./pgsql/tables.sql:/docker-entrypoint-initdb.d/tables.sql
+    networks:
+      - serviceNetwork
+  redis:
+    image: "redis:alpine3.18"
+    command: >
+      sh -c "echo 'vm.overcommit_memory = 1' > /etc/sysctl.d/nextcloud-aio-memory-overcommit.conf && 
+      sysctl -p &&
+      redis-server"
+    restart: always
+    ports:
+      - "6380:6379"
+    networks:
+      - serviceNetwork
+
+networks:
+    serviceNetwork:
+      driver: bridge
