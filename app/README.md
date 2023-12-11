@@ -8,6 +8,11 @@ laravel-echo-server start
 php artisan queue:work
 ```
 
+###
+```
+php artisan storage:link
+```
+
 ### 
 ```
 php artisan make:controller WordsController

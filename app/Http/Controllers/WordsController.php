@@ -68,7 +68,7 @@ class WordsController extends Controller
     }
 
     public function edit(Words\WordsRequest $request, $id)
-    {        
+    {
         $reqData = $request->validated();
         $WordsService = new WordsService();
         $WordsService->edit($reqData, $id);
@@ -77,7 +77,7 @@ class WordsController extends Controller
     }
 
     public function editCommon(Words\WsCommonRequest $request, $id)
-    {        
+    { 
         $reqData = $request->validated();
         $WordsService = new WordsService();
         $WordsService->editCommon($reqData, $id);
@@ -121,13 +121,44 @@ class WordsController extends Controller
     }
 
     public function uppyUpload(Request $request)
-    { 
-       
+    {        
         $fileMeta = $request->file('file');
         $fileName = uniqid() . '_' . $fileMeta->getClientOriginalName();
         $filePath = $fileMeta->storeAs('uploads',  $fileName, 'public');
 
         return Messages::Success();
-    }   
+    }
+
+    public function findUploads()
+    {
+        $files = Storage::disk('public')->files('uploads');
+
+        $fileData = array_map(function ($file) {
+            $fileName = pathinfo($file, PATHINFO_BASENAME);
+            $fileUrl = url(Storage::url($file));
+    
+            return [
+                'file_name' => $fileName,
+                'file_url' => $fileUrl,
+            ];
+        }, $files);
+
+        return response()->json($fileData, 200);
+    }
+
+    public function deleteUpload(Request $request, $id)
+    {
+        $fileName = $id;
+        $filePath = "uploads/{$fileName}";
+        try {
+            if (Storage::disk('public')->exists($filePath)) {
+                Storage::disk('public')->delete($filePath);
+                return Messages::Deletion();
+            }
+            return Messages::RecordNotFound();
+        } catch (\Exception $e) {
+            return Messages::RecordNotFound();
+        }
+    }
     
 }
