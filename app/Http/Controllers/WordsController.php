@@ -103,30 +103,27 @@ class WordsController extends Controller
     }
 
     public function upload(Request $request)
-    {       
-        $uploadedFile = $request->file('ws_file');
-        $fileName = uniqid() . '_' . $uploadedFile->getClientOriginalName();
-        $filePath = $uploadedFile->storeAs('uploads', $fileName, 'public');
-        /*$fileToDelete = 'uploads/6562e26c35060_S__70443015.jpg';
-        if (Storage::disk('public')->exists($fileToDelete)) {
-            Storage::disk('public')->delete($fileToDelete);
-           echo 'deleted';
-        } else {
-            echo 'file not found for deletion  ';
-        }*/
-        if(Storage::disk('public')->exists($filePath)){
-            echo 'upload file is exist';
+    {  
+        try {
+            $uploadedFile = $request->file('ws_file');
+            $fileName = uniqid() . '_' . $uploadedFile->getClientOriginalName();
+            $uploadedFile->storeAs('uploads', $fileName, 'public');
+            return Messages::Success();
+        } catch(\Exception $e){
+            return Messages::ProcessingFailed();
         }
-        return Messages::Success();
     }
 
     public function uppyUpload(Request $request)
-    {        
-        $fileMeta = $request->file('file');
-        $fileName = uniqid() . '_' . $fileMeta->getClientOriginalName();
-        $filePath = $fileMeta->storeAs('uploads',  $fileName, 'public');
-
-        return Messages::Success();
+    {
+        try {
+            $fileMeta = $request->file('file');
+            $fileName = uniqid() . '_' . $fileMeta->getClientOriginalName();
+            $fileMeta->storeAs('uploads',  $fileName, 'public');
+            return Messages::Success();
+        } catch(\Exception $e){
+            return Messages::ProcessingFailed();
+        }
     }
 
     public function findUploads()
