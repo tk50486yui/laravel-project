@@ -19,25 +19,9 @@ services:
       REDIS_HOST: host.docker.internal #local
       REDIS_PORT: 6379 #local
     volumes:
-      - .:/var/www/html/laravel-vocabulary
+      - .:/var/www/html
     networks:
       - serviceNetwork 
-  composer:
-    image: composer:2.3
-    command: ["install"]
-    working_dir: /var/www/html/laravel-vocabulary
-    depends_on:
-      - laravel-web
-    volumes:
-      - .:/var/www/html/laravel-vocabulary
-  node:
-    image: node:slim
-    command: ["npm", "install"]
-    working_dir: /var/www/html/laravel-vocabulary
-    depends_on:
-      - laravel-web
-    volumes:
-      - .:/var/www/html/laravel-vocabulary
   pgsql:
     image: postgres:9.6.24
     environment:
