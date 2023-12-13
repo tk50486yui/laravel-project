@@ -10,16 +10,14 @@ services:
       - pgsql
       - redis
     environment:
-      #DB_HOST: pgsql
-      #DB_PORT: 5432
-      #REDIS_HOST: redis
-      #REDIS_PORT: 6379
-      DB_HOST: host.docker.internal #local
-      DB_PORT: 5466 #local
-      REDIS_HOST: host.docker.internal #local
-      REDIS_PORT: 6379 #local
-    volumes:
-      - .:/var/www/html
+      DB_HOST: pgsql
+      DB_PORT: 5432
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      #DB_HOST: host.docker.internal #local
+      #DB_PORT: 5466 #local
+      #REDIS_HOST: host.docker.internal #local
+      #REDIS_PORT: 6379 #local
     networks:
       - serviceNetwork 
   pgsql:
