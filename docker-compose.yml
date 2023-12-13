@@ -18,6 +18,7 @@ services:
       #DB_PORT: 5466 #local
       #REDIS_HOST: host.docker.internal #local
       #REDIS_PORT: 6379 #local
+      CORS_ALLOWED_ORIGINS: http://localhost:4000
     networks:
       - serviceNetwork 
   pgsql:
