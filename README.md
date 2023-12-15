@@ -7,7 +7,12 @@
 後端 Slim 版本（舊）：[slim-vocabulary](https://github.com/tk50486yui/slim-vocabulary.git)
 
 ---
-## 開發環境
+### 系統簡介
+
+為[vue-vocabulary](https://github.com/tk50486yui/vue-vocabulary.git)提供 API 接口
+
+---
+### 開發環境
 
 PHP 7.2.12
 
@@ -16,7 +21,7 @@ Laravel 7.30.6
 PostgreSQL 9.6.24 - Table 可參照 [Database Tables](pgsql/tables.sql)
 
 ---
-## 目錄架構
+### 目錄架構
 ```    
 + laravel-vocabulary
     ├─ app
@@ -51,3 +56,9 @@ PostgreSQL 9.6.24 - Table 可參照 [Database Tables](pgsql/tables.sql)
     └─ tests                    // test
 
 ```
+---
+### User Script
+
+另有製作 Google 翻譯頁面瀏覽器插件，主要功能可將翻譯的詞彙儲存至自己的伺服器。
+
+可查看[UserScript](https://gist.github.com/tk50486yui/54cabdf110fbb4d3589a0fa9a8834bbe)
