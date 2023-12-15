@@ -11,9 +11,9 @@
 
 為 [vue-vocabulary](https://github.com/tk50486yui/vue-vocabulary.git) 提供 API 接口
 
-[前端 + 後端 Demo](https://vue.yuex.site/vue-vocabulary/)
+[前後端 Demo](https://vue.yuex.site/vue-vocabulary/)
 
-[後端 Words api](https://api.yuex.site/public/api/words)
+[後端 Words API Demo](https://api.yuex.site/public/api/words)
 
 ---
 ### 開發環境
