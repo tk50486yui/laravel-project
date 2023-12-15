@@ -9,7 +9,7 @@
 ---
 ### 系統簡介
 
-為[vue-vocabulary](https://github.com/tk50486yui/vue-vocabulary.git)提供 API 接口
+為 [vue-vocabulary](https://github.com/tk50486yui/vue-vocabulary.git) 提供 API 接口
 
 ---
 ### 開發環境
@@ -61,4 +61,4 @@ PostgreSQL 9.6.24 - Table 可參照 [Database Tables](pgsql/tables.sql)
 
 另有製作 Google 翻譯頁面瀏覽器插件，主要功能可將翻譯的詞彙儲存至自己的伺服器。
 
-可查看[UserScript](https://gist.github.com/tk50486yui/54cabdf110fbb4d3589a0fa9a8834bbe)
+可查看 [UserScript](https://gist.github.com/tk50486yui/54cabdf110fbb4d3589a0fa9a8834bbe)
