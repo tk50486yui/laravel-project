@@ -24,7 +24,16 @@ Laravel 7.30.6
 
 PostgreSQL 9.6.24 - 資料表及欄位可參照 [Database Tables](pgsql/tables.sql)
 
-Redis - [版本](https://github.com/MicrosoftArchive/redis/releases)
+Redis - [Version](https://github.com/microsoftarchive/redis/releases/tag/win-3.0.504)
+
+---
+### Docker
+
+``` 
+docker-compose up -d
+``` 
+
+會建立 Laravel、PostgreSql 和 Redis 的 Service。
 
 ---
 ### 目錄架構
