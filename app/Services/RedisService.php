@@ -2,6 +2,8 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Redis;
+use App\Services\WordsService;
+use App\Services\ArticlesService;
 
 class RedisService
 {
@@ -35,9 +37,13 @@ class RedisService
         try {
             $response = Redis::ping();
             if($response == 'PONG'){
+                $WordsService = new WordsService();
+                $result = $WordsService->findAll();
+                Redis::setex("Words:findAll", $expiration, json_encode($result));
+                $ArticlesService = new ArticlesService();
+                $result = $ArticlesService->findAll();
+                Redis::setex("Articles:findAll", $expiration, json_encode($result));
                 switch ($prefix) {
-                    case 'Words':
-                    case 'Articles':
                     case 'TagsColor':
                     case 'WordsGroups';
                         $result = $Service->findAll();
