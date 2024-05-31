@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
 
-    'allowed_origins' => [env('CORS_ALLOWED_ORIGINS'), 'http://localhost', 'http://localhost:8080', env('CORS_ALLOWED_ORIGINS_G'), env('CORS_ALLOWED_ORIGINS_D')],
+    'allowed_origins' => [env('CORS_ALLOWED_ORIGINS'), 'http://localhost', 'http://localhost:8080', env('CORS_ALLOWED_ORIGINS_G'), env('CORS_ALLOWED_ORIGINS_D'), env('CORS_ALLOWED_ORIGINS_V')],
 
     'allowed_origins_patterns' => [],
 
