@@ -29,8 +29,14 @@ Redis - [Version](https://github.com/microsoftarchive/redis/releases/tag/win-3.0
 ---
 ### Docker
 
-``` 
+``` bash
 docker-compose up -d
+``` 
+
+```bash
+docker-compose exec laravel-web sh
+
+exit
 ``` 
 
 會建立 Laravel、PostgreSql 和 Redis 的 Service。
