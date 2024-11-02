@@ -40,7 +40,7 @@ class WordsService
         return $WordsOutput->genWordsTags($result, true);
     }    
 
-    public function add($reqData)
+    public function store($reqData)
     {      
         DB::transaction(function () use ($reqData){
             $WordsProcessor = new WordsProcessor();
@@ -65,7 +65,7 @@ class WordsService
        
     }
 
-    public function edit($reqData, $id)
+    public function update($reqData, $id)
     {
         DB::transaction(function () use ($reqData, $id){
             $WordsProcessor = new WordsProcessor();
@@ -93,7 +93,7 @@ class WordsService
        
     }
 
-    public function editCommon($reqData, $id)
+    public function updateCommon($reqData, $id)
     {
         DB::transaction(function () use ($reqData, $id){
             $WordsValidator = new WordsValidator();
@@ -103,7 +103,7 @@ class WordsService
         });       
     }
 
-    public function editImportant($reqData, $id)
+    public function updateImportant($reqData, $id)
     {
         DB::transaction(function () use ($reqData, $id){
             $WordsValidator = new WordsValidator();

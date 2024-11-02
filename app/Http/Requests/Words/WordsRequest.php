@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Words;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Route;
 
 class WordsRequest extends FormRequest
 {
@@ -23,7 +24,7 @@ class WordsRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rule = [
             'ws_name' => 'required',
             'ws_definition' => 'sometimes',
             'ws_pronunciation' => 'sometimes',
@@ -40,5 +41,21 @@ class WordsRequest extends FormRequest
             */
             'words_tags' => 'sometimes|nullable'
         ];
+        switch (Route::current()->getActionMethod()) {
+            case 'store':
+                return $rule;
+            case 'update':
+                return $rule;
+            case 'updateCommon':
+                return [
+                    'ws_is_common' => 'required|boolean'
+                ];
+            case 'updateImportant':
+                return [
+                    'ws_is_important' => 'required|boolean'
+                ];
+            default:
+                return $rule;
+        }       
     }
 }

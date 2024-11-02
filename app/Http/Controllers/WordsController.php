@@ -29,19 +29,7 @@ class WordsController extends Controller
         }
        
         return response()->json($result);
-    }
-
-    public function search(Request $request)
-    {
-        $ws_name = $request->query('ws_name');
-        $WordsService = new WordsService();
-        $result = $WordsService->findByName($ws_name);
-        if($result){
-            return Messages::Success();
-        }else{
-            return Messages::RecordNotFound();
-        }
-    }
+    }    
 
     public function findAll()
     {
@@ -57,39 +45,51 @@ class WordsController extends Controller
         );
     }
 
-    public function add(Words\WordsRequest $request)
+    public function search(Request $request)
+    {
+        $ws_name = $request->query('ws_name');
+        $WordsService = new WordsService();
+        $result = $WordsService->findByName($ws_name);
+        if($result){
+            return Messages::Success();
+        }else{
+            return Messages::RecordNotFound();
+        }
+    }
+
+    public function store(Words\WordsRequest $request)
     {
         $reqData = $request->validated();
         $WordsService = new WordsService();
-        $WordsService->add($reqData);
+        $WordsService->store($reqData);
         $this->redis->update($this->redisPrefix, $WordsService);
         event(new BroadcastUpdate(['message' => 'should be update']));
         return Messages::Success();
     }
 
-    public function edit(Words\WordsRequest $request, $id)
+    public function update(Words\WordsRequest $request, $id)
     {
         $reqData = $request->validated();
         $WordsService = new WordsService();
-        $WordsService->edit($reqData, $id);
+        $WordsService->update($reqData, $id);
         $this->redis->update($this->redisPrefix, $WordsService);
         return Messages::Success();
     }
 
-    public function editCommon(Words\WsCommonRequest $request, $id)
+    public function updateCommon(Words\WordsRequest $request, $id)
     { 
         $reqData = $request->validated();
         $WordsService = new WordsService();
-        $WordsService->editCommon($reqData, $id);
+        $WordsService->updateCommon($reqData, $id);
         $this->redis->update($this->redisPrefix, $WordsService);
         return Messages::Success();
     }
 
-    public function editImportant(Words\WsImportantRequest $request, $id)
+    public function updateImportant(Words\WordsRequest $request, $id)
     {
         $reqData = $request->validated();
         $WordsService = new WordsService();
-        $WordsService->editImportant($reqData, $id);
+        $WordsService->updateImportant($reqData, $id);
         $this->redis->update($this->redisPrefix, $WordsService);
         return Messages::Success();
     }
@@ -102,6 +102,7 @@ class WordsController extends Controller
         return Messages::Deletion();
     }
 
+    /** 以下測試用，功能尚未完成 */
     public function upload(Request $request)
     {  
         try {

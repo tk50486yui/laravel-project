@@ -14,14 +14,14 @@ Route::group(['prefix' => 'words'], function () {
     Route::get('/uploads', [WordsController::class, 'findUploads']);
     Route::get('/{id}', [WordsController::class,'find']);
 
-    Route::post('/', [WordsController::class, 'add']);
+    Route::post('/', [WordsController::class, 'store']);
     Route::post('/upload', [WordsController::class, 'upload']);
     Route::post('/upload/uppy', [WordsController::class, 'uppyUpload']);
 
-    Route::put('/{id}', [WordsController::class, 'edit']);
+    Route::put('/{id}', [WordsController::class, 'update']);
    
-    Route::patch('/common/{id}', [WordsController::class, 'editCommon']);
-    Route::patch('/important/{id}', [WordsController::class, 'editImportant']);
+    Route::patch('/common/{id}', [WordsController::class, 'updateCommon']);
+    Route::patch('/important/{id}', [WordsController::class, 'updateImportant']);
 
     Route::delete('/{id}', [WordsController::class, 'deleteByID']);
     Route::delete('/upload/{id}', [WordsController::class, 'deleteUpload']);
