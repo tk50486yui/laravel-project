@@ -62,16 +62,14 @@ class WordsRepo
         return Words::where('ws_name', $ws_name)->first();
     }    
 
-    public function add($data)
+    public function store($data)
     {
         $new = Words::create([
             'ws_name' => $data['ws_name'],
             'ws_definition' => $data['ws_definition'],
             'ws_pronunciation' => $data['ws_pronunciation'],
             'ws_slogan' => $data['ws_slogan'],
-            'ws_description' => $data['ws_description'],
-            'ws_is_important' => $data['ws_is_important'],
-            'ws_is_common' => $data['ws_is_common'],
+            'ws_description' => $data['ws_description'],        
             'ws_forget_count' => $data['ws_forget_count'],
             'ws_order' => $data['ws_order'],
             'cate_id' => $data['cate_id']
@@ -80,7 +78,7 @@ class WordsRepo
         return $new->id;
     }
 
-    public function edit($data, $id)
+    public function update($data, $id)
     {
         $word = Words::find($id);
         $word->update([
@@ -88,16 +86,14 @@ class WordsRepo
             'ws_definition' => $data['ws_definition'],
             'ws_pronunciation' => $data['ws_pronunciation'],
             'ws_slogan' => $data['ws_slogan'],
-            'ws_description' => $data['ws_description'],
-            'ws_is_important' => $data['ws_is_important'],
-            'ws_is_common' => $data['ws_is_common'],
+            'ws_description' => $data['ws_description'],        
             'ws_forget_count' => $data['ws_forget_count'],
             'ws_order' => $data['ws_order'],
             'cate_id' => $data['cate_id']
         ]);
     }
 
-    public function editCommon($data, $id)
+    public function updateCommon($data, $id)
     {
         $word = Words::find($id);
         $word->update([
@@ -105,7 +101,7 @@ class WordsRepo
         ]);
     }
 
-    public function editImportant($data, $id)
+    public function updateImportant($data, $id)
     {
         $word = Words::find($id);
         $word->update([

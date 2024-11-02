@@ -51,7 +51,7 @@ class WordsService
             $reqData = $WordsProcessor->populate($reqData);
             $WordsValidator->validate($reqData, null);
             $array_ts_id = $WordsProcessor->begin($reqData);
-            $id = $WordsRepo->add($reqData);
+            $id = $WordsRepo->store($reqData);
             if($array_ts_id){
                 foreach($array_ts_id as $item){
                     $new = array();
@@ -76,7 +76,7 @@ class WordsService
             $reqData = $WordsProcessor->populate($reqData);
             $WordsValidator->validate($reqData, $id);
             $array_ts_id = $WordsProcessor->begin($reqData); 
-            $WordsRepo->edit($reqData, $id);
+            $WordsRepo->update($reqData, $id);
             if($array_ts_id){
                 $WordsTagsRepo->deleteByWsID($id);
                 foreach($array_ts_id as $item){
@@ -99,7 +99,7 @@ class WordsService
             $WordsValidator = new WordsValidator();
             $WordsRepo = new WordsRepo();
             $WordsValidator->validate($reqData, $id, false);
-            $WordsRepo->editCommon($reqData, $id);
+            $WordsRepo->updateCommon($reqData, $id);
         });       
     }
 
@@ -109,7 +109,7 @@ class WordsService
             $WordsValidator = new WordsValidator();
             $WordsRepo = new WordsRepo();
             $WordsValidator->validate($reqData, $id, false);
-            $WordsRepo->editImportant($reqData, $id);
+            $WordsRepo->updateImportant($reqData, $id);
         });
        
     }
