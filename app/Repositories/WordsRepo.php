@@ -35,6 +35,7 @@ class WordsRepo
                                             'tc_background', COALESCE(tc.tc_background, '#000'), 
                                             'tc_border', COALESCE(tc.tc_border, 'rgb(244, 202, 202)')
                                         )
+                                    ORDER BY ts.ts_order ASC
                                 )
                             FROM 
                                 words_tags wt
@@ -44,7 +45,6 @@ class WordsRepo
                                 tags_color tc ON ts.tc_id = tc.id
                             WHERE 
                                 wt.ws_id = ws.id
-                        
                         )
                     ) AS words_tags
                 FROM 
@@ -69,7 +69,7 @@ class WordsRepo
             'ws_definition' => $data['ws_definition'],
             'ws_pronunciation' => $data['ws_pronunciation'],
             'ws_slogan' => $data['ws_slogan'],
-            'ws_description' => $data['ws_description'],        
+            'ws_description' => $data['ws_description'],
             'ws_forget_count' => $data['ws_forget_count'],
             'ws_order' => $data['ws_order'],
             'cate_id' => $data['cate_id']
@@ -86,7 +86,7 @@ class WordsRepo
             'ws_definition' => $data['ws_definition'],
             'ws_pronunciation' => $data['ws_pronunciation'],
             'ws_slogan' => $data['ws_slogan'],
-            'ws_description' => $data['ws_description'],        
+            'ws_description' => $data['ws_description'],
             'ws_forget_count' => $data['ws_forget_count'],
             'ws_order' => $data['ws_order'],
             'cate_id' => $data['cate_id']
